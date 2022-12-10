@@ -1,0 +1,88 @@
+<div class="container" id="container">
+      <div class="header">
+            <div class="leftside">
+                  <form class="searchform" *ngIf="showclient.value">
+                        <input type="text" class="search" placeholder="Kunde Name..." required [formControl]="searchControl" [matAutocomplete] = 'auto'>
+                        <mat-autocomplete class="mat-input-element" #auto="matAutocomplete" (optionSelected)="onSearchClient() ;searchControl.markAsUntouched;searchControl.setValue('');" >
+                              <mat-option *ngFor="let option of filteredoptions | async" [value]="option">
+                                    {{option}}
+                              </mat-option>
+                        </mat-autocomplete>
+                  </form>
+                  <form [formGroup]="showclient" class="clientdata" id="clientdata">                    
+                        <input type="text"  id="numeclient" formControlName="numeclient">
+                        <textarea rows="4" type="text"  id="adresaclient" formControlName="adresaclient" ></textarea>
+                        <input type="text" id="telefonclient" formControlName="telefonclient">
+                  </form>
+            </div>
+            <div class="imgcontainer">
+                  <img src="assets/logo.png" alt="logo">
+            </div>                  
+            
+      </div>                        
+      <div class="contcont" id="contcont">
+            <div class="text"> 
+                  <div class="nr">
+                        <label for="nrfactura">Rechnung Nummer:</label>
+                        <input type="text" id="nrfactura" [(ngModel)]="nrfactura">
+                  </div>                
+                  <p>Vielen Dank für Ihren Auftrag und Ihre Vertrauen.</p>
+                  <div class="date">
+                        <p>Für unsere Arbeit und Material stellen Ihnen folgende Summe in Rechnung:</p>
+                        <p>{{datenow}}</p>                       
+                  </div>
+            </div>
+            <form class="content" id="content" #articol="ngForm"  >
+                  <input class="pos tabelhead" value="Pos." disabled>
+                  <input class="art tabelhead" value="Artikel" disabled>
+                  <input class="anz tabelhead" value="Menge"disabled>
+                  <input class="pret tabelhead" value="Einzelpreis" disabled>
+                  <input class="summe tabelhead" value="Summe" disabled>
+                  <ng-container class="tabelrow" *ngFor="let i of i" >
+                        <input class="pos" name="pos{{i}}" [value]="i" @enterleave  disabled>
+                        <span role="textbox" class="name" contenteditable  @enterleave ></span>
+                        <input type="number" class="bucati"   name="bucati{{i}}" @enterleave ngModel>
+                        <input type="number" class="pret"  name ="pret{{i}}" @enterleave  ngModel>
+                        <input type="number" class="total"  name="total{{i}}" @enterleave [value]='suma(articol,i)' disabled ngModel >
+                  </ng-container>
+                                                      
+            </form>
+            <div class="netto">
+                  <div>
+                        <input class="label" value="Netto" disabled>
+                        <input type="text" name="netto" class="value" [value]='netto(articol)' disabled>
+                  </div>
+                  <div>
+                        <input class="label" value="MwSt 19%"disabled>
+                        <input type="text" name="netto" class="value" [value]='tva(articol)' disabled>
+                  </div>
+                  <div>
+                        <input class="label" value="Total" disabled>
+                        <input type="text" name="netto" class="value" [value]='total(articol)' disabled>
+                  </div>
+            </div>    
+            <div class="save">
+                  <button mat-raised-button (click)="print()" data-html2canvas-ignore="true" *ngIf="!mobile">Speichern</button>
+                  <button mat-fab (click)="print()" *ngIf="mobile"><mat-icon>download</mat-icon></button>
+            </div>    
+      </div>
+</div>
+<div class="footer" id="footer">
+      <hr>
+      <div class="footertext">
+            <div >
+                  <p>MyPapService24H</p>
+                  <p>Email: mypapservice24@gmail.com</p>
+                  <p>CIF BT : CJ37072</p>
+            </div>
+            <div>
+                  <p>Banca Transilvania</p>
+                  <p>Euro : RO67 BTRLE URCR T0CJ 3707 201</p>
+                  <p>RON : RO23 BTRL RONC RT0C J370 721</p>
+            </div>
+      </div>
+</div>
+<div class="plusminus">
+      <button mat-fab (click)=removeInput(x) class="minus" data-html2canvas-ignore="true"><mat-icon class="actionslabel">delete_outline</mat-icon></button>
+      <button mat-fab (click)=addInput() class="plus" data-html2canvas-ignore="true" ><mat-icon class="actionslabel">add</mat-icon></button>
+</div>
