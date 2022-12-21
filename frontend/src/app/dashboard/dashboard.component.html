@@ -1,0 +1,25 @@
+<div class="sidenav">
+     <div class="user">
+          <div class="imgcontainer">
+               <img [src]=user.photo [alt]=user.name>
+          </div>
+          <div class="userdata">
+               <span class="username">{{user.name}}</span>
+               <span class="email">{{user.email}}</span>
+          </div>
+     </div>
+     <div class="expand">
+     <a class="toggle" (click)="changetoggle()">Companies</a>
+     <div *ngIf="toggle" @enterleave class="companies">
+          <div class="actions"  *ngFor="let company of companies"  >
+               <a routerLink="company/{{company.nume}}">{{company.nume}}</a>
+          </div>
+     </div>
+     </div>
+
+</div>
+    <div class="router">
+     <router-outlet></router-outlet>
+    </div>
+     
+

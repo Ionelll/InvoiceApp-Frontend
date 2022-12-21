@@ -1,6 +1,6 @@
 <div class="container">
       <form class="search">
-            <input type="text" class="search" placeholder="Kunde..." required [formControl]="searchControl" [matAutocomplete] = 'auto'>
+            <input type="text" class="search" placeholder="Kunde Suchen..." required [formControl]="searchControl" [matAutocomplete] = 'auto'>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSearchClient() ;searchControl.markAsUntouched" >
                   <mat-option *ngFor="let option of filteredoptions | async" [value]="option">
                       {{option}}
@@ -8,14 +8,12 @@
               </mat-autocomplete>
             </form>
             <form class="content" [formGroup]="client">
-                  <input type="text" class="nume" formControlName="nume" placeholder="Name..." required >
-                  <textarea rows="5" type="text" class="adresa" formControlName="adresa" placeholder="Adress..." required ></textarea>
+                  <input type="text" class="nume" formControlName="nume" placeholder=" Kunde Name..." required >
+                  <textarea rows="5" type="text" class="adresa" formControlName="adresa" placeholder="Adresse..." required ></textarea>
                   <input type="text" class="tel" formControlName="telefon" placeholder="Telefon..." required >
-                  <input type="text" class="cui" formControlName="cui" placeholder="Firmennummer..." >
+                  <input type="text" class="cui" formControlName="cui" placeholder="SteuerNr..." required >
                   <input type="text" class="email" formControlName="email" placeholder="email..." >
                   <input type="text" class="website" formControlName="website" placeholder="website..." >
             </form>
-            <div class="save">
-            <button mat-raised-button [class.mat-elevation-z8] (click)="saveClient()" >Speichern</button>
-            </div>
+            <button class="save" mat-fab (click)="saveClient()" >Save</button>
       </div>

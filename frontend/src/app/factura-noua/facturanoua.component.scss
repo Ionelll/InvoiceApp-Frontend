@@ -1,6 +1,6 @@
 
 .container{
-      padding: 1rem;
+      padding: 4rem 1em 20rem 1em;
       display: flex;
       flex-direction: column;
       min-height: 140%;
@@ -13,6 +13,7 @@
       display: flex;
       justify-content: space-evenly;
       margin-bottom: 2em;
+      gap: 3em;
       .leftside{
             display: flex;
             flex-direction: column;
@@ -26,21 +27,20 @@
             width: 100%;
             border-radius: 15px;
             padding-left: 25px;
-            input{
-                  color: #DDF2FF;
-            }
+
       }
       
       img{
-            height: 12em;
+            height: 15em;
       }
-      .clientdata{
-            width: 100%;
+      .detaliifirma{
             display: flex;
-            flex-direction: column;
-            gap: 0.2em;
+            gap:3em;
+            font-size: 12px;
+            justify-content: center;
+      }
+      .detaliifirma2{
             input{
-                  color: #DDF2FF;
                   width: 100%;
                   height: 2.6em;
                   border: none;
@@ -48,16 +48,47 @@
                   background-color:rgba(128, 128, 128, 0.142);
             }
             textarea{
-                  color: #DDF2FF;
                   text-align: center;
-                  resize: vertical;
-                  max-width: 100%;
+                  font-size: 14px;
+                  line-height: 1em;
                   border: none;
                   background-color:rgba(128, 128, 128, 0.142);
+                  overflow: hidden;
+                  padding: 5px !important;
+                  width: 100%;
+            }
+            p{
+                  font-size: small;
+                  margin: 0;
             }
       }
-}
+      .clientdata{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            input{
+                  width: 100%;
+                  height: 2.6em;
+                  border: none;
+                  text-align: center;
+                  background-color:rgba(128, 128, 128, 0.142);
+            }
+            textarea{
+                  text-align: center;
+                  font-size: 14px;
+                  line-height: 1em;
+                  border: none;
+                  background-color:rgba(128, 128, 128, 0.142);
+                  overflow: hidden;
+                  padding: 5px !important;
+            }
+            p{
+                  font-size: small;
+                  margin: 0;
+            }
+      }
 
+}
 .contcont{
       display: flex;
       flex-direction: column;
@@ -67,87 +98,116 @@
 
 }
 .text{
-      font-size: 12px;
-      .date{
-            display: flex;
-            justify-content: space-between;
-            max-width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+      .adresare{
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      justify-content: left;
       }
-      .nr{
+      .dates{  
             display: flex;
-            padding: 0;
-            margin: 0;
-            input{
-                  color: #DDF2FF;
-                  height: 2em;
-                  max-width: 7em;
+            justify-content: space-evenly;
+            .nrfactura{
+                  font-size: 14px;
+                  padding: 0.2em;
                   border: none;
+                  width: 5em;
                   text-align: center;
                   background-color:rgba(128, 128, 128, 0.142);
             }
+            .pap{
+                  background-color:rgba(128, 128, 128, 0.142) ;
+                  width: 3em;
+                  font-size: 14px;
+                  padding: 0.2em;
+                  border: none;
+
+            }
+
+            .label{
+                  display: flex;
+                  flex-direction: column;
+                  gap:1em;
+            }
             label{
                   margin: auto 0;
+                  font-size: 14px;
             }
+            .date{
+                  background-color:rgba(128, 128, 128, 0.142);
+                  border: none;
+                  font-size: 14px;
+                  padding: 0.2em;
+            }
+
       }
 }
 .content{
-      display:grid;
-      grid-template-columns: 3em 2fr repeat(3,auto)  ;
-      grid-template-rows: auto;
-      row-gap: 0.2em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2em;
       width: 100%;
       margin-top: 1em;
+      .tablerow{
+      display:grid;
+      grid-template-columns: 3em 2fr repeat(3,auto) 3em  ;
+      grid-template-rows: auto;
+      row-gap: 0.2em;
+      }
+
       input{
-            color: #DDF2FF;
-            height: 100%;
+            
             border: none;
             text-align: center;
             background-color:rgba(128, 128, 128, 0.247);
             font-size: 16px;
             
       }
-
+      textarea{
+            grid-column: 2;
+            font-size: 14px;
+            line-height: 1em;
+            padding: 0.5em 5px !important;
+            overflow: hidden;
+            border: none;
+           
+            background-color:rgba(128, 128, 128, 0.247);
+      }
       
       p{
             text-align: center;
             font-size: 1.3em;
       }
-      .tabelhead{
-            height: 2em;
+      .minus{
+            background-color: rgba(255, 218, 218, 0.189);
+            color: #f36767;
+            border: 1px solid rgba(255, 0, 0, 0.259);
+      }
+      .tableheader{
+            display: grid;
+            grid-template-columns: 3em 2fr repeat(3,auto) 3em;
+            grid-template-rows: 2.4em;
+      }
+      .poshead{
+            background-color:rgba(128, 128, 128, 0.392);
+
+      }
+
+      .bucatihead{
+            background-color:rgba(128, 128, 128, 0.392) ;
+      }
+      .summehead{
+            background-color: rgba(128, 128, 128, 0.392);
       }
       .pos{
             grid-column: 1;
             background-color:rgba(128, 128, 128, 0.392);
       }
-      .art{
-            grid-column: 2;
-            background-color:rgba(128, 128, 128, 0.247);
-      }
-      .anz{
-            grid-column: 3;
-            background-color:rgba(128, 128, 128, 0.392) ;
-      }
-      .pret{
-            grid-column: 4;
-            background-color:rgba(128, 128, 128, 0.247);
-      }
-      .summe{
-           grid-column: 5;
-           background-color:rgba(128, 128, 128, 0.392); 
-      }
-      .nume{
-            grid-column: 2;            
-      }
-      .name{
-            background-color:rgba(128, 128, 128, 0.247);
-            text-align: center;
-            display: inline-block;
-            width: 100%;
-            overflow: hidden;
-            padding: 0.5em;
-            resize: none;
-            line-height: 20px;
-      }
+      
       .bucati{
             background-color:rgba(128, 128, 128, 0.392);
       }
@@ -158,61 +218,85 @@
       
 
 }
-.footer{display: none;}
-.netto{     
-      position: static;  
-      margin: 2em auto 0 60%;
+.netto{   
+      margin: 3em auto;
       display: flex;
       flex-direction: column;
       gap: 0.2em;
-      margin-top: 2em;
+      position: sticky;
+      .tvacontainer{
+            display: flex;
+      }
+      p{    margin: 0;
+            line-height: normal;
+            padding: 0.2em;
+            background-color:rgb(207, 207, 207);
+            width: fit-content;
+      }
+      .leftside{
+            display: grid;
+            grid-template-columns: auto 7rem auto;
+            gap: 0;
+            input{
+                  grid-column: 2;
+                  padding: 0;
+
+            }
+            .mwst{
+                  grid-column: 1;
+            }
+            .procent{
+                  grid-column: 3;
+            }
+      }
       
       input{
             height: 2em;
-            color: #DDF2FF;
             border: none;
             text-align: center;
-            background-color:rgb(128, 128, 128);
+            background-color:rgb(206, 206, 206);
+      }
+      .totalcontainer{
+            display: flex;
+      }
+      .nettocontainer{
+            display: flex;
       }
 }
 .plusminus{
       display: flex;
-      flex-direction: column;
       gap: 1em;
       position: fixed;
-      right: 3rem;
-      top: 70%;
+      z-index: 100;
+      right: 5%;
+      bottom: 0;
       text-align: center;
       border-radius: 50%;
-      a{
-            padding: 1em;
-            border-radius: 50%;
+      gap: 2em;
+      div{
+            display: flex;
+            gap: 1em;
       }
       .plus{
+            transform: scale(1.3);
             background-color: rgb(166, 237, 134);
+            bottom: 1rem;
       }
-      .minus{
-            background-color: rgba(255, 0, 0, 0.355);
-      }
-}
-
-
-.save{
-      max-width: 90%;
-      margin-top: 3em;
-      position: fixed;
-      bottom: 2rem;
-      left: 5rem;
-      display: flex;
-      justify-content: flex-end;
       
-       button{
-      color: rgb(255, 255, 255);
-      letter-spacing: 1px;
-      padding: 10px 15px;
-      border-radius: 10px;
-      background-color: rgb(166, 237, 134);
+      .save{
+      background-color: #3b923b;   
+      bottom: 0.5rem;
+      font-weight:500;
+      font-size: 16px;
       }
+      .newbill{
+            bottom: 0.5rem;
+            font-size: 16px;
+      }
+      .icon{
+            transform: scale(1.5);
+      }
+
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button
@@ -221,7 +305,9 @@ input::-webkit-inner-spin-button
   margin: 0;
 }
 input[type=number]{
+      appearance: texttfiled;
       -moz-appearance:textfield;
+
 }
 @media only screen and (max-width:890px){
       .container{
@@ -272,6 +358,7 @@ input[type=number]{
             flex-direction: row-reverse;
             bottom: 1rem;
             top: auto;
+
             .plus{
                   transform: scale(1.2);
             }
@@ -279,20 +366,32 @@ input[type=number]{
                   transform: scale(0.8);
             }
       }
-      .save{
-            left: 1rem;
-            bottom: 1rem;
-      }
       .netto{
             margin:  2em auto;
             width: 100%;
             input{
                   width: 50%;
+                  background-color:rgb(128, 128, 128) ;
+            }
+            .mwst{
+                  width: 35%;
             }
       }
       
 }
 @media print{
+      .newbill{
+            display: none;
+      }
+
+      img{
+            height: 12em !important;
+      }
+      .header{
+            .leftside{
+                  width: 60%;
+            }
+      }
       .container{
             padding: 0;
             color: black;
@@ -300,58 +399,29 @@ input[type=number]{
             min-height: 0;
             font-size: 12px;
       }
-      .header{
-            justify-content: start;
-            .leftside{
-                  width: 60%;
-                  gap:0.7em;
-            input{
-                  color: black;
-            }
-            textarea{
-                  resize: none;
-                  color: black;
-            }
-      }
-      }
-
       .content{
-            grid-template-columns: 2em 1fr repeat(3,8em) ; 
-            break-inside:auto;
-            break-before: avoid;
+            
+            break-inside: auto;
+      }
+      .tablerow{
+            grid-template-columns: 4em 1fr repeat(3,8em) !important; 
             row-gap: 0.3em;
-            input{
-                  color: black;
-            }
-            label{
-                  color: black;
-            }
+            break-inside: avoid !important;
+            
+      }
+      .tableheader{
+            grid-template-columns: 4em 1fr repeat(3,8em) !important;
       }
       .netto{
-            break-inside: avoid;
-            color: black;
-            width: auto;
-            div{
-                  display: flex;
+            .leftside{
+                  grid-template-columns: auto 7.8rem auto;
             }
-            input{
-                  color: black;
-                 background-color: rgba(128, 128, 128, 0.247);
+            break-inside: avoid;
+            p{
+                  font-size: 14px;
             }
       }
-      .footer{
-            display:block;
-            margin-top: 5rem; 
-            width: 100%;
-            font-size: 11px;
-            line-height: 0.5;
-            break-inside: avoid;
-            color: black;
-            .footertext{
-                  display: flex;
-                  justify-content: space-evenly;
-            }           
-     }
+
      .plusminus{
             display: none;
      }
@@ -361,15 +431,10 @@ input[type=number]{
      .searchform{
       display: none;
      }
-     img{
-      height: 13em !important;
+     .minus{
+      display: none;
      }
      .contcont{
       height: auto;
-      .text{
-            input{
-                  color: black;
-            }
-      }
 }
- }
+}

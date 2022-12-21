@@ -1,10 +1,10 @@
-
+<div class="container">
       <div class="content">
-            <a [routerLink]="['clienti']" class="button" routerLinkActive="active not-active">Kunden</a>
-            <a [routerLink]="['']" class="button" routerLinkActive="active not-active" [routerLinkActiveOptions]="{exact:true}">neue Rechnung</a>
-            <a [routerLink]="['facturi']" class="button" routerLinkActive="active not-active">Profil</a>
+            <a [routerLink]="['clienti']" class="button button1" routerLinkActive="active not-active"><div class="routes">Companies</div></a>
+            <a [routerLink]="['']" class="button button2" routerLinkActive="active not-active" [routerLinkActiveOptions]="{exact:true}"><div class="routes">Create Invoice</div></a>
+            <a [routerLink]="['dashboard']" class="button button3" routerLinkActive="active not-active"><div class="routes">Dashboard</div></a>
       </div>
-
+</div>
 <router-outlet></router-outlet>
 
 

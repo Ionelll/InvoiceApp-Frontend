@@ -1,0 +1,17 @@
+
+.card{
+      max-width: 60%;
+      margin: 6rem auto;
+      padding: 2em;
+}
+.header{
+      font-size: 30px;
+      font-weight: 500;
+}
+.content{
+      display: flex;
+      flex-direction: column;
+      max-width: 60%;
+      margin: auto;
+      gap: 3em;
+}

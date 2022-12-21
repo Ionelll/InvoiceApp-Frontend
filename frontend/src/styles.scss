@@ -41,15 +41,20 @@ html,body{
       height: 100%;
       user-select: none;
       float: none;
-      background-color: #22242b;
-      color: #DDF2FF;
+      background-color: #fffefb;
+      // color: #DDF2FF;
+      // input{
+      //   color:#DDF2FF ;
+      // }
+      // textarea{
+      //   color: #DDF2FF;
+      // }
 }
 *{
       box-sizing: border-box;
 }
 html, body { height: 100%; }
 body { margin: 0 }
-
 @media print{
   html,body{
     background-color: white;

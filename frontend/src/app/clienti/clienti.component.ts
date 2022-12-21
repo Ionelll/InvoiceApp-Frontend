@@ -4,7 +4,7 @@ import { ApiService } from '../api.service';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map,startWith} from 'rxjs/operators';
-import { Client } from '../client.model';
+import { Company } from '../models/company.model';
 
 
 @Component({
@@ -15,10 +15,10 @@ import { Client } from '../client.model';
 export class ClientiComponent implements OnInit{
 options: string[] = [];
 searchControl = new FormControl();
-newclient:Client
+newclient:Company
 client= new FormGroup({
   nume:new FormControl(''),
-  adresa:new FormControl(''),
+  adresa:new FormControl([]),
   telefon:new FormControl(''),
   cui:new FormControl(''),
   email:new FormControl(''),

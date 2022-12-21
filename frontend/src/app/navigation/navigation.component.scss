@@ -1,24 +1,50 @@
+
 .content{
-      width: 100%;
+      position: fixed;
+      bottom: 0;
       height: 3rem;
-      background-color: rgba(19, 23, 28, 0.814);
+      background-color: #383d43;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       text-align: center;
       padding-top:0.2em ;
+      width: 100%;
+      z-index: 5;
+      overflow: hidden;
+      box-shadow: -4px -1px 18px 4px rgba(0, 0, 0, 0.21);
 }
 .button{
       text-decoration: none;
-      color: rgb(72, 83, 96);
-      width: 100%;
-      padding: 10px;
-      transition:500ms;
+      color: rgb(148, 148, 148);
+      width: 10rem;
+      transition:300ms;
+      margin:auto 0;
+      height: 100%;
+      line-height: 3em;
+      &:hover{
+            background-color: #ddf2ff13;
+      }
+}
+
+.button1{
+      grid-column: 2;
+}
+.button2{
+      grid-column: 3;
+}
+.button3{
+      grid-column: 4;
 }
 .active{
-      transform: scale(1.1);
+      font-size: 20px;
       border: none;
       z-index: 666;
       color: #DDF2FF;
+      line-height: 1.5em;
+      background-color: #ddf2ff29;
+      &:hover{
+            background-color: #ddf2ff29;
+      }
 }
 @media only screen and (max-width:890px){
       .content{

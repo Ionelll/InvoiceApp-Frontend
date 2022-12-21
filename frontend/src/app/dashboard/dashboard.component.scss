@@ -1,0 +1,85 @@
+.sidenav{
+      position: fixed;
+      left: 0;
+      height: 100%;
+      width: 15rem;
+      background-color:#383d43 ;
+      box-shadow: -4px -1px 18px 4px rgba(0, 0, 0, 0.21);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+}
+
+/* width */
+.sidenav::-webkit-scrollbar {
+      width: 5px;
+  }
+  
+  /* Track */
+  .sidenav::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px grey; 
+      border-radius: 10px;
+  }
+  
+  /* Handle */
+  .sidenav::-webkit-scrollbar-thumb {
+      background: rgb(108, 118, 122); 
+      border-radius: 10px;
+  }
+  
+
+.actions{
+      display: flex;
+      flex-direction: column;
+      
+}
+a{
+      text-decoration: none;
+      color: black;
+      width: 100%;
+      padding: 2em;
+      margin: auto;
+      background-color: #4d5255;
+
+}
+.expand{
+      position: absolute;
+      top:20%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+}
+.toggle{
+      width: 100%;
+      z-index: 555;
+}
+.user{
+      display: flex;
+      gap: 0.3em;
+      position: fixed;
+      top: 1em;
+}
+.userdata{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+}
+.username  {
+      font-size: 25px;
+      margin: 0;
+}
+.useremail{
+      font-size: 10px;
+      margin: 0;
+}
+
+.imgcontainer{
+      img{
+            height: 3em;
+      }
+}
+.router{
+      padding-left: 15rem;
+}
