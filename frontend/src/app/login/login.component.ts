@@ -9,7 +9,16 @@ import { ApiService } from '../api.service';
 })
 export class LoginComponent {
   constructor(private api:ApiService){}
-  login(form:NgForm){
+  login(ngform:NgForm){
+    let form=new FormData()
+    form.append('username',ngform.value.email)
+    form.append('password',ngform.value.password)
     this.api.login(form)
+  }
+  signup(ngform:NgForm){
+    let form=new FormData()
+    form.append('email',ngform.value.email)
+    form.append('password',ngform.value.password)
+    this.api.register(form)
   }
 }

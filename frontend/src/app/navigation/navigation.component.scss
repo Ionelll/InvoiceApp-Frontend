@@ -22,8 +22,18 @@
       height: 100%;
       line-height: 3em;
       &:hover{
-            background-color: #ddf2ff13;
+            color: #DDF2FF;
+
       }
+}
+.button::after{
+      content: " ";
+      display: flex;
+      background: #DDF2FF;
+      height: 2px;
+      width: 80%;
+      bottom: 0.5em;
+      margin: auto;
 }
 
 .button1{
@@ -41,10 +51,6 @@
       z-index: 666;
       color: #DDF2FF;
       line-height: 1.5em;
-      background-color: #ddf2ff29;
-      &:hover{
-            background-color: #ddf2ff29;
-      }
 }
 @media only screen and (max-width:890px){
       .content{

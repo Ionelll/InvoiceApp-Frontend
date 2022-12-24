@@ -1,13 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.scss']
 })
-export class CompanyComponent {
-constructor(private route:ActivatedRoute){}
+export class CompanyComponent implements OnInit,OnDestroy {
+constructor(private route:ActivatedRoute){
+}
+company:string
+companySub:Subscription
 
-company=this.route.snapshot.params['id']
+ngOnInit(): void {
+this.companySub=this.route.params.subscribe(res=>{
+  this.company=res['id']
+})
+  
+}
+ngOnDestroy(){
+  this.companySub.unsubscribe()
+}
+
 }

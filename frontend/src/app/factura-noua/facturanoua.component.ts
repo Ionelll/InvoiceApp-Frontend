@@ -1,5 +1,5 @@
 import { animate, query, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component,OnInit } from '@angular/core';
+import { AfterViewInit, Component,OnInit,ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { Company } from '../models/company.model';
@@ -26,7 +26,7 @@ import { DatePipe } from '@angular/common';
    ]
  })
 export class FacturaNouaComponent implements OnInit, AfterViewInit  {
-  constructor(public api:ApiService,private datePipe:DatePipe){
+  constructor(public api:ApiService,private datePipe:DatePipe,private cd: ChangeDetectorRef){
     if(window.innerWidth<890){
       this.mobile=true      
     }
@@ -36,10 +36,18 @@ export class FacturaNouaComponent implements OnInit, AfterViewInit  {
   emisa=this.datePipe.transform(new Date(), 'yyyy-MM-dd')
   scadenta=this.datePipe.transform(new Date().setDate(new Date().getDate()+this.scadentza), 'yyyy-MM-dd') 
   animif=true
-  loggedin=false
+  loggedin=true
   //Observable variables
   nrfactura:string
   client:Company
+  
+  companies:Company[]=[
+    {_id:'adasdas',nume:'Karl Michl Spedition GmbH',adresa:[],telefon:'2315131',cui:'dsfsdf',email:'skdjfhkshdflk@gmail.com',website:'asdhghag.com'},
+    {_id:'adasdas',nume:'Company2',adresa:[],telefon:'2315131',cui:'dsfsdf',email:'skdjfhkshdflk@gmail.com',website:'asdhghag.com'},
+    {_id:'adasdas',nume:'Company3',adresa:[],telefon:'2315131',cui:'dsfsdf',email:'skdjfhkshdflk@gmail.com',website:'asdhghag.com'},
+    {_id:'adasdas',nume:'My PapService24H',adresa:[],telefon:'2315131',cui:'dsfsdf',email:'skdjfhkshdflk@gmail.com',website:'asdhghag.com'}
+  ]
+  currentProvider=this.companies[0]
   mwst='19'
   //Forms
   tabel= new FormGroup({
@@ -60,14 +68,15 @@ export class FacturaNouaComponent implements OnInit, AfterViewInit  {
     email:new FormControl('')
   })
   searchControl = new FormControl()
+  show=true
   //autocomplete variables
-  options: string[] = [];
+  options:string[]=[];
   options2=[]
   filteredoptions = new Observable<string[]>()
   filteredoptions2:Observable<string[]>[]=[]
 
   private _filter(value: string): string[] {
-    if(value.length>2){
+    if(value.length>0){
     const filterValue = value;
     return this.options.filter(option => option.toLowerCase().includes(filterValue.toLowerCase()));
     }
@@ -149,6 +158,12 @@ ngAfterViewInit(){
   }
 }
 
+changeProvider(selected:string){
+  console.log(selected)
+  this.currentProvider=this.companies.find(x=>x.nume==selected)
+  console.log(this.currentProvider)
+}
+
 currencytransform(value:string,i:number){
   console.log(this.tabel.controls.array.controls[i].get('pret').value)
 }
@@ -218,7 +233,14 @@ else{
 }
 exportPdf(){
   this.api.saveFactura(JSON.stringify( this.showclient.value),JSON.stringify(this.tabel.controls.array.value),this.nrfactura,this.emisa)
+
+    this.show=false
+  this.cd.detectChanges();
   window.print()
+  window.onbeforeprint=()=>{
+    this.show=true
+  }
+
   
 }
 onSearchClient(){

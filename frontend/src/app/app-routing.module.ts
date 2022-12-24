@@ -5,13 +5,15 @@ import { FacturaNouaComponent } from './factura-noua/facturanoua.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyComponent } from './company/company.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {path:'',component : FacturaNouaComponent},
   {path:'dashboard',component:DashboardComponent,children:[
-    {path:'company/:id',component:CompanyComponent}
+    {path:'user/:username',component:UserComponent},
+    {path:'company/:id',component:CompanyComponent},
+    {path:'company/:id/clients', component:ClientiComponent}    
   ]},
-  {path:'clienti',component:ClientiComponent},
   {path:'login',component:LoginComponent},
   
 ];

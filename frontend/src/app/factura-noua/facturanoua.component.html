@@ -18,10 +18,16 @@
                         <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4" type="text" formControlName="adresa" ></textarea>
                         <p>Telefon</p>
                         <input type="text" formControlName="telefon">
-                        <p *ngIf="showclient.controls.email.value">Email</p>
-                        <input *ngIf="showclient.controls.email.value" type="text" formControlName="email">
+                        <p *ngIf="show || this.showclient.controls.email.value">Email</p>
+                        <input *ngIf="show || this.showclient.controls.email.value" type="text" formControlName="email">
                   </form>
             </div>
+            <div class="provider">
+                  <select #selectcompany class="selectcompany" (input)="changeProvider(selectcompany.value)" id="companies">
+                        <ng-container *ngFor="let company of companies">
+                              <option>{{company.nume}}</option>
+                        </ng-container>
+                  </select>
             <div class="logo">
             <div *ngIf="loggedin" class="imgcontainer">
                   <img src="{{logo}}" alt="logo">
@@ -42,16 +48,17 @@
             </div>
             <div class="detaliifirma" *ngIf="loggedin">
             <div>
-            <p>MY PAPSERVICE24H S.R.L.</p>
-            <P>SteuerNr: 47172274</P>
+            <p>{{currentProvider.nume}}</p>
+            <P>SteuerNr: {{currentProvider.cui}}</P>
             <p>Handelsreg. Nr.: J32/2458/2022</p>
-            <p>Adresse: SAT Darlos Nr. 634, Sibiu, Romania </p>
+            <p>Adresse: {{currentProvider.adresa}} </p>
             </div>
             <div>
             <p>Banca Transilvania</p>
             <p>RO 23BTRLRONCRT0CJ3707201 (RON)</p>
             <p>RO 67BTRLEURCRT0CJ3707201</p>
             <p>SWIFT CODE BTRL22XXX</p>
+            </div>
             </div>
             </div>
       </div>               

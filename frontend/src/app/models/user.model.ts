@@ -1,8 +1,12 @@
 import { Company } from "./company.model";
 
 export interface User{
-      _id:string,
-      name:string,
-      email:string,
-      photo:string,
+      username: string
+      adresa: string
+      phone: string
+      cui: string
+      email: string
+      website: string
+      password: string
+      numeFirma: string
 }

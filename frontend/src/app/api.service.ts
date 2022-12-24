@@ -24,13 +24,15 @@ export class ApiService{
             this.http.post('http://localhost:3000/api/saveinvoice',{clientdata:clientdata,tabel:tabel,nrfactura:nrfactura,datenow:datenow}).subscribe()
       }
       clientList(){
-            this.http.get<string[]>('http://localhost:3000/api/companyautocomplete').subscribe(res=>{
-                  this.clients.next(res)
+            this.http.get<Object>('http://localhost:3000/api/clients').subscribe(res=>{
+                  let x=Object.values(res)                  
+                  this.clients.next(x[1].map(z=>{return z.nume}))
+                  console.log()
             })
       }
       searchClient(clientname:string){
-            this.http.get<Company>(`http://localhost:3000/api/searchcompany/${clientname}`).subscribe(res=>{
-                  this.client.next(res[0])
+            this.http.get<{count:number,result:Company}>(`http://localhost:3000/api/client/${clientname}`).subscribe(res=>{
+                  this.client.next(res.result[0])
             })
       }
       getNrFactura(){
@@ -38,9 +40,22 @@ export class ApiService{
                   this.nrfactura.next(res)
             })
       }
-      login(form:NgForm){
-            this.http.post<User>(`${environment.apiUrl}/login`,form).subscribe(res=>{
-                  localStorage.setItem('User',JSON.stringify(res))
+      login(form:FormData){
+            this.http.post<{message:string,token:string,user:User}>(`${environment.apiUrl}/user/login`,form).subscribe(res=>{
+                  localStorage.setItem('token',JSON.stringify(res.token))
+                  localStorage.setItem('User',JSON.stringify(res.user))
             })
+      }
+      register(form:FormData){
+            this.http.post<User>(`${environment.apiUrl}/user/register`,{
+                  username: 'Ioan Serban cel Viteaz',
+                  adresa: 'fdfgh',
+                  phone: '032135',
+                  cui: '674556465',
+                  email: 'asd',
+                  website: 'fgdghfgh',
+                  password: 'asd',
+                  numeFirma: 'hgfdfgdg',
+                  }).subscribe()            
       }
 }

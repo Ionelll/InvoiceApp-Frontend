@@ -6,6 +6,6 @@ export interface Company{
       cui:string,
       email:string,
       website:string,
-      bank:string[]
+    //  bank:string[]
     }
     

@@ -16,7 +16,9 @@ import {MatInputModule} from '@angular/material/input'
 import { DatePipe } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CompanyComponent } from './company/company.component'
+import { CompanyComponent } from './company/company.component';
+import { NgxChartsModule }from '@swimlane/ngx-charts';
+import { UserComponent } from './user/user.component';
 
 
 
@@ -28,7 +30,8 @@ import { CompanyComponent } from './company/company.component'
     ClientiComponent,
     LoginComponent,
     DashboardComponent,
-    CompanyComponent
+    CompanyComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { CompanyComponent } from './company/company.component'
     MatButtonModule,
     TextFieldModule,
     MatInputModule,
+    NgxChartsModule
   ],
   providers: [DatePipe,],
   bootstrap: [AppComponent]

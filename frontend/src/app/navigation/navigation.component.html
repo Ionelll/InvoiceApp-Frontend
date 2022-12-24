@@ -1,8 +1,7 @@
 <div class="container">
       <div class="content">
-            <a [routerLink]="['clienti']" class="button button1" routerLinkActive="active not-active"><div class="routes">Companies</div></a>
-            <a [routerLink]="['']" class="button button2" routerLinkActive="active not-active" [routerLinkActiveOptions]="{exact:true}"><div class="routes">Create Invoice</div></a>
-            <a [routerLink]="['dashboard']" class="button button3" routerLinkActive="active not-active"><div class="routes">Dashboard</div></a>
+            <a [routerLink]="['']" class="button button2" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><div class="routes">Create Invoice</div></a>
+            <a [routerLink]="['dashboard/user/{{user.name}}']" class="button button3" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><div class="routes">Dashboard</div></a>
       </div>
 </div>
 <router-outlet></router-outlet>
