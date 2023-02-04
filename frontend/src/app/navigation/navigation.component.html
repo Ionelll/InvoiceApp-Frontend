@@ -1,9 +1,60 @@
 <div class="container">
-      <div class="content">
-            <a [routerLink]="['']" class="button button2" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><div class="routes">Create Invoice</div></a>
-            <a [routerLink]="['dashboard/user/{{user.name}}']" class="button button3" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><div class="routes">Dashboard</div></a>
-      </div>
+  <div class="content">
+    <img src="assets/InvoiceFreeLogo3.png" class="logo" />
+
+    <a
+      [routerLink]="['']"
+      class="button button2"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="listToggle = true"
+      ><div class="routes">Create Invoice</div></a
+    >
+    <div class="listcontainer">
+      <ul class="list" *ngIf="listToggle" @enterleave [@.disabled]="animif">
+        <li><a (click)="export()" class="listitem">Export</a></li>
+        <li><a href="" class="listitem">Save</a></li>
+        <li><a href="" class="listitem">New</a></li>
+        <li>
+          <label class="listtext">Vat</label
+          ><input
+            class="vatinput"
+            type="text"
+            maxlength="2"
+            [value]="vatpercent"
+          />
+          <label class="listtext procent">%</label>
+        </li>
+        <li class="listtext totals">
+          Netto :
+          <input class="totalsinput" [value]="getNetto() | currency" />
+        </li>
+        <li class="listtext totals">
+          Vat : <input class="totalsinput" [value]="getVat() | currency" />
+        </li>
+        <li class="listtext totals">
+          Total : <input class="totalsinput" [value]="getTotal() | currency" />
+        </li>
+      </ul>
+    </div>
+    <a
+      [routerLink]="['dashboard/user/', user.username]"
+      *ngIf="user"
+      class="button button3"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ><div class="routes">Dashboard</div></a
+    >
+    <a
+      [routerLink]="['dashboard']"
+      *ngIf="!user"
+      class="button button3"
+      routerLinkActive="active"
+      (click)="listToggle = false"
+      ><div class="routes">Dashboard</div></a
+    >
+  </div>
 </div>
-<router-outlet></router-outlet>
-
-
+<div class="child">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,54 @@
+<div class="provider">
+  <select
+    #selectcompany
+    *ngIf="user"
+    class="selectcompany"
+    (input)="changeProvider(selectcompany.value)"
+    id="companies"
+  >
+    <option disabled selected="true">Select Company</option>
+    <ng-container *ngFor="let company of companies">
+      <option>{{ company.name }}</option>
+    </ng-container>
+  </select>
+  <div class="logo">
+    <div *ngIf="user" class="imgcontainer">
+      <img src="{{ currentProvider.logo }}" alt="logo" />
+    </div>
+    <div class="detaliifirma2" *ngIf="!user">
+      <p>Provider</p>
+      <input type="text" />
+      <p>Registration Number</p>
+      <input type="text" />
+      <p>EUID</p>
+      <input type="text" />
+      <p>Adress</p>
+      <textarea
+        placeholder="Adress"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="4"
+        type="text"
+      ></textarea>
+      <p>Bank</p>
+      <input type="text" placeholder="Bank Name" />
+      <input type="text" placeholder="IBAN" />
+      <input type="text" placeholder="BIC" />
+    </div>
+    <hr *ngIf="user" />
+    <div class="detaliifirma" *ngIf="user">
+      <div>
+        <p>{{ currentProvider.name }}</p>
+        <P>SteuerNr: {{ currentProvider.registrationNumber }}</P>
+        <p>Handelsreg. Nr.: J32/2458/2022</p>
+        <p>Adresse: {{ currentProvider.adresa }}</p>
+      </div>
+      <div>
+        <p>Banca Transilvania</p>
+        <p>RO 23BTRLRONCRT0CJ3707201 (RON)</p>
+        <p>RO 67BTRLEURCRT0CJ3707201</p>
+        <p>SWIFT CODE BTRL22XXX</p>
+      </div>
+    </div>
+  </div>
+</div>

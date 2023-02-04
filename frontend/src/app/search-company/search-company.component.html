@@ -1,0 +1,28 @@
+<div class="container">
+  <form class="searchform">
+    <input
+      type="text"
+      class="search"
+      placeholder="Search Client..."
+      required
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      class="mat-input-element"
+      #auto="matAutocomplete"
+      (optionSelected)="
+        onSearchClient();
+        (searchControl.markAsUntouched);
+        searchControl.setValue('')
+      "
+    >
+      <mat-option
+        *ngFor="let option of filteredoptions | async"
+        [value]="option"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </form>
+</div>

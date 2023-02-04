@@ -1,0 +1,45 @@
+.adresare {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5em;
+  gap: 1em;
+  justify-content: left;
+  margin-top: 2rem;
+}
+.dates {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-evenly;
+  .nrfactura {
+    font-size: 14px;
+    padding: 0.2em;
+    border: none;
+    width: 5em;
+    text-align: center;
+    background-color: var(--clr-lightinputs);
+  }
+  .pap {
+    background-color: var(--clr-lightinputs);
+    width: 3em;
+    font-size: 14px;
+    padding: 0.2em;
+    border: none;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  label {
+    margin: auto 0;
+    font-size: 14px;
+  }
+  .date {
+    background-color: var(--clr-lightinputs);
+    border: none;
+    font-size: 14px;
+    padding: 0.2em;
+  }
+}

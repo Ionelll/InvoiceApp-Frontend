@@ -1,22 +1,31 @@
-<div class="sidenav">
-     <a class="user" routerLink="/dashboard/user/{{user.username}}" routerLinkActive="useractive">
-          <div class="imgcontainer">
-               <img src='assets/profile.png' [alt]=user.username>
-          </div>
-          <div class="userdata">
-               <span class="username">{{user.username}}</span>
-               <span class="email">{{user.email}}</span>
-          </div>
-     </a>
-     <div class="actions">
-          <ng-container *ngFor="let company of companies"  >
-               <a class="action" (click)="changeCompany(company.nume)" routerLink="company/{{company.nume}}" routerLinkActive="active not-active">{{company.nume}}</a>
-          </ng-container>
-     </div>
-     <div class="companyoptions">
-          <a *ngIf="companyName!='Companies'" routerLink="company/{{companyName}}/clients" routerLinkActive="active"> Clients</a>
-     </div>
+<div class="sidenav" *ngIf="user">
+  <a
+    class="user"
+    routerLink="/dashboard/user/{{ user.username }}"
+    routerLinkActive="useractive"
+  >
+    <div class="imgcontainer">
+      <img src="assets/profile.png" [alt]="user.username" />
+    </div>
+    <div class="userdata">
+      <span class="username">{{ user.username }}</span>
+      <span class="email">{{ user.email }}</span>
+    </div>
+  </a>
+  <div class="actions">
+    <ng-container *ngFor="let company of companies">
+      <a
+        class="action"
+        routerLink="company/{{ company.name }}"
+        routerLinkActive="active"
+        >{{ company.name }}</a
+      >
+    </ng-container>
+  </div>
+
+  <div class="logoutcontainer">
+    <a routerLink="" class="logout" (click)="logout()">Log out</a>
+  </div>
 </div>
 
-     <router-outlet></router-outlet>
-
+<router-outlet></router-outlet>

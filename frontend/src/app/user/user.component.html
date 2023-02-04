@@ -1,13 +1,10 @@
-<div class="container">
+<div class="container" *ngIf="user">
 <div class="chart" >
-      <span>Sales</span>
-      <span>(€)</span>
+      <span>Sales(€)</span>
       <hr>
  <ngx-charts-bar-vertical
      [view]="[600,300]"
-     [results]="saleData"
-     [legendTitle]="'Product Sale Chart'"
-     [showXAxisLabel]="true"
+     [results]="saleData"   
      [showYAxisLabel]="true"
      [xAxis]="true"
      [yAxis]="true"
@@ -15,14 +12,11 @@
  </ngx-charts-bar-vertical>
  </div>
       <div class="chart" >
-            <span>Sales</span>
-            <span>(€)</span>
+            <span>Sales (€)</span>
             <hr>
        <ngx-charts-bar-vertical
            [view]="[600,300]"
            [results]="saleData"
-           [legendTitle]="'Product Sale Chart'"
-           [showXAxisLabel]="true"
            [showYAxisLabel]="true"
            [xAxis]="true"
            [yAxis]="true"

@@ -1,0 +1,14 @@
+.search {
+  border: none;
+  background-color: var(--clr-lightinputs);
+  height: 2.6em;
+  width: 100%;
+  border-radius: 15px;
+  padding-left: 25px;
+  margin-bottom: 2em;
+}
+@media print {
+  .searchform {
+    display: none;
+  }
+}

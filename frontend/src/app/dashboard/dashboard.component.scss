@@ -102,6 +102,22 @@
             height: 3em;
       }
 }
-.router{
-      padding-left: 15rem;
+.logoutcontainer{
+      position: absolute;
+      bottom: 4rem;
+      width: 100%;
+      display: flex;
+      background-color: #383d43;
+     
+}
+.logout{
+      text-decoration: none;
+      color: rgb(148, 148, 148);     
+      margin: auto;
+      border-top: 1px solid #525a64;
+      width: 90%;
+      padding: 1em;
+      &:hover{
+            color: #DDF2FF;
+      }
 }

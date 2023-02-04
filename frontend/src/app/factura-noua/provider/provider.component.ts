@@ -1,24 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { ApiService } from '../services/api.service';
-import { Company } from '../models/company.model';
-import { Adresa } from '../models/adresa.model';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
+import { Company } from 'src/app/models/company.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-provider',
+  templateUrl: './provider.component.html',
+  styleUrls: ['./provider.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-  toggle = false;
-  company: string;
-  userSub: Subscription;
-
-  constructor(public route: ActivatedRoute, private api: ApiService) {}
-
-  user: { username: string; email: string };
-
+export class ProviderComponent implements OnInit {
+  constructor(private api: ApiService) {}
   companies: Company[] = [
     {
       _id: 'adasdas',
@@ -90,13 +81,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       web: 'asdhghag.com',
     },
   ];
+  user: User;
+  currentProvider: Company;
+
   ngOnInit(): void {
-    this.userSub = this.api.user$.subscribe((res) => (this.user = res));
+    this.user = JSON.parse(localStorage.getItem('User'));
+    this.currentProvider =
+      this.companies[parseInt(localStorage.getItem('CurrentProvider'))];
+    // this.api.companies$.subscribe(res=>{
+    //   this.companies=res
+    //   this.currentProvider=this.companies[0]
+    // })
   }
-  logout() {
-    this.api.logout();
-  }
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
+  changeProvider(selected: string) {
+    this.currentProvider = this.companies.find((x) => x.name == selected);
+    localStorage.setItem(
+      'CurrentProvider',
+      this.companies.findIndex((x) => x.name == selected).toString()
+    );
   }
 }

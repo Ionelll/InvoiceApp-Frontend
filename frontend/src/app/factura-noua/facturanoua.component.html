@@ -1,148 +1,18 @@
 <div class="container" id="container">
-      <div class="header">
-            <div class="leftside">
-                  <form class="searchform" >
-                        <input type="text" class="search" placeholder="Search Company..." required [formControl]="searchControl" [matAutocomplete] = 'auto'>
-                        <mat-autocomplete class="mat-input-element" #auto="matAutocomplete" (optionSelected)="onSearchClient() ;searchControl.markAsUntouched;searchControl.setValue('');" >
-                              <mat-option *ngFor="let option of filteredoptions | async" [value]="option">
-                                    {{option}}
-                              </mat-option>
-                        </mat-autocomplete>
-                  </form>
-                  <form [formGroup]="showclient" class="clientdata"> 
-                        <p>Client</p>                   
-                        <input type="text" formControlName="nume">
-                        <p>Registration Number</p>
-                        <input type="text" formControlName="cui">
-                        <p>Adress</p>
-                        <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4" type="text" formControlName="adresa" ></textarea>
-                        <p>Telefon</p>
-                        <input type="text" formControlName="telefon">
-                        <p *ngIf="show || this.showclient.controls.email.value">Email</p>
-                        <input *ngIf="show || this.showclient.controls.email.value" type="text" formControlName="email">
-                  </form>
-            </div>
-            <div class="provider">
-                  <select #selectcompany class="selectcompany" (input)="changeProvider(selectcompany.value)" id="companies">
-                        <ng-container *ngFor="let company of companies">
-                              <option>{{company.nume}}</option>
-                        </ng-container>
-                  </select>
-            <div class="logo">
-            <div *ngIf="loggedin" class="imgcontainer">
-                  <img src="{{logo}}" alt="logo">
-            </div>  
-            <div class="detaliifirma2" *ngIf="!loggedin"> 
-                  <p>Provider</p>                 
-                  <input type="text">
-                  <p>Registration Number</p>
-                  <input type="text">
-                  <p>EUID</p>
-                  <input type="text">
-                  <p>Adress</p>
-                  <textarea placeholder="Adress" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4" type="text"></textarea>            
-                  <p>Bank</p>
-                  <input type="text">
-                  <input type="text" placeholder="IBAN">
-                  <input type="text" placeholder="BIC">                
-            </div>
-            <div class="detaliifirma" *ngIf="loggedin">
-            <div>
-            <p>{{currentProvider.nume}}</p>
-            <P>SteuerNr: {{currentProvider.cui}}</P>
-            <p>Handelsreg. Nr.: J32/2458/2022</p>
-            <p>Adresse: {{currentProvider.adresa}} </p>
-            </div>
-            <div>
-            <p>Banca Transilvania</p>
-            <p>RO 23BTRLRONCRT0CJ3707201 (RON)</p>
-            <p>RO 67BTRLEURCRT0CJ3707201</p>
-            <p>SWIFT CODE BTRL22XXX</p>
-            </div>
-            </div>
-            </div>
-      </div>               
-            
-      </div>                        
-      <div class="contcont" id="contcont">
-            <div class="text"> 
-                  <div class="adresare">               
-                        <span role="textbox" class="adresaretext" id="adresaretext" (input)="saveData()" contenteditable >Thank you for your order and your trust.
-                              <br>You will be charged the following amount for our work and material:</span>
-                  </div>
-                  <div class="dates">
-                        <div>
-                        <label for="nrfactura">Invoice Nr.:</label>
-                        <input class="pap">                
-                        <input type="number" id="nrfactura" class="nrfactura" (change)="savenrfactura()"  [(ngModel)]="nrfactura">
-                        <input class="pap">
-                        </div>
-                        <div>
-                        <label for="datenow">Issued:</label>
-                        <input type="date" class="date" (change)="autodate()" [(ngModel)]="emisa">
-                        </div>
-                        <div>
-                        <label for="scadenta">Due:</label>
-                        <input class="date" type="date" [value]="scadenta">
-                        </div>
-                  </div> 
-            </div>
-            <div class="content" id="content" [formGroup]="tabel" >
-                  <div class="tableheader">
-                  <input class="poshead" value="Pos." disabled>
-                  <input class="arthead" value="Article" disabled>
-                  <input class="bucatihead" value="Ammount"disabled>
-                  <input class="prethead" value="Cost per unit" disabled>
-                  <input class="summehead" value="Total" disabled>
-                  </div>
-                  <div class="tablerow" @enterleave [@.disabled]="animif"
-                  formArrayName="array" *ngFor="let row of tabel.controls.array.controls;index as i"  >
-                        <input class="pos" [value]="i+1"  disabled>
-                        
-                        <ng-container [formGroupName]="i" >
-                              <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" formControlName="articol" [matAutocomplete] = 'auto2'></textarea>
-                              <mat-autocomplete class="mat-input-element" #auto2="matAutocomplete" >
-                                    <mat-option *ngFor="let option of filteredoptions2[i] | async" [value]="option">
-                                          {{option}}
-                                    </mat-option>
-                              </mat-autocomplete>
-                              <input type="number" class="bucati" formControlName="bucati">
-                              <input type="number" class="pret" formControlName="pret">
-                        </ng-container>
-                        <input type="text" class="total"  lang="de" [value]="suma(i)|currency"disabled>
-                        <button  (click)=removeInput(i)  class="minus" ><mat-icon class="actionslabel">delete_outline</mat-icon></button>
-                  </div>
-                                                     
-            </div>
-            <div class="netto">
-                  <div class="nettocontainer">
-                        <input class="label" value="Net worth" readonly>
-                        <input type="text" name="netto" class="value" [value]="getNetto()|currency" readonly>
-                  </div>
-                  <div class="tvacontainer">
-                        <div class="leftside">
-                        <p class="mwst">VAT</p>
-                        <input type="text" [(ngModel)]="mwst" >
-                        <p class="procent">%</p>
-                        </div>
-                        <input type="text" name="netto" class="value" [value]="getTva()|currency"  readonly>
-                  </div>
-                  <div class="totalontainer">
-                        <input class="label" value="Total" readonly>
-                        <input type="text" name="netto" class="value" [value]="getTotal()|currency"  readonly>
-                  </div>
-            </div>    
-           
-      </div>
-</div>
-<div class="plusminus">
-      <div>
-      <button mat-fab (click)=newbill() class="newbill" >New</button> 
-      <button mat-fab (click)=exportPdf() class="save">.Pdf</button>
-      </div>
-      <button mat-fab (click)=addInput() class="plus"><mat-icon class="icon">add</mat-icon></button>
-</div>
-<div class="savenew">
-      
-      
+  <div class="header">
+    <app-client class="client"></app-client>
+    <app-provider class="provider"></app-provider>
+  </div>
+  <app-text-dates></app-text-dates>
+  <app-tabel></app-tabel>
+
+  <!-- <div class="plusminus">
+    <div>
+      <button mat-fab (click)="newbill()" class="newbill">New</button>
+      <button mat-fab class="save">Save</button>
+      <button mat-fab (click)="print()" class="save">.Pdf</button>
+    </div>
+  </div>
+  <div class="savenew"></div>
+</div> -->
 </div>

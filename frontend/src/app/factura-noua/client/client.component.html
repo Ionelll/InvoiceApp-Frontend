@@ -1,0 +1,63 @@
+<app-search-company></app-search-company>
+<form [formGroup]="showclient" class="clientdata">
+  <p class="label">Client:</p>
+  <input type="text" class="input" formControlName="name" />
+  <p class="label">Registration Number:</p>
+  <input type="text" class="input" formControlName="cui" />
+  <p class="label adresstitle">Adress:</p>
+  <div class="adress" formGroupName="adresa">
+    <label class="adresslabel" for="country">Country:</label>
+    <input
+      class="adressinput input"
+      type="text"
+      id="country"
+      formControlName="country"
+    />
+    <label class="adresslabel" for="region">Region:</label>
+    <input
+      class="adressinput input"
+      type="text"
+      id="region"
+      formControlName="region"
+    />
+    <label class="adresslabel" for="city">City:</label>
+    <input
+      class="adressinput input"
+      type="text"
+      id="city"
+      formControlName="city"
+    />
+    <label class="adresslabel" for="street">Street:</label>
+    <input
+      class="adressinput input"
+      type="text"
+      id="street"
+      formControlName="street"
+    />
+    <label class="adresslabel" for="number">Nr:</label>
+    <input
+      class="adressinput input"
+      type="text"
+      id="number"
+      formControlName="number"
+    />
+    <label class="adresslabel" for="postalCode">Zip:</label>
+    <input
+      class="adressinput input"
+      type="text"
+      id="postalCode"
+      formControlName="postalCode"
+    />
+  </div>
+  <p class="label">Telephon:</p>
+  <input type="text" class="input" formControlName="phone" />
+  <p class="label" *ngIf="show || this.showclient.controls.email.value">
+    Email:
+  </p>
+  <input
+    class="input"
+    *ngIf="show || this.showclient.controls.email.value"
+    type="text"
+    formControlName="email"
+  />
+</form>

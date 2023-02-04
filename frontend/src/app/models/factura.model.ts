@@ -1,13 +1,19 @@
-export interface Factura{
-      _id:string,
-      furnizor:string,
-      client:string,
-      nr:string,
-      emisa:string,
-      scadenta:string,
-      tablerow:{articol:string,bucati:string,ppb:string}[],
-      net:string,
-      tva:string,
-      total:string,
-      emisade:string
+import { Adresa } from './adresa.model';
+
+export interface Factura {
+  _id?: string;
+  clientdata: {
+    nume: string;
+    adresa: Adresa;
+    telefon: string;
+    cui: string;
+    email: string;
+  };
+  dueDate: string;
+  tva: string;
+  currency: string;
+  totalInvoice: string;
+  dateNow: Date;
+  nrFactura: string;
+  tabel: string;
 }
