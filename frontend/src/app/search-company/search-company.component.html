@@ -1,13 +1,15 @@
 <div class="container">
+  <p class="label">Search Client</p>
   <form class="searchform">
-    <input
-      type="text"
-      class="search"
-      placeholder="Search Client..."
-      required
-      [formControl]="searchControl"
-      [matAutocomplete]="auto"
-    />
+    <div matRipple [matRippleColor]="'#6bc2f520'">
+      <input
+        type="text"
+        class="search"
+        required
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+      />
+    </div>
     <mat-autocomplete
       class="mat-input-element"
       #auto="matAutocomplete"

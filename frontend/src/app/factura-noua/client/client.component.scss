@@ -1,46 +1,43 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  width: 100%;
-}
-
 .clientdata {
   width: 100%;
-  display: grid;
-  grid-template-columns: 0.2fr 1fr;
-  row-gap: 1em;
-  column-gap: 5px;
+  display: flex;
+  flex-direction: column;
+
   .input {
     width: 100%;
     height: 2.6em;
-    border: none;
-    background-color: var(--clr-lightinputs);
-    padding-left: 1em;
+    outline-color: var(--clr-linksactive);
+    border: 3px solid var(--clr-darkinputs);
+    background-color: transparent;
   }
-  .label {
-    margin: auto;
+  .outerinput {
+    padding: 1.5em 0.2em;
     text-align: center;
   }
-  .adresstitle {
-    background-color: white;
-    padding: 0 0.5em;
-    margin: auto;
-    grid-column-start: 1;
-    grid-column-end: 2;
+  .label {
+    text-align: left;
+    margin-bottom: -7px;
     z-index: 2;
+    font-size: 14px;
+    padding: 0 0.1em 0 0.1em;
+    margin-left: 4px;
+    background-color: var(--clr-background);
+    width: fit-content;
+    color: var(--clr-links);
   }
   .adress {
     grid-column-start: 1;
     grid-column-end: 3;
-    margin-top: -25px;
-    border: 1px solid rgba(0, 0, 0, 0.123);
+    border: 3px solid var(--clr-darkinputs);
     display: grid;
     width: 100%;
     grid-template-columns: 0.2fr 1fr 0.2fr 1fr;
     column-gap: 5px;
     row-gap: 3px;
     padding: 1em 0.5em 0.5em 2em;
+  }
+  .adresstitle {
+    font-size: 15px;
   }
   .adresslabel {
     font-size: 12px;
@@ -49,6 +46,7 @@
   }
   .adressinput {
     height: 1.6em;
+    background-color: transparent;
   }
   // .saveclient {
   //   align-self: flex-end;
@@ -66,12 +64,7 @@
 }
 
 @media print {
-  .saveclient {
-    display: none;
-  }
-  .clientdata {
-    .input {
-      background-color: white;
-    }
+  .label {
+    background-color: white;
   }
 }

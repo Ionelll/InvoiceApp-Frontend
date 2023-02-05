@@ -8,7 +8,6 @@
   flex-direction: column;
   z-index: 5;
   border-right: 3px solid rgba(24, 168, 178, 0.208);
-  box-shadow: 9px 2px 13px -9px rgba(0, 0, 0, 0.203);
 }
 
 .logo {
@@ -24,9 +23,13 @@
   padding-left: 15px;
   overflow: hidden;
 }
-
+.listinputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 .procent {
-  margin-left: 1.5em;
+  margin-left: -1.1em;
+  margin-top: 2px;
 }
 .vatinput {
   width: 4em;
@@ -36,7 +39,7 @@
   border: none;
   color: var(--clr-links);
   text-align: center;
-  margin-bottom: 5px;
+  margin: 15px 0 5px 0;
 }
 .totals {
   display: grid;
@@ -50,11 +53,11 @@
 }
 li {
   border-bottom: 3px solid rgba(87, 198, 235, 0.315);
-  margin-bottom: 15px;
   display: flex;
 }
 .listtext {
   color: var(--clr-links);
+  padding: 1em 0 0.5em 0;
 }
 .listitem {
   text-decoration: none;
@@ -62,16 +65,14 @@ li {
   width: 100%;
   font-size: 17px;
   margin: auto;
-  padding: 0.5em 0;
+  padding: 1em 0 0.5em 0;
 
   background: transparent;
   &:hover {
     background: linear-gradient(90deg, #15557a00 0%, #0d89d096 100%);
   }
 }
-.child {
-  padding-left: 15rem;
-}
+
 .button {
   font-size: 25px;
   width: 100%;

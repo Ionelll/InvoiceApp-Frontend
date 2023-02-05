@@ -1,299 +1,35 @@
 .container {
   padding: 4rem 1em 20rem 1em;
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 2em;
+  row-gap: 2em;
   margin: auto;
   input:disabled {
     color: black;
   }
 }
 .client {
-  width: 45%;
+  grid-column: 1;
 }
 .provider {
-  width: 45%;
+  grid-column: 2;
 }
-
-.header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2em;
-  gap: 3em;
-  margin: 0;
-  width: 100%;
+.text-dates {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
-
-.contcont {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 2em;
-  page-break-inside: auto;
+.tabel {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
-.text {
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-  .adresare {
-    font-size: 18px;
-    display: flex;
-    flex-direction: column;
-    line-height: 1.5em;
-    gap: 1em;
-    justify-content: left;
-  }
-  .dates {
-    display: flex;
-    justify-content: space-evenly;
-    .nrfactura {
-      font-size: 14px;
-      padding: 0.2em;
-      border: none;
-      width: 5em;
-      text-align: center;
-      background-color: var(--clr-lightinputs);
-    }
-    .pap {
-      background-color: var(--clr-lightinputs);
-      width: 3em;
-      font-size: 14px;
-      padding: 0.2em;
-      border: none;
-    }
-
-    .label {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-    }
-    label {
-      margin: auto 0;
-      font-size: 14px;
-    }
-    .date {
-      background-color: var(--clr-lightinputs);
-      border: none;
-      font-size: 14px;
-      padding: 0.2em;
-    }
-  }
+.search {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  width: 60%;
 }
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2em;
-  width: 100%;
-  margin-top: 1em;
-  .tablerow {
-    display: grid;
-    grid-template-columns: 3em 1fr 6em 8em repeat(2, auto) 3em;
-    grid-template-rows: auto;
-    row-gap: 0.2em;
-  }
-
-  input {
-    text-align: center;
-    border: none;
-    font-size: 16px;
-  }
-  textarea {
-    grid-column: 2;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 16px;
-    line-height: 16px;
-    padding: 0.5em 5px !important;
-    overflow: hidden;
-    border: none;
-  }
-
-  p {
-    text-align: center;
-    font-size: 1.3em;
-  }
-  .minus {
-    background-color: rgba(255, 218, 218, 0.189);
-    color: #f36767;
-    border: 1px solid rgba(255, 0, 0, 0.259);
-  }
-  .tableheader {
-    display: grid;
-    grid-template-columns: 3em 1.5fr 6em 8em repeat(2, auto) 3em;
-    grid-template-rows: 2.4em;
-  }
-
-  .pos {
-    grid-column: 1;
-    background-color: var(--clr-darkinputs);
-  }
-  .article {
-    background-color: var(--clr-lightinputs);
-  }
-  .unit {
-    background-color: var(--clr-darkinputs);
-  }
-  .bucati {
-    background-color: var(--clr-lightinputs);
-  }
-  .pret {
-    background-color: var(--clr-darkinputs);
-  }
-  .total {
-    background-color: var(--clr-lightinputs);
-  }
-}
-.netto {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 15rem auto 0 1rem;
-  justify-content: end;
-  row-gap: 0.2em;
-  .col1 {
-    grid-column: 1;
-  }
-  .col2 {
-    grid-column: 2;
-  }
-
-  .value {
-    background-color: var(--clr-lightinputs);
-    line-height: 1em;
-    text-align: center;
-    border: none;
-    margin: 0;
-  }
-  .mwst {
-    background-color: var(--clr-darkinputs);
-    border: 1px solid black;
-    margin: auto 0;
-    max-width: 6em;
-  }
-  .label {
-    margin: auto;
-    background-color: var(--clr-lightinputs);
-    text-align: center;
-    border: none;
-    margin: 0;
-  }
-  .total {
-    font-size: larger;
-  }
-  .label,
-  .value {
-    font-size: 14px;
-    padding: 0.5em;
-  }
-  .total {
-    font-size: 20px;
-  }
-}
-.plusminus {
-  display: flex;
-  gap: 1em;
-  position: fixed;
-  z-index: 100;
-  right: 5%;
-  bottom: 0;
-  text-align: center;
-  border-radius: 50%;
-  gap: 2em;
-  div {
-    display: flex;
-    gap: 1em;
-  }
-  .plus {
-    transform: scale(1.3);
-    background-color: rgb(166, 237, 134);
-    bottom: 1rem;
-  }
-
-  .save {
-    background-color: #3b923b;
-    bottom: 0.5rem;
-    font-weight: 500;
-    font-size: 16px;
-  }
-  .newbill {
-    bottom: 0.5rem;
-    font-size: 16px;
-  }
-  .icon {
-    transform: scale(1.5);
-  }
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type="number"] {
-  appearance: texttfiled;
-  -moz-appearance: textfield;
-}
-
 @media print {
-  .newbill {
-    display: none;
+  .container {
+    padding: 0;
   }
-
-  //       img{
-  //             height: 12em !important;
-  //       }
-  //       .header{
-
-  //             .saveclient{
-  //                   display: none;
-  //             }
-  //       }
-  //       .container{
-  //             padding: 0;
-  //             color: black;
-  //             background-color: white;
-  //             min-height: 0;
-  //             font-size: 12px;
-  //       }
-  //       .content{
-
-  //             break-inside: auto;
-
-  //       }
-  //       .selectcompany{
-  //             display: none;
-  //       }
-  //       // .tablerow{
-  //       //       grid-template-columns: 4em 1fr repeat(4,8em) !important;
-  //       //       grid-template-rows: auto;
-  //       //       row-gap: 0.3em;
-  //       //       break-inside: avoid !important;
-
-  //       // }
-  //       // .tableheader{
-  //       //       grid-template-columns: 4em 1fr repeat(4,8em) !important;
-  //       //       break-after: avoid;
-  //       // }
-  //       .netto{
-  //             break-inside: avoid;
-  //             position: static;
-  //             margin-top: 2em;
-  //             .mwst{
-  //                   background-color: var(--clr-lightinputs);
-  //                   border: none;
-  //             }
-  //       }
-
-  //      .plusminus{
-  //             display: none;
-  //      }
-  .plus {
-    display: none;
-  }
-  //      .searchform{
-  //       display: none;
-  //      }
-  //      .minus{
-  //       display: none;
-  //      }
-  //      .contcont{
-  //       height: auto;
-  // }
 }

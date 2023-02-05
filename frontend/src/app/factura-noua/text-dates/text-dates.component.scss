@@ -12,17 +12,25 @@
   display: flex;
   justify-content: space-evenly;
   .nrfactura {
-    font-size: 14px;
+    font-size: 16px;
     padding: 0.2em;
     border: none;
     width: 5em;
     text-align: center;
     background-color: var(--clr-lightinputs);
   }
-  .pap {
+  .prefix {
     background-color: var(--clr-lightinputs);
     width: 3em;
-    font-size: 14px;
+    font-size: 16px;
+    padding: 0.2em;
+    border: none;
+    text-align: right;
+  }
+  .sufix {
+    background-color: var(--clr-lightinputs);
+    width: 3em;
+    font-size: 16px;
     padding: 0.2em;
     border: none;
   }
@@ -39,7 +47,7 @@
   .date {
     background-color: var(--clr-lightinputs);
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     padding: 0.2em;
   }
 }

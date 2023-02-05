@@ -2,14 +2,14 @@ import { trigger, transition, animate, style } from '@angular/animations';
 import {
   Component,
   OnInit,
-  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
 import { ApiService } from '../services/api.service';
 
 import { User } from '../models/user.model';
-import { InvoiceTotals } from '../Analytics-services/invoice-totals.service';
 import { CreateInvoice } from '../services/create-invoice.service';
+import { Company } from '../models/company.model';
 
 @Component({
   selector: 'app-navigation',
@@ -27,8 +27,8 @@ import { CreateInvoice } from '../services/create-invoice.service';
     ]),
   ],
 })
-export class NavigationComponent implements OnInit, AfterViewChecked {
-  user: { username: string; email: string };
+export class NavigationComponent implements OnInit, AfterViewInit {
+  company: Company;
   listToggle = true;
   netto = '';
   vat = '';
@@ -36,18 +36,10 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   animif = true;
   vatpercent = '';
 
-  constructor(
-    private api: ApiService,
-    private totals: InvoiceTotals,
-    private cd: ChangeDetectorRef,
-    private invoice: CreateInvoice
-  ) {}
+  constructor(private invoice: CreateInvoice) {}
   ngOnInit(): void {
-    this.invoice.setVatPercent('19');
-    this.netto = localStorage.getItem('Netto');
-    this.vat = localStorage.getItem('Vat');
-    this.total = localStorage.getItem('Total');
-    this.user = JSON.parse(localStorage.getItem('User'));
+    this.invoice.setVat('19');
+    this.company = JSON.parse(localStorage.getItem('Company'));
     // this.api.getUser()
     // this.api.user$.subscribe(res=>{this.user=res})
     if (window.location.pathname.split('/')[1] == 'dashboard') {
@@ -68,14 +60,14 @@ export class NavigationComponent implements OnInit, AfterViewChecked {
   getTotal() {
     return this.total;
   }
-  ngAfterViewChecked(): void {
-    this.totals.getnetto().subscribe((res) => {
+  ngAfterViewInit(): void {
+    this.invoice.getnetto().subscribe((res) => {
       this.netto = res;
     });
-    this.totals.getVat().subscribe((res) => {
+    this.invoice.getVat().subscribe((res) => {
       this.vat = res;
     });
-    this.totals.getTotal().subscribe((res) => {
+    this.invoice.getTotal().subscribe((res) => {
       this.total = res;
     });
     this.invoice.getVatPercent().subscribe((res) => {

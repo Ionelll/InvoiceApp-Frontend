@@ -4,15 +4,9 @@
     <input class="article" value="Article" disabled />
     <input class="unit" value="Unit" disabled />
     <input class="bucati" value="Ammount" disabled />
-    <textarea
-      class="pret"
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="1"
-      disabled
-    >
-Cost per unit {{ currency }}</textarea
-    >
+    <div class="headerpret">
+      <div class="prettext">Cost per unit {{ currency }}</div>
+    </div>
     <input class="total" value="Total" disabled />
   </div>
 
@@ -68,7 +62,7 @@ Cost per unit {{ currency }}</textarea
     type="text"
     name="netto"
     class="col2 value"
-    [value]="getNetto() | currency"
+    [value]="netto | currency"
     disabled
   />
 

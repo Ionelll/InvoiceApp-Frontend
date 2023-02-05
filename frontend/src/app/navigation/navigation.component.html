@@ -15,31 +15,41 @@
         <li><a (click)="export()" class="listitem">Export</a></li>
         <li><a href="" class="listitem">Save</a></li>
         <li><a href="" class="listitem">New</a></li>
-        <li>
-          <label class="listtext">Vat</label
+        <li class="listinputs">
+          <label class="listtext">VAT % :</label
           ><input
             class="vatinput"
             type="text"
             maxlength="2"
             [value]="vatpercent"
           />
-          <label class="listtext procent">%</label>
+        </li>
+        <li class="listinputs">
+          <label class="listtext">Due period :</label
+          ><input
+            class="vatinput"
+            type="text"
+            maxlength="2"
+            [value]="vatpercent"
+          />
         </li>
         <li class="listtext totals">
-          Netto :
-          <input class="totalsinput" [value]="getNetto() | currency" />
+          Net :
+          <input class="totalsinput" [value]="getNetto() | currency" disabled />
         </li>
         <li class="listtext totals">
-          Vat : <input class="totalsinput" [value]="getVat() | currency" />
+          VAT :
+          <input class="totalsinput" [value]="getVat() | currency" disabled />
         </li>
         <li class="listtext totals">
-          Total : <input class="totalsinput" [value]="getTotal() | currency" />
+          Total :
+          <input class="totalsinput" [value]="getTotal() | currency" disabled />
         </li>
       </ul>
     </div>
     <a
-      [routerLink]="['dashboard/user/', user.username]"
-      *ngIf="user"
+      [routerLink]="['dashboard/company/', company.name]"
+      *ngIf="company"
       class="button button3"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
@@ -47,14 +57,11 @@
     >
     <a
       [routerLink]="['dashboard']"
-      *ngIf="!user"
+      *ngIf="!company"
       class="button button3"
       routerLinkActive="active"
       (click)="listToggle = false"
       ><div class="routes">Dashboard</div></a
     >
   </div>
-</div>
-<div class="child">
-  <router-outlet></router-outlet>
 </div>

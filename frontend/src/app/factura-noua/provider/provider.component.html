@@ -1,5 +1,4 @@
-<div class="provider">
-  <select
+<!-- <select
     #selectcompany
     *ngIf="user"
     class="selectcompany"
@@ -9,46 +8,70 @@
     <option disabled selected="true">Select Company</option>
     <ng-container *ngFor="let company of companies">
       <option>{{ company.name }}</option>
-    </ng-container>
-  </select>
+    </ng-container> -->
+<!-- </select> -->
+<div class="container1">
+  <p class="label">Provider</p>
+  <div matRipple [matRippleColor]="'#6bc2f520'">
+    <input type="text" class="input outerinput" />
+  </div>
+  <p class="label">Reg. Number</p>
+  <div matRipple [matRippleColor]="'#6bc2f520'">
+    <input type="text" class="input outerinput" />
+  </div>
+  <p class="label adresstitle">Adress</p>
+  <div class="adress">
+    <label class="adresslabel" for="country">Country:</label>
+    <input class="input adressinput" type="text" id="country" />
+    <label class="adresslabel" for="region">Region:</label>
+    <input class="adressinput input" type="text" id="region" />
+    <label class="adresslabel" for="city">City:</label>
+    <input class="adressinput input" type="text" id="city" />
+    <label class="adresslabel" for="street">Street:</label>
+    <input class="adressinput input" type="text" id="street" />
+    <label class="adresslabel" for="number">Nr:</label>
+    <input class="adressinput input" type="text" id="number" />
+    <label class="adresslabel" for="postalCode">Zip:</label>
+    <input class="adressinput input" type="text" id="postalCode" />
+  </div>
+  <p class="label">Telephone</p>
+  <div matRipple [matRippleColor]="'#6bc2f520'">
+    <input type="text" class="input outerinput" />
+  </div>
+  <p class="label">Email</p>
+  <div matRipple [matRippleColor]="'#6bc2f520'">
+    <input class="input outerinput" type="text" />
+  </div>
+  <p class="label">Bank</p>
+  <div class="bank">
+    <p class="adresslabel">Name:</p>
+    <input class="input adressinput name" type="text" />
+    <p class="adresslabel bic">BIC:</p>
+    <input class="input adressinput bic" type="text" />
+    <p class="adresslabel">IBAN:</p>
+    <input class="input adressinput iban" type="text" />
+  </div>
+</div>
+
+<div class="container2" *ngIf="user">
   <div class="logo">
-    <div *ngIf="user" class="imgcontainer">
+    <div class="imgcontainer">
       <img src="{{ currentProvider.logo }}" alt="logo" />
     </div>
-    <div class="detaliifirma2" *ngIf="!user">
-      <p>Provider</p>
-      <input type="text" />
-      <p>Registration Number</p>
-      <input type="text" />
-      <p>EUID</p>
-      <input type="text" />
-      <p>Adress</p>
-      <textarea
-        placeholder="Adress"
-        cdkTextareaAutosize
-        #autosize="cdkTextareaAutosize"
-        cdkAutosizeMinRows="4"
-        type="text"
-      ></textarea>
-      <p>Bank</p>
-      <input type="text" placeholder="Bank Name" />
-      <input type="text" placeholder="IBAN" />
-      <input type="text" placeholder="BIC" />
+  </div>
+  <hr />
+  <div class="detaliifirma">
+    <div>
+      <p>{{ currentProvider.name }}</p>
+      <P>SteuerNr: {{ currentProvider.registrationNumber }}</P>
+      <p>Handelsreg. Nr.: J32/2458/2022</p>
+      <p>Adresse: {{ currentProvider.adresa }}</p>
     </div>
-    <hr *ngIf="user" />
-    <div class="detaliifirma" *ngIf="user">
-      <div>
-        <p>{{ currentProvider.name }}</p>
-        <P>SteuerNr: {{ currentProvider.registrationNumber }}</P>
-        <p>Handelsreg. Nr.: J32/2458/2022</p>
-        <p>Adresse: {{ currentProvider.adresa }}</p>
-      </div>
-      <div>
-        <p>Banca Transilvania</p>
-        <p>RO 23BTRLRONCRT0CJ3707201 (RON)</p>
-        <p>RO 67BTRLEURCRT0CJ3707201</p>
-        <p>SWIFT CODE BTRL22XXX</p>
-      </div>
+    <div>
+      <p>Banca Transilvania</p>
+      <p>RO 23BTRLRONCRT0CJ3707201 (RON)</p>
+      <p>RO 67BTRLEURCRT0CJ3707201</p>
+      <p>SWIFT CODE BTRL22XXX</p>
     </div>
   </div>
 </div>

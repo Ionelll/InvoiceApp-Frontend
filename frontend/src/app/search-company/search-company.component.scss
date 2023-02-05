@@ -1,14 +1,24 @@
 .search {
-  border: none;
-  background-color: var(--clr-lightinputs);
-  height: 2.6em;
   width: 100%;
-  border-radius: 15px;
-  padding-left: 25px;
-  margin-bottom: 2em;
+  height: 2.6em;
+  outline: none;
+  border: 2px solid var(--clr-linksactive);
+  background-color: transparent;
+}
+.label {
+  position: relative;
+  text-align: left;
+  margin-bottom: -7px;
+  z-index: 500;
+  font-size: 14px;
+  padding: 0 0.1em 0 0.1em;
+  margin-left: 4px;
+  background-color: var(--clr-background);
+  width: fit-content;
+  color: var(--clr-links);
 }
 @media print {
-  .searchform {
+  .container {
     display: none;
   }
 }

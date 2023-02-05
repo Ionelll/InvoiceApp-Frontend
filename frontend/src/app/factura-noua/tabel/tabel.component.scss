@@ -1,3 +1,6 @@
+input:disabled {
+  color: black;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -7,9 +10,9 @@
   .tablerow {
     display: grid;
     grid-template-columns:
-      3em minmax(30em, 50em) repeat(2, minmax(5em, 8em)) repeat(
+      3em minmax(15em, 50em) repeat(2, minmax(5em, 6em)) repeat(
         2,
-        minmax(6em, 10em)
+        minmax(5em, 8em)
       )
       3em;
     margin-bottom: 1em;
@@ -21,6 +24,7 @@
     text-align: center;
     border: none;
     font-size: 16px;
+    outline-color: var(--clr-linksactive);
   }
 
   p {
@@ -33,6 +37,7 @@
     border: none;
     overflow: hidden;
     background-color: var(--clr-lightinputs);
+    outline-color: var(--clr-linksactive);
   }
   .minus {
     background-color: rgba(255, 218, 218, 0.189);
@@ -68,12 +73,7 @@
     background-color: var(--clr-lightinputs);
   }
   .pret {
-    grid-column: 5;
     background-color: var(--clr-darkinputs);
-    text-align: center;
-    padding: 0.5em 0;
-    overflow: hidden;
-    border: none;
   }
   .total {
     background-color: var(--clr-lightinputs);
@@ -82,18 +82,28 @@
 .tableheader {
   display: grid;
   grid-template-columns:
-    3em minmax(30em, 50em) repeat(2, minmax(5em, 8em)) repeat(
+    3em minmax(15em, 50em) repeat(2, minmax(5em, 6em)) repeat(
       2,
-      minmax(6em, 10em)
+      minmax(5em, 8em)
     )
     3em;
-  grid-template-rows: 2.4em;
   margin-bottom: 1em;
+  .headerpret {
+    display: flex;
+    background-color: var(--clr-darkinputs);
+    vertical-align: middle;
+    min-height: 2.6em;
+    .prettext {
+      margin: auto;
+      text-align: center;
+    }
+  }
 }
 .netto {
+  display: none;
   grid-template-columns: 1fr 1fr;
-  margin: 15rem auto 0 1rem;
-  justify-content: end;
+  width: 50%;
+  margin: auto;
   row-gap: 0.2em;
   .col1 {
     grid-column: 1;

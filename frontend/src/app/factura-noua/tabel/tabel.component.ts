@@ -5,10 +5,10 @@ import { ApiService } from 'src/app/services/api.service';
 import { startWith, map } from 'rxjs';
 import { AfterViewInit, OnInit } from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ViewChildren, QueryList } from '@angular/core';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { InvoiceTotals } from 'src/app/Analytics-services/invoice-totals.service';
+import { CreateInvoice } from 'src/app/services/create-invoice.service';
 
 @Component({
   selector: 'app-tabel',
@@ -30,7 +30,7 @@ export class TabelComponent implements AfterViewInit, OnInit {
   constructor(
     private api: ApiService,
     private cd: ChangeDetectorRef,
-    private totals: InvoiceTotals
+    private invoice: CreateInvoice
   ) {}
   @ViewChildren('autosize') autosize: QueryList<CdkTextareaAutosize>;
   tabel = new FormGroup({
@@ -43,7 +43,7 @@ export class TabelComponent implements AfterViewInit, OnInit {
       }),
     ]),
   });
-
+  netto = '';
   options2 = [];
   filteredoptions2: Observable<string[]>[] = [];
   mwst = '19';
@@ -106,48 +106,48 @@ export class TabelComponent implements AfterViewInit, OnInit {
     this.manageAutocompleteInArray(this.tabel.controls.array.length - 1);
   }
 
-  getNetto() {
-    let z = 0;
-    this.tabel.controls.array.controls.forEach((item) => {
-      z += parseFloat(item.value.bucati) * parseFloat(item.value.pret) || 0;
-    });
-    this.totals.setnetto(z.toFixed(2));
-    localStorage.setItem('Netto', z.toFixed(2));
-    return z.toFixed(2);
-  }
-
   getTva() {
-    let z = (
-      (parseFloat(this.getNetto()) * parseInt(this.mwst)) / 100 || 0
-    ).toFixed(2);
-    this.totals.setVat(z);
+    let z = ((parseFloat(this.netto) * parseInt(this.mwst)) / 100 || 0).toFixed(
+      2
+    );
+    this.invoice.setVat(z);
     localStorage.setItem('Vat', z);
     return z;
   }
 
   getTotal() {
-    let z = (parseFloat(this.getNetto()) + parseFloat(this.getTva())).toFixed(
-      2
-    );
-    this.totals.setTotal(z);
+    let z = (parseFloat(this.netto) + parseFloat(this.getTva())).toFixed(2);
+    this.invoice.setTotal(z);
     localStorage.setItem('Total', z);
     return z;
   }
 
   ngOnInit(): void {
+    this.invoice.getnetto().subscribe((res) => {
+      this.netto = res;
+    });
+
     this.tabel.controls.array.valueChanges.subscribe(() => {
       localStorage.setItem(
         'TableValues',
         JSON.stringify(this.tabel.controls.array.value)
       );
+      let z = 0;
+      this.tabel.controls.array.controls.forEach((item) => {
+        z += parseFloat(item.value.bucati) * parseFloat(item.value.pret) || 0;
+      });
+      this.invoice.setnetto(z.toFixed(2));
       this.cd.detectChanges();
     });
+
     window.onbeforeprint = () => {
-      document.getElementById('content').setAttribute('style', 'width:1110px;');
+      document.getElementById('content').setAttribute('style', 'width:1150px;');
       this.cd.detectChanges();
       this.autosize.forEach((item) => item.resizeToFitContent(true));
     };
+
     this.manageAutocompleteInArray(0);
+
     this.remembertable = JSON.parse(localStorage.getItem('TableValues'));
     if (this.remembertable) {
       this.remembertable.forEach((item, index) => {
