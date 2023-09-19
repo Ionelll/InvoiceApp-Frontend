@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="logo-container">
+    <button class="upload" (click)="fileinput.click()">
+      <img [src]="activeImage" alt="" class="logo" *ngIf="activeImage" />
+      <div *ngIf="!activeImage">Upload Logo</div>
+    </button>
+    <input type="file" #fileinput hidden (change)="onFileChange($event)" />
+  </div>
+  <form [formGroup]="companydetails" class="company">
+    <p class="label">Name</p>
+    <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+      <input
+        type="text"
+        class="input outerinput"
+        required
+        formControlName="companyName"
+      />
+    </div>
+    <p class="label">Reg. Number</p>
+    <input
+      type="text"
+      class="input outerinput"
+      formControlName="registrationNumber"
+    />
+    <p class="label adresstitle">Adress</p>
+    <div formGroupName="adress" class="adress">
+      <p class="adresslabel">Street</p>
+      <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+        <input
+          class="adressinput input"
+          type="text"
+          id="street"
+          formControlName="street"
+        />
+      </div>
+      <p class="adresslabel">Nr</p>
+      <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+        <input
+          class="adressinput input"
+          type="text"
+          id="number"
+          formControlName="number"
+        />
+      </div>
+      <p class="adresslabel">Country</p>
+      <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+        <input
+          class="adressinput input"
+          type="text"
+          id="country"
+          formControlName="country"
+        />
+      </div>
+      <p class="adresslabel">Region</p>
+      <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+        <input
+          class="input adressinput"
+          type="text"
+          id="region"
+          formControlName="region"
+        />
+      </div>
+      <p class="adresslabel">City</p>
+      <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+        <input
+          class="adressinput input"
+          type="text"
+          id="city"
+          formControlName="city"
+        />
+      </div>
+      <p class="adresslabel">Postal Code</p>
+      <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+        <input
+          class="adressinput input"
+          type="text"
+          id="postalCode"
+          formControlName="postalCode"
+        />
+      </div>
+    </div>
+    <p class="label">Phone</p>
+    <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+      <input type="text" class="input outerinput" formControlName="telefon" />
+    </div>
+    <p class="label">Email</p>
+    <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+      <input class="input outerinput" type="text" formControlName="email" />
+    </div>
+    <p class="label">Website</p>
+    <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+      <input class="input outerinput" type="text" formControlName="web" />
+    </div>
+    <div
+      formArrayName="banks"
+      class="bank-container"
+      *ngFor="let bank of companydetails.controls.banks.controls; index as i"
+    >
+      <ng-container [formGroupName]="i">
+        <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+          <input
+            class="input outerinput"
+            type="text"
+            formControlName="bankName"
+          />
+        </div>
+        <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+          <input class="input outerinput" type="text" formControlName="iban" />
+        </div>
+        <div matRipple [matRippleColor]="'#80e6d919'" class="ripple">
+          <input class="input outerinput" type="text" formControlName="bic" />
+        </div>
+      </ng-container>
+    </div>
+    <button class="save" (click)="save()" [disabled]="!companydetails.valid">
+      Save
+    </button>
+  </form>
+</div>

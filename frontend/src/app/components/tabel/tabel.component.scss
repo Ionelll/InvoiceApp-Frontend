@@ -1,0 +1,157 @@
+input:disabled {
+  color: black;
+}
+
+.table {
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  background-color: #ffffff;
+  flex-direction: column;
+  width: 100%;
+  padding: 1em;
+}
+
+.tablerow {
+  display: grid;
+  grid-template-columns:
+    3em minmax(15em, 50em) repeat(2, minmax(5em, auto)) repeat(
+      2,
+      minmax(5em, 8em)
+    )
+    3em;
+  margin-bottom: 1rem;
+}
+
+textarea::placeholder {
+  color: transparent;
+}
+
+input::placeholder {
+  color: transparent;
+}
+input {
+  text-align: center;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--clr-secondary-dark);
+  background-color: transparent;
+  outline: none;
+}
+
+.articol {
+  border: none;
+  border-bottom: 1px solid var(--clr-secondary-dark);
+  background-color: transparent;
+  outline: none;
+  overflow: hidden;
+  min-height: 40px !important;
+}
+
+.minus {
+  background-color: transparent;
+  cursor: pointer;
+  color: #f76161;
+  border: none;
+  height: 3em;
+  margin: auto;
+  width: 100%;
+}
+.plus {
+  margin: 2rem 5rem 0 auto;
+  color: var(--clr-accent-green);
+  background-color: transparent;
+  border: 1px solid var(--clr-accent-green);
+}
+.icon {
+  transform: scale(1.5);
+}
+
+.tableheader {
+  display: grid;
+  grid-template-columns:
+    3em minmax(15em, 50em) repeat(2, minmax(5em, auto)) repeat(
+      2,
+      minmax(5em, 8em)
+    )
+    3em;
+  .header-input {
+    color: var(--clr-primary-light);
+    font-weight: 600;
+    border: none;
+    margin-bottom: 2rem;
+  }
+}
+
+@media print {
+  .content {
+    break-inside: auto;
+    margin-bottom: 3rem;
+  }
+
+  .tablerow {
+    break-inside: avoid !important;
+  }
+  .tableheader {
+    break-after: avoid;
+  }
+  .netto {
+    break-inside: avoid;
+    display: grid;
+    position: static;
+    margin-top: 2em;
+    .mwst {
+      background-color: var(--clr-lightinputs);
+      border: none;
+    }
+  }
+
+  // .plus {
+  //   display: none;
+  // }
+  .save {
+    display: none;
+  }
+  .searchform {
+    display: none;
+  }
+  .minus {
+    display: none;
+  }
+  .contcont {
+    height: auto;
+  }
+  .plus {
+    display: none;
+  }
+}
+@media screen and (max-width: 950px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    .tableheader {
+      display: none;
+    }
+    .tablerow {
+      all: unset;
+      gap: 0.5em;
+      display: flex;
+      flex-direction: column;
+    }
+    .plus {
+      position: relative;
+    }
+    input {
+      height: 2.6em;
+      font-size: 20px;
+      border: 2px --clr-links solid;
+    }
+
+    textarea::placeholder {
+      color: var(--clr-links);
+    }
+    input::placeholder {
+      color: var(--clr-links);
+    }
+  }
+}

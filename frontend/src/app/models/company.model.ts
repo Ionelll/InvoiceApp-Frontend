@@ -1,21 +1,19 @@
-import { Adresa } from './adresa.model';
+import { Adress } from './adress.model';
+import { Bank } from './bank.model';
 
 export interface Company {
   _id?: string;
-  name: string;
-  adresa: Adresa;
+  companyName?: string;
+  adress?: Adress;
   euid?: string;
-  registrationNumber: string;
-  web?: string;
+  registrationNumber?: string;
+  website?: string;
   logo?: string;
-  articles?: { nume: string; price: string; units: string }[];
-  phone: string;
-  mobile?: string;
-  fax?: string;
-  email: string;
-  caen?: string;
-  bank?: { name: string; iban: string; bic: string }[];
-  invoices?: { _id: string };
 
-  //  bank:string[]
+  phone?: string;
+  fax?: string;
+  mobile?: string;
+  email?: string;
+  caen?: string;
+  bank?: Bank[];
 }

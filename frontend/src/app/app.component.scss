@@ -1,7 +1,13 @@
 .router {
-  padding-left: 15rem;
+  padding: 6rem 7rem 3rem 7rem;
 }
+
 @media print {
+  .router {
+    padding: 0;
+  }
+}
+@media screen and (max-width: 950px) {
   .router {
     padding: 0;
   }

@@ -1,10 +1,15 @@
+import { Company } from './company.model';
+
 export interface User {
-  username: string;
-  adresa: string;
-  phone: string;
-  cui: string;
   email: string;
-  website: string;
   password: string;
-  numeFirma: string;
+  role: string;
+  company: Company;
+  preferedCurrency?: string;
+  preferedLanguage?: string;
+  preferedInvoiceText: string;
+  footNotes?: string;
+  preferedDuePeriod?: string;
+  preferedVat?: string;
+  articles?: [{ name: string; price: string; unit: string }];
 }

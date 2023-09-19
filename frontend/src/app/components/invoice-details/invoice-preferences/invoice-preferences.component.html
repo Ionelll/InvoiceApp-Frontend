@@ -1,0 +1,85 @@
+<div class="container">
+  <p class="label">Invoice Period</p>
+  <div class="dates">
+    <label for="startDate" class="label">from:</label>
+    <input
+      class="date input"
+      name="startDate"
+      type="date"
+      [(ngModel)]="startDate"
+      (change)="refreshDueDate()"
+    />
+    <label for="endDate" class="label">to:</label>
+    <input
+      class="date input"
+      name="endDate"
+      type="date"
+      [(ngModel)]="dueDate"
+    />
+  </div>
+  <p class="label">Invoice type</p>
+  <select [(ngModel)]="invoiceType" (change)="setInvoiceType()" class="input">
+    <option value="326">Partial invoice</option>
+    <option value="380">Commercial invoice</option>
+    <option value="384">Corrected invoice</option>
+    <option value="389">Self-billed Invoice</option>
+    <option value="381">Credit note</option>
+    <option value="875">Partial construction invoice</option>
+    <option value="876">Partial final contruction invoice</option>
+    <option value="877">Final construction invoice</option>
+  </select>
+
+  <p class="label">VAT %</p>
+  <input
+    type="number"
+    maxlength="2"
+    class="input"
+    [(ngModel)]="vatPercent"
+    (change)="setVATPercent()"
+  />
+  <p class="label">Currency</p>
+  <select [(ngModel)]="currency" (change)="setCurrency()" class="input">
+    <option>$</option>
+    <option>RON</option>
+    <option>€</option>
+  </select>
+
+  <p class="label">Order reference</p>
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="orderRef"
+    (change)="setOrderRef()"
+  />
+  <p class="label">Contract reference</p>
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="contractRef"
+    (change)="setContractRef()"
+  />
+
+  <p class="label">Invoice introduction:</p>
+  <div matRipple matRippleColor="var(--clr-input-focused)" class="ripple">
+    <textarea
+      (input)="saveData()"
+      class="text"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="3"
+    >
+    Thank you for your order and your trust. You will be charged the following amount for our work and material:
+  </textarea
+    >
+  </div>
+  <p class="label">Footnote</p>
+  <div matRipple matRippleColor="var(--clr-input-focused)" class="ripple">
+    <textarea
+      (input)="saveData()"
+      class="text"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="3"
+    ></textarea>
+  </div>
+</div>

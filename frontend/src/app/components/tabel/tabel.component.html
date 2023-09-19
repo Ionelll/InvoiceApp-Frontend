@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="table" id="content" [formGroup]="tabel">
+    <div class="tableheader">
+      <input class="header-input pos" value="Pos." disabled />
+      <input class="header-input" value="Article" disabled />
+      <input class="header-input" value="Unit" disabled />
+      <input class="header-input" value="Ammount" disabled />
+      <input
+        class="header-input"
+        value="Cost per unit ({{ currency }})"
+        disabled
+      />
+      <input class="header-input" value="Total" disabled />
+    </div>
+
+    <div
+      class="tablerow"
+      id="tablerow"
+      @enterleave
+      [@.disabled]="disableAnimation"
+      formArrayName="array"
+      *ngFor="let row of tabel.controls.array.controls; index as i"
+    >
+      <input class="pos" [value]="i + 1" disabled />
+
+      <ng-container [formGroupName]="i">
+        <textarea
+          placeholder="Article"
+          class="articol"
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          formControlName="articol"
+          [matAutocomplete]="auto2"
+        ></textarea>
+        <mat-autocomplete class="mat-input-element" #auto2="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions[i] | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+        <input
+          type="text"
+          class="unit"
+          formControlName="unit"
+          placeholder="Unit"
+        />
+        <input
+          type="number"
+          class="bucati"
+          formControlName="bucati"
+          placeholder="Ammount"
+        />
+        <input
+          type="number"
+          class="prett"
+          formControlName="pret"
+          placeholder="Price per Unit"
+        />
+      </ng-container>
+      <input
+        type="text"
+        class="total"
+        lang="de"
+        [value]="suma(i) | currency : currency"
+        disabled
+      />
+      <button (click)="removeInput(i)" class="minus" [tabindex]="-1">
+        <mat-icon class="actionslabel">delete_outline</mat-icon>
+      </button>
+    </div>
+
+    <button mat-fab (click)="addInput()" class="plus">
+      <mat-icon class="icon">add</mat-icon>
+    </button>
+  </div>
+</div>

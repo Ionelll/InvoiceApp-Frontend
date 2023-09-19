@@ -1,0 +1,38 @@
+.search {
+  width: 100%;
+  padding: 0.7em;
+  font-size: calc(16px + 0.2vw);
+  outline: none;
+  border: none;
+  border-radius: 15px;
+  background-color: #ffffff11;
+  color: var(--clr-secondary-light);
+
+  &:focus {
+    background-color: #ffffff15;
+  }
+}
+.ripple {
+  border-radius: 15px;
+}
+.label {
+  position: relative;
+  text-align: left;
+  z-index: 500;
+  font-size: 14px;
+  padding: 0 0.1em 0 0.1em;
+  margin-left: 4px;
+  background-color: transparent;
+  width: fit-content;
+  color: var(--clr-links);
+}
+.search::placeholder {
+  color: var(--clr-secondary-dark);
+  font-family: "Poppins", sans-serif;
+  font-style: italic;
+}
+@media print {
+  .container {
+    display: none;
+  }
+}

@@ -1,24 +1,39 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FacturaNouaComponent } from './factura-noua/facturanoua.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { CompanyComponent } from './company/company.component';
-import { UserComponent } from './user/user.component';
+import { FacturaNouaComponent } from './pages/factura-noua/facturanoua.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { CompanyComponent } from './pages/company/company.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { AccountComponent } from './pages/account/account.component';
+import { loggedInGuard } from './guards/loggedIn.guard';
 
 const routes: Routes = [
-  {path:'',component : FacturaNouaComponent},
-  {path:'dashboard',component:DashboardComponent,children:[
-    {path:'user/:username',component:UserComponent},
-    {path:'company/:id',component:CompanyComponent},
-    {path:'login',component:LoginComponent},    
-  ]},
-  
-  
+  {
+    path: 'invoice',
+    component: FacturaNouaComponent,
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  {
+    path: 'company',
+    component: CompanyComponent,
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent,
+    canActivate: [loggedInGuard],
+  },
+  {
+    path: 'account',
+    component: AccountComponent,
+  },
+  { path: '**', redirectTo: 'invoice', pathMatch: 'full' },
+  { path: '', redirectTo: 'invoice', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

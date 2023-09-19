@@ -1,0 +1,26 @@
+<div class="container">
+  <form class="searchform">
+    <div matRipple [matRippleColor]="'#ffffff10'" class="ripple">
+      <input
+        type="text"
+        class="search"
+        placeholder="Search"
+        required
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+      />
+    </div>
+
+    <mat-autocomplete
+      class="mat-input-element"
+      #auto="matAutocomplete"
+      (optionSelected)="
+        onSearchClient(); (searchControl.markAsUntouched); searchControl.reset()
+      "
+    >
+      <mat-option *ngFor="let option of clientList" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </form>
+</div>

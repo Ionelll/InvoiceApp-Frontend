@@ -1,0 +1,84 @@
+.card {
+  background-color: #faffff;
+  border-radius: 10px;
+  box-shadow: 2px 3px 13px 2px rgba(0, 0, 0, 0.72);
+  max-width: 60%;
+  margin: 6rem auto;
+  padding: 0 0 2em 0;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-image: linear-gradient(to bottom, #c7ffff, #fefffb00);
+  padding: 1em;
+  border-radius: 10px 10px 0 0;
+}
+.signup {
+  color: var(--clr-secondary-dark);
+}
+.title {
+  font-size: 25px;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  border-radius: 10px 10px 0 0;
+  margin: 0;
+  color: var(--clr-secondary-dark);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+  margin: 2rem auto 0 auto;
+  gap: 3em;
+}
+.ng-valid[required],
+.ng-valid.required,
+.ng-pristine[required],
+.ng-pristine.required {
+  background-color: transparent;
+}
+
+.ng-touched:not(form),
+.ng-invalid:not(form) {
+  background-color: var(--clr-accent-light);
+}
+
+.input {
+  width: 100%;
+  font-size: 1.01em;
+  padding: 15px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--clr-secondary-light);
+  transition-duration: 1s;
+  border-radius: 5px 5px 0 0;
+  &:focus {
+    background-color: #80e6d843;
+    transition-duration: 0.5s;
+  }
+}
+
+.button {
+  all: unset;
+  background-color: var(--clr-secondary-dark);
+  margin: auto 0 auto auto;
+  padding: 0.8em 1.5em;
+  color: var(--clr-secondary-light);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition-duration: 0.1s;
+  &:hover {
+    box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.5);
+  }
+}
+.button:disabled {
+  cursor: not-allowed;
+  background-color: rgba(128, 128, 128, 0.401);
+  color: white;
+  box-shadow: none;
+  &:hover {
+    box-shadow: none;
+  }
+}

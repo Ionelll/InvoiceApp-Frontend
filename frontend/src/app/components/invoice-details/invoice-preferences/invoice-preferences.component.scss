@@ -1,0 +1,54 @@
+.container {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  row-gap: 1rem;
+}
+p {
+  grid-column: 1;
+}
+.input,
+.text {
+  border: none;
+  border-bottom: 1px solid var(--clr-secondary-dark);
+  line-height: 1em;
+  margin: auto 0;
+  width: 100%;
+  transition: 0.5s;
+  padding-top: 0.2em;
+  &:focus {
+    background-color: var(--clr-input-focused);
+  }
+}
+.text {
+  font-size: calc(16px + 0.3vw);
+  overflow: hidden;
+  padding-top: 1rem;
+}
+.input {
+  font-size: larger;
+  text-align: center;
+  margin: auto;
+  outline: none;
+}
+.date {
+  width: 40%;
+}
+.dates {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.label {
+  color: var(--clr-primary-light);
+  font-weight: 700;
+  margin: auto 0;
+  text-align: start;
+}
+.items {
+  display: flex;
+}
+.ripple {
+  overflow: hidden;
+}

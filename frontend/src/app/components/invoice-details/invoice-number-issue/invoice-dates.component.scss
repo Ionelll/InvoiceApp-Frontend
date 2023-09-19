@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--clr-primary);
+  color: var(--clr-secondary-light);
+  height: 100%;
+}
+
+.items {
+  display: flex;
+}
+.ripple {
+  border-radius: 10px;
+}
+.nrfactura {
+  font-size: calc(16px + 0.3vw);
+  color: var(--clr-secondary-light);
+  text-align: center;
+  border: none;
+  outline: none;
+  background-color: #ffffff11;
+  padding: 0.3em 0;
+  border-radius: 10px;
+  &:focus {
+    background-color: #ffffff15;
+  }
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+label {
+  margin: auto 0;
+  font-size: calc(16px + 0.05vw);
+}
+.date {
+  color: var(--clr-secondary-light);
+  border: none;
+  font-size: 16px;
+  padding: 0.2em;
+  color-scheme: dark;
+  outline: none;
+}

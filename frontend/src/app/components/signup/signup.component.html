@@ -1,0 +1,79 @@
+<div class="card">
+  <div class="header">
+    <p class="title">Sign up</p>
+  </div>
+
+  <form #userform="ngForm" class="content">
+    <div class="inputcontainer">
+      <label for="email">email:</label>
+      <div
+        matRipple
+        class="ripple"
+        [matRippleColor]="'var(--clr-input-focused)'"
+      >
+        <input
+          required
+          class="input"
+          name="email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+          type="text"
+          ngModel
+        />
+      </div>
+    </div>
+    <div class="inputcontainer">
+      <label for="password">password:</label>
+      <div
+        matRipple
+        class="ripple"
+        [matRippleColor]="'var(--clr-input-focused)'"
+      >
+        <input required class="input" type="password" name="password" ngModel />
+      </div>
+    </div>
+    <div class="inputcontainer">
+      <label for="passwordretype">retype password:</label>
+      <div
+        matRipple
+        class="ripple"
+        [matRippleColor]="'var(--clr-input-focused)'"
+      >
+        <input
+          required
+          class="input"
+          type="password"
+          name="passwordretype"
+          pattern="{{ userform.value.password }}"
+          ngModel
+        />
+      </div>
+    </div>
+    <div class="inputcontainer">
+      <label for="companyName">Company name:</label>
+      <div
+        matRipple
+        class="ripple"
+        [matRippleColor]="'var(--clr-input-focused)'"
+      >
+        <input required class="input" name="companyName" type="text" ngModel />
+      </div>
+    </div>
+    <div class="inputcontainer">
+      <label for="registrationNumber">registration number:</label>
+      <div
+        matRipple
+        class="ripple"
+        [matRippleColor]="'var(--clr-input-focused)'"
+      >
+        <input
+          required
+          class="input"
+          name="registrationNumber"
+          type="text"
+          ngModel
+        />
+      </div>
+    </div>
+    <button class="button" (click)="register(userform)">Sign up</button>
+  </form>
+</div>

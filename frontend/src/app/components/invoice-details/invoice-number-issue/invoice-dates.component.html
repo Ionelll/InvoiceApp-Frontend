@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="items">
+    <label for="invoice-number" class="label">Invoice Nr.:</label>
+    <input
+      type="text"
+      name="invoice-number"
+      class="nrfactura"
+      (change)="saveInvoiceNr()"
+      [(ngModel)]="invoiceNr"
+    />
+  </div>
+  <div class="items">
+    <label class="label">Issue date:</label>
+    <input type="date" class="date" [(ngModel)]="issued" />
+  </div>
+</div>

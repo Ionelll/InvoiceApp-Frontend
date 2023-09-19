@@ -1,0 +1,91 @@
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  max-width: 60%;
+  margin: auto;
+  padding: 0 0 2em 0;
+  border: 1px solid var(--clr-primary);
+}
+.header {
+  display: flex;
+  background-color: var(--clr-primary);
+  padding: 1em;
+  border-radius: 10px 10px 0 0;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  border-radius: 10px 10px 0 0;
+  margin: 0;
+  color: var(--clr-secondary-light);
+}
+.content {
+  padding: 1rem 1em;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2em;
+}
+
+.ng-valid[required],
+.ng-valid.required,
+.ng-untouched[required],
+.ng-untouched.required {
+  background-color: transparent;
+}
+
+.ng-invalid:not(form) {
+  background-color: var(--clr-input-invalid);
+}
+.inputcontainer {
+  width: 100%;
+  display: flex;
+}
+.ripple {
+  width: 100%;
+}
+.input {
+  width: 100%;
+  font-size: 1.01em;
+  padding: 15px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--clr-secondary-dark);
+  text-align: center;
+  transition-duration: 1s;
+  border-radius: 5px 5px 0 0;
+  &:focus {
+    background-color: var(--clr-input-focused);
+    transition-duration: 0.5s;
+  }
+}
+label {
+  margin: auto 0 0 0;
+  width: 20%;
+  text-align: center;
+}
+
+.button {
+  all: unset;
+  background-color: var(--clr-secondary-dark);
+  padding: 0.8em 1.5em;
+  color: var(--clr-secondary-light);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition-duration: 0.1s;
+  &:hover {
+    box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.5);
+  }
+}
+.button:disabled {
+  cursor: not-allowed;
+  background-color: rgba(128, 128, 128, 0.401);
+  color: rgba(0, 0, 0, 0.708);
+  box-shadow: none;
+  &:hover {
+    box-shadow: none;
+  }
+}

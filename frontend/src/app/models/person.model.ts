@@ -1,8 +1,8 @@
-import { Adresa } from './adresa.model';
+import { Adress } from './adress.model';
 export interface Person {
-  _id: string;
-  nume: string;
-  adresa: Adresa;
-  telefon: string;
+  id: string;
+  name: string;
+  adress: Adress;
+  phone: string;
   email: string;
 }

@@ -1,0 +1,17 @@
+<div class="buttons-container">
+  <button
+    class="button new"
+    *ngIf="formChanged || formPristine"
+    (click)="clear()"
+  >
+    Clear
+  </button>
+  <button
+    class="button save"
+    *ngIf="(formChanged || formValid) && !formPristine"
+    [disabled]="!formValid"
+    (click)="save()"
+  >
+    Save
+  </button>
+</div>

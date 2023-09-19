@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
+@import "./material-theming.scss";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -11,11 +12,14 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$frontend-primary: mat.define-palette(mat.$indigo-palette);
-$frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$frontend-primary: mat.define-palette($md-primary, 500);
+$frontend-accent: mat.define-palette($md-accent, A200, A100, A400);
+$frontend-primary-dark: mat.define-palette($md-primary, 900);
+$frontend-accent-dark: mat.define-palette($md-accent, A700);
 
 // The warn palette is optional (defaults to red).
-$frontend-warn: mat.define-palette(mat.$red-palette);
+$frontend-warn: mat.define-palette($md-accent, A400);
+$frontend-warn-dark: mat.define-palette($md-accent, A700);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -28,6 +32,15 @@ $frontend-theme: mat.define-light-theme(
     ),
   )
 );
+$frontend-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $frontend-primary-dark,
+      accent: $frontend-accent-dark,
+      warn: $frontend-warn-dark,
+    ),
+  )
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -36,15 +49,33 @@ $frontend-theme: mat.define-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --clr-primary: #5cd4ff21;
-  --clr-background: #fffefb;
-  --clr-links: #15557a;
-  --clr-linksactive: #0d88d0;
-  --clr-add: rgba(188, 228, 170, 0.119);
-  --clr-minus: #f36767;
-  --clr-save: #3b923b;
-  --clr-lightinputs: #0d89d00b;
-  --clr-darkinputs: #0089d818;
+  --clr-input-focused: #029de514;
+  --clr-input-invalid: #ffd4e635;
+  --clr-background: #f3fffe;
+  --clr-primary: #002333;
+  --clr-primary-light: #3b5571;
+  --clr-secondary-light: #ffffff;
+  --clr-secondary-dark: #b4bec9;
+  --clr-accent-red: #ff006ab2;
+  --clr-accent-green: #0ea700;
+}
+input,
+textarea,
+p {
+  background: transparent;
+  font-family: "Roboto", sans-serif;
+}
+a {
+  font-family: "Ubuntu", sans-serif;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  appearance: none;
+  -moz-appearance: textfield;
 }
 html,
 body {
@@ -54,23 +85,24 @@ body {
   height: 100%;
   user-select: none;
   float: none;
-  background-color: #fffefb;
+  background-color: var(--clr-background);
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--clr-secondary-dark);
+    margin: 10rem 0 10rem 0;
+    border-radius: 15px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background: var(--clr-primary);
+  }
 }
 * {
   box-sizing: border-box;
 }
-html,
-body {
-  height: 100%;
-}
-input,
-textarea {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 16px;
-}
-body {
-  margin: 0;
-}
+
 a {
   cursor: pointer;
 }
@@ -78,5 +110,6 @@ a {
   html,
   body {
     background-color: white;
+    color: black;
   }
 }
