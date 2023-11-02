@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="button-container">
+    <button
+      class="button"
+      [disabled]="!clientValid || !detailsValid || !itemsValid"
+    >
+      Save
+    </button>
+    <a
+      [ngClass]="{
+        'button-disabled': !clientValid || !detailsValid || !itemsValid,
+        button: true
+      }"
+      [routerLink]="['/invoice-preview']"
+      target="_blanck"
+    >
+      Export
+    </a>
+    <button class="button" (click)="newInvoice()">New</button>
+  </div>
+  <div class="client">
+    <div class="header">
+      <p class="tabName">CLIENT</p>
+      <app-search-client></app-search-client>
+      <div
+        [ngClass]="{
+          'client-name': clientValid,
+          'client-invalid': !clientValid
+        }"
+      >
+        {{ clientValid ? clientName : "Client information incomplete!" }}
+      </div>
+      <button class="toggle" (click)="clientToggle = !clientToggle">
+        <mat-icon class="arrow" *ngIf="!clientToggle"
+          >keyboard_arrow_down</mat-icon
+        >
+        <mat-icon class="arrow" *ngIf="clientToggle"
+          >keyboard_arrow_up</mat-icon
+        >
+      </button>
+    </div>
+    <div class="body" *ngIf="clientToggle" @openClose>
+      <app-client class="form"></app-client>
+    </div>
+  </div>
+  <div class="details">
+    <div class="header">
+      <p class="tabName">DETAILS</p>
+      <app-dates class="number-date"></app-dates>
+      <button class="toggle" (click)="detailsToggle = !detailsToggle">
+        <mat-icon *ngIf="!detailsToggle">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="detailsToggle">keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+    <div class="body" *ngIf="detailsToggle" @openClose>
+      <app-invoice-preferences class="form"></app-invoice-preferences>
+    </div>
+  </div>
+  <div class="items">
+    <div class="header">
+      <p class="tabName">ITEMS</p>
+      <app-invoice-totals class="totals"></app-invoice-totals>
+    </div>
+    <div class="body">
+      <app-tabel></app-tabel>
+    </div>
+  </div>
+</div>

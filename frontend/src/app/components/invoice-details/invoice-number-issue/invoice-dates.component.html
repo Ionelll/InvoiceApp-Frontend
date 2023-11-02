@@ -1,16 +1,15 @@
-<div class="container">
+<form [formGroup]="invoiceNrandDate" class="container">
   <div class="items">
-    <label for="invoice-number" class="label">Invoice Nr.:</label>
+    <label for="invoicenumber" class="label">Invoice Nr.</label>
     <input
       type="text"
-      name="invoice-number"
+      id="invoicenumber"
       class="nrfactura"
-      (change)="saveInvoiceNr()"
-      [(ngModel)]="invoiceNr"
+      formControlName="invoiceNr"
     />
   </div>
   <div class="items">
-    <label class="label">Issue date:</label>
-    <input type="date" class="date" [(ngModel)]="issued" />
+    <label class="label">Issue date</label>
+    <input type="date" class="date" formControlName="issued" />
   </div>
-</div>
+</form>

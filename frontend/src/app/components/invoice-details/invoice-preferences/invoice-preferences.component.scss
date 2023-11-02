@@ -4,32 +4,32 @@
   grid-template-columns: 0.2fr 1fr;
   row-gap: 1rem;
 }
-p {
-  grid-column: 1;
+.ng-invalid:not(form) {
+  border-bottom: 1px solid var(--clr-accent-red);
 }
+
 .input,
 .text {
   border: none;
-  border-bottom: 1px solid var(--clr-secondary-dark);
+  border-bottom: 1px solid var(--clr-primary-light);
   line-height: 1em;
   margin: auto 0;
   width: 100%;
   transition: 0.5s;
   padding-top: 0.2em;
-  &:focus {
-    background-color: var(--clr-input-focused);
-  }
+  outline: none;
 }
 .text {
   font-size: calc(16px + 0.3vw);
   overflow: hidden;
-  padding-top: 1rem;
+  padding: 1em;
 }
 .input {
   font-size: larger;
   text-align: center;
   margin: auto;
-  outline: none;
+
+  width: 70%;
 }
 .date {
   width: 40%;
@@ -42,8 +42,10 @@ p {
 }
 .label {
   color: var(--clr-primary-light);
-  font-weight: 700;
-  margin: auto 0;
+
+  font-size: smaller;
+  font-weight: 600;
+  margin: 0;
   text-align: start;
 }
 .items {

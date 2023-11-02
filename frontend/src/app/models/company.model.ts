@@ -9,7 +9,6 @@ export interface Company {
   registrationNumber?: string;
   website?: string;
   logo?: string;
-
   phone?: string;
   fax?: string;
   mobile?: string;

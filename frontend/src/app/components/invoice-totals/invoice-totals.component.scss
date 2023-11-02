@@ -1,24 +1,25 @@
 .netto {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   height: 100%;
 }
 .input {
-  font-size: calc(16px + 0.3vw);
-  color: var(--clr-secondary-light);
+  font-size: 14px;
+
   text-align: center;
-  border: none;
+  border: 1px solid var(--clr-primary-light);
   outline: none;
-  background-color: #ffffff11;
   padding: 0.3em 0;
   border-radius: 10px;
   margin: auto 0;
-  &:focus {
-    background-color: #ffffff15;
-  }
 }
-
 .label {
-  color: var(--clr-secondary-light);
+  margin: auto 0;
+  color: var(--clr-primary-light);
+  font-size: 14px;
+}
+.item {
+  display: flex;
+  gap: 1rem;
 }

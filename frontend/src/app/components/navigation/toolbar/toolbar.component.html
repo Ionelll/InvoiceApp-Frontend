@@ -1,0 +1,22 @@
+<div class="toolbar">
+  <div class="invoice">
+    <div class="links">
+      <a class="button" routerLink="client" routerLinkActive="button-active">
+        Client
+      </a>
+      <a class="button" routerLink="details" routerLinkActive="button-active">
+        Invoice Details
+      </a>
+      <a class="button" routerLinkActive="button-active" routerLink="articles">
+        Articles
+      </a>
+    </div>
+    <div class="buttons">
+      <button class="button">Save</button>
+      <a class="button" [routerLink]="['/invoice-preview']" target="_blank"
+        >Export</a
+      >
+      <button class="button">New</button>
+    </div>
+  </div>
+</div>

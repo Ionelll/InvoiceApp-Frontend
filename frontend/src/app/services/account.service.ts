@@ -1,27 +1,40 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Company } from '../models/company.model';
 import { environment } from 'src/environment/environment';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
-import { CreateInvoice } from './invoice-services/articles.service';
+import { InvoiceDetails } from './invoice-services/details.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   private user = new BehaviorSubject<User>(undefined);
+  private company = new BehaviorSubject<Company>(undefined);
+  private companyValidation = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private details: InvoiceDetails
+  ) {}
 
   login(form: FormData) {
     this.http
-      .post<User>(`${environment.apiUrl}/login`, form)
+      .post<{ loggedin: string; user: User }>(
+        `${environment.apiUrl}/login`,
+        form
+      )
       .subscribe((res) => {
-        this.user.next(res);
-        sessionStorage.setItem('VAT-PERCENT', res.preferedVat);
-        sessionStorage.setItem('DUE-PERIOD', res.preferedDuePeriod);
-        sessionStorage.setItem('CURRENCY', res.preferedCurrency);
-        sessionStorage.setItem('ARTICLES', JSON.stringify(res.articles));
+        this.user.next(res.user);
+        this.company.next(res.user.company);
+        console.log(res);
+        sessionStorage.setItem('VAT-PERCENT', res.user.preferedVat);
+        sessionStorage.setItem('DUE-PERIOD', res.user.preferedDuePeriod);
+        sessionStorage.setItem('CURRENCY', res.user.preferedCurrency);
+        sessionStorage.setItem('ARTICLES', JSON.stringify(res.user.articles));
+        localStorage.setItem('Company', JSON.stringify(res.user.company));
+        this.details.setInvoiceNr(res.user.nextInvoiceNr);
         this.router.navigate(['invoice']);
       });
   }
@@ -32,13 +45,19 @@ export class AccountService {
         `${environment.apiUrl}/isloggedin`
       )
       .subscribe((res) => {
-        if (res.loggedin) this.user.next(res.user);
-        else this.user.next(undefined);
+        console.log(res);
+        if (res.loggedin) {
+          this.user.next(res.user);
+          this.company.next(res.user.company);
+        } else this.user.next(undefined);
       });
   }
 
   getUser() {
     return this.user.asObservable();
+  }
+  getCompany() {
+    return this.company.asObservable();
   }
   logout() {
     this.user.next(undefined);
@@ -47,17 +66,27 @@ export class AccountService {
     window.location.reload();
   }
 
-  updateCompany(company: Company) {
+  updateCompany(company: FormData) {
     this.http
-      .post<User>(`${environment.apiUrl}/updatecompany`, {
-        company: company,
-        id: this.user.value.company._id,
-      })
+      .post<{ company: Company; message: string }>(
+        `${environment.apiUrl}/updatecompany`,
+        company
+      )
       .subscribe((res) => {
-        this.user.next(res);
+        this.company.next(res.company);
       });
   }
   register(form: FormData) {
-    this.http.post<User>(`${environment.apiUrl}/register`, form).subscribe();
+    this.http
+      .post<Company>(`${environment.apiUrl}/register`, form)
+      .subscribe((res) => {
+        this.company.next(res);
+      });
+  }
+  setCompanyValidation(value) {
+    this.companyValidation.next(value);
+  }
+  getCompanyValidation() {
+    return this.companyValidation.asObservable();
   }
 }

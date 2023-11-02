@@ -1,6 +1,121 @@
 <div class="container">
-      <div class="client">
-            <h1 class="header">Cient</h1>
-            
+  <div class="invoice-container">
+    <div class="title">
+      <h1 class="invoice">INVOICE</h1>
+      <div class="item">
+        <p class="label">Invoice Nr.</p>
+        <p class="value">{{ invoiceNrandDate.invoiceNr }}</p>
+
+        <p class="label">Issued</p>
+        <p class="value">{{ invoiceNrandDate.issued | date }}</p>
+
+        <p class="label">Due</p>
+        <p class="value">{{ invoiceDetails.endDate | date }}</p>
       </div>
+    </div>
+    <div class="section" *ngIf="company">
+      <h2 class="companyName">{{ company.companyName }}</h2>
+      <div class="imgcontainer">
+        <img *ngIf="logo" [src]="logo" alt="logo" class="logo" />
+      </div>
+
+      <div class="details">
+        <mat-icon class="icon-label">location_on</mat-icon>
+        <p class="value">
+          {{ company.adress.street }} {{ company.adress.number }},
+          {{ company.adress.city }}, {{ company.adress.region }},
+          {{ company.adress.country }}, <br />PostalCode
+          {{ company.adress.postalCode }}
+        </p>
+
+        <mat-icon class="icon-label" *ngIf="company.phone"
+          >local_phone</mat-icon
+        >
+        <p class="value" *ngIf="company.phone">{{ company.phone }}</p>
+        <mat-icon class="icon-label" *ngIf="company.mobile"
+          >smartphone</mat-icon
+        >
+        <p class="value" *ngIf="company.mobile">{{ company.mobile }}</p>
+        <mat-icon class="icon-label" *ngIf="company.email">email</mat-icon>
+        <p class="value" *ngIf="company.email">{{ company.email }}</p>
+        <mat-icon class="icon-label" *ngIf="company.website">web</mat-icon>
+        <a
+          [href]="company.website"
+          target="_blank"
+          *ngIf="company.website"
+          class="link"
+          >{{ company.website }}</a
+        >
+        <mat-icon class="icon-label">credit_card</mat-icon>
+        <div *ngFor="let bank of company.bank">
+          <p class="value">{{ bank.bankname }}</p>
+          <p class="value">{{ bank.iban }}</p>
+          <p class="value">{{ bank.bic }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="separator">
+      <p>Buyer:</p>
+      <p *ngIf="deliveryAdress">Delivery to:</p>
+    </div>
+    <div [ngClass]="{ section: true, 'separator-single': !deliveryAdress }">
+      <div class="body">
+        <h2 class="clientName">{{ client.companyName }}</h2>
+        <div class="details">
+          <mat-icon class="icon-label">location_on</mat-icon>
+          <p class="value">
+            {{ client.adress.street }} {{ client.adress.number }},
+            {{ client.adress.city }}, {{ client.adress.region }},
+            {{ client.adress.country }}, Postal Code
+            {{ client.adress.postalCode }}
+          </p>
+          <mat-icon class="icon-label" *ngIf="client.phone"
+            >local_phone</mat-icon
+          >
+          <p class="value" *ngIf="client.phone">{{ client.phone }}</p>
+          <mat-icon class="icon-label" *ngIf="client.mobile"
+            >smartphone</mat-icon
+          >
+          <p class="value" *ngIf="client.mobile">{{ client.mobile }}</p>
+          <mat-icon class="icon-label" *ngIf="client.email">email</mat-icon>
+          <p class="value" *ngIf="client.email">{{ client.email }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="invoice-details">
+      <span>{{ invoiceDetails.introduction }}</span>
+    </div>
+    <div class="table">
+      <div class="table-header">
+        <p>Pos.</p>
+        <p>Article</p>
+        <p>Unit</p>
+        <p>Ammount</p>
+        <p>Cost per unit</p>
+        <p>Total</p>
+      </div>
+      <div class="row" *ngFor="let item of table; index as i">
+        <p>{{ i + 1 }}</p>
+        <span>{{ item.articol }}</span>
+        <p>{{ item.unit }}</p>
+        <p>{{ item.bucati }}</p>
+        <p>
+          {{
+            item.pret.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })
+          }}
+          {{ invoiceDetails.currency }}
+        </p>
+        <p>
+          {{ (item.bucati * item.pret).toLocaleString() }}
+          {{ invoiceDetails.currency }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="buttons-container">
+    <button class="button" (click)="print()">Save Pdf or Print</button>
+  </div>
 </div>

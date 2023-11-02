@@ -14,6 +14,7 @@ export class SearchClientComponent implements OnInit {
 
   public searchControl = new FormControl();
   public clientList: string[];
+
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(debounceTime(500))

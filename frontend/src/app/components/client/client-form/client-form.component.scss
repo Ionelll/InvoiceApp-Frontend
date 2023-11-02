@@ -6,11 +6,15 @@
 .ng-invalid:not(form) {
   border-bottom: 1px solid var(--clr-accent-red);
 }
-.ng-valid[required],
-.ng-valid.required,
-.ng-untouched[required],
-.ng-untouched.required {
-  border-bottom: 1px solid var(--clr-secondary-dark);
+
+.label {
+  grid-column: 1;
+  color: var(--clr-primary-light);
+  margin: auto;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 .clientdata {
@@ -22,36 +26,28 @@
 
 .input {
   width: 100%;
-  font-size: calc(16px + 0.03vw);
+  font-size: large;
   text-align: center;
   padding: 10px 0 0 0;
   outline: none;
   border: none;
-  border-bottom: 1px solid var(--clr-secondary-dark);
-  transition-duration: 0.5s;
-  &:focus {
-    background-color: var(--clr-input-focused);
-    transition-duration: 0.5s;
-  }
+  border-bottom: 1px solid var(--clr-primary-light);
 }
 .adressinput {
   font-size: small;
 }
 
-.label {
-  grid-column: 1;
-  color: var(--clr-primary-light);
-  margin: auto auto -3px 0;
-  font-size: small;
-  font-weight: 700;
-}
 .adress-label {
   color: var(--clr-primary-light);
   margin: auto auto -3px auto;
   font-size: smaller;
 }
 .adress-title {
-  margin: auto 0;
+  grid-column: 1;
+  color: var(--clr-primary-light);
+  margin: auto;
+  font-size: 12px;
+  font-weight: 400;
 }
 .adress-container {
   grid-column: 2;
@@ -62,31 +58,36 @@
 .phone {
   margin-top: 10px;
 }
-.clientname {
-  font-size: calc(16px + 0.7vw);
-  border: none;
-  color: var(--clr-primary);
-  border-bottom: 1px solid var(--clr-secondary-dark);
-  &:focus {
-    background-color: transparent;
-  }
-}
-.ripple {
-  border: none;
-  height: 100%;
-}
-.invalid-text {
-  grid-column-start: 1;
-  grid-column-end: 3;
+.label-invalid {
   color: var(--clr-accent-red);
-  font-size: 14px;
-  width: 100%;
+}
+.button {
+  all: unset;
+  grid-column: 2;
+  color: var(--clr-primary-light);
+  padding: 0.5em 0.7em;
   text-align: center;
-  padding: 15px 0 10px 0;
+  width: 5rem;
+  margin: auto;
+  margin-right: 0;
+  outline: none;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  // box-shadow: 1px 1px 4px 0px hsl(0deg 0% 0% / 35%);
+  // text-shadow: 0 4px 4px #000;
 }
-.show-invalid-text {
-  opacity: 1;
-}
-.hide-invalid-text {
-  opacity: 0;
+.save-cancel-container {
+  width: 100%;
+  grid-column: 2;
+  display: flex;
+  padding: 3rem;
+  justify-content: flex-end;
+  .button {
+    margin: auto 0;
+  }
 }

@@ -12,4 +12,5 @@ export interface User {
   preferedDuePeriod?: string;
   preferedVat?: string;
   articles?: [{ name: string; price: string; unit: string }];
+  nextInvoiceNr?: string;
 }

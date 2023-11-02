@@ -4,8 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FacturaNouaComponent } from './pages/factura-noua/facturanoua.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
+import { FacturaNouaComponent } from './pages/invoice/facturanoua.component';
+import { NavbarComponent } from './components/navigation/navbar/navbar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatInputModule } from '@angular/material/input';
 import { DatePipe } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
-import { CompanyComponent } from './pages/company/company.component';
+import { CompanyComponent } from './components/company/company-details/company.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { ClientFormComponent } from './components/client/client-form/client-form.component';
 import { TabelComponent } from './components/tabel/tabel.component';
@@ -24,25 +24,25 @@ import { MatRippleModule } from '@angular/material/core';
 import { CustomInterceptor } from './services/interceptor';
 import { SignupComponent } from './components/signup/signup.component';
 import { AccountComponent } from './pages/account/account.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import { SaveExportNewComponent } from './components/save-export-new/save-export-new.component';
 import { loggedInGuard } from './guards/loggedIn.guard';
 import { InvoiceTotalsComponent } from './components/invoice-totals/invoice-totals.component';
 import { ClientControlsComponent } from './components/client/client-controls/client-controls.component';
-import { InvoiceTextComponent } from './components/invoice-details/invoice-text/invoice-text.component';
 import { InvoicePreferencesComponent } from './components/invoice-details/invoice-preferences/invoice-preferences.component';
-import { ExportComponent } from './pages/export/export.component';
 import { CommonModule } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/de-BE';
 import { InvoicePreviewComponent } from './pages/invoice-preview/invoice-preview.component';
+import { DashboardPageComponent } from './pages/dashboard/dashboard.component';
+import { SettingsComponent } from './components/company/settings/settings.component';
+import { ToolbarComponent } from './components/navigation/toolbar/toolbar.component';
+
 registerLocaleData(localeFr, 'de-BE');
 
 @NgModule({
   declarations: [
     AppComponent,
     FacturaNouaComponent,
-    NavigationComponent,
+    NavbarComponent,
     LoginComponent,
     CompanyComponent,
     ReportsComponent,
@@ -52,14 +52,13 @@ registerLocaleData(localeFr, 'de-BE');
     SearchClientComponent,
     SignupComponent,
     AccountComponent,
-    LogoutComponent,
-    SaveExportNewComponent,
     InvoiceTotalsComponent,
     ClientControlsComponent,
-    InvoiceTextComponent,
     InvoicePreferencesComponent,
-    ExportComponent,
     InvoicePreviewComponent,
+    DashboardPageComponent,
+    SettingsComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,

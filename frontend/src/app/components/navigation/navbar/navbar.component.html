@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="content">
+    <div class="logo-container">
+      <p class="logo1">Invoice</p>
+      <p class="logo2">Free</p>
+    </div>
+
+    <div class="links-container">
+      <a routerLink="invoice" routerLinkActive="active" class="button"
+        >Invoice</a
+      >
+      <a routerLink="dashboard" routerLinkActive="active" class="button"
+        >Dashboard</a
+      >
+    </div>
+  </div>
+</div>
+<div class="toolbar">
+  <button class="toolbar-links">
+    <mat-icon>autorenew</mat-icon>
+  </button>
+  <button class="toolbar-links">
+    <mat-icon>cloud_upload</mat-icon>
+  </button>
+  <button class="toolbar-links" (click)="export()">
+    <mat-icon>file_download</mat-icon>
+  </button>
+  <button class="toolbar-links">
+    <mat-icon>menu</mat-icon>
+  </button>
+</div>

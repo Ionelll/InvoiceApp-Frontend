@@ -49,15 +49,13 @@ $frontend-dark-theme: mat.define-dark-theme(
 
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --clr-input-focused: #029de514;
-  --clr-input-invalid: #ffd4e635;
-  --clr-background: #f3fffe;
-  --clr-primary: #002333;
-  --clr-primary-light: #3b5571;
-  --clr-secondary-light: #ffffff;
-  --clr-secondary-dark: #b4bec9;
+  --clr-input-focused: #3179c71e;
+  --clr-background: #f4f4f4;
+  --clr-primary: #2d2d2d;
+  --clr-primary-light: #3179c7;
+  --clr-secondary: #fefefe;
   --clr-accent-red: #ff006ab2;
-  --clr-accent-green: #0ea700;
+  --clr-accent-green: #24d414;
 }
 input,
 textarea,

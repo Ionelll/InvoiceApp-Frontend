@@ -6,18 +6,12 @@ import { environment } from 'src/environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CreateInvoice {
-  public vatpercent = new BehaviorSubject<string>('');
-  public duePeriod = new BehaviorSubject<string>('');
   public netto = new BehaviorSubject<string>('');
   public vat = new BehaviorSubject<string>('');
   public total = new BehaviorSubject<string>('');
-  public client = new BehaviorSubject<Company>(undefined);
-  public clientList = new BehaviorSubject<string[]>([]);
-  public table = new BehaviorSubject<
-    { articol: string; unit: string; bucati: string; pret: string }[]
-  >([{ articol: '', unit: '', bucati: '', pret: '' }]);
+  public table = new Subject();
   public currency = new BehaviorSubject<string>('');
-  constructor(private http: HttpClient) {}
+  public articlesValidation = new BehaviorSubject<boolean>(true);
 
   setnetto(x: string) {
     this.netto.next(x);
@@ -29,9 +23,6 @@ export class CreateInvoice {
 
   setVat(x: string) {
     this.vat.next(x);
-  }
-  setCurrency(x: string) {
-    this.currency.next(x);
   }
 
   getVat() {
@@ -46,21 +37,17 @@ export class CreateInvoice {
     return this.total.asObservable();
   }
 
-  setVatPercent(x: string) {
-    this.vatpercent.next(x);
-  }
-  setDuePeriod(x: string) {
-    this.duePeriod.next(x);
-  }
-  getVatPercent() {
-    return this.vatpercent.asObservable();
-  }
-  getDuePeriod() {
-    return this.duePeriod.asObservable();
-  }
-
   clearTable() {
     this.table.next([{ articol: '', unit: '', bucati: '', pret: '' }]);
     localStorage.removeItem('TabelValues');
+  }
+  subscribeClearTable() {
+    return this.table.asObservable();
+  }
+  setArticlesValidation(value) {
+    this.articlesValidation.next(value);
+  }
+  getArticlesValidation() {
+    return this.articlesValidation.asObservable();
   }
 }

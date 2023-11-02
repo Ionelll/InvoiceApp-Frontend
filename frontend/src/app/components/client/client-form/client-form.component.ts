@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription, debounceTime } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ClientService } from 'src/app/services/invoice-services/client.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-client',
@@ -26,11 +25,19 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     email: new FormControl('', Validators.required),
   });
   clientSub = new Subscription();
-  isEdit = false;
 
-  constructor(private client: ClientService, private http: HttpClient) {}
+  constructor(private client: ClientService) {}
 
   ngOnInit(): void {
+    this.showClient.patchValue(JSON.parse(localStorage.getItem('Client')));
+    setTimeout(() => {
+      this.client.formValidation(
+        this.showClient.dirty,
+        this.showClient.pristine,
+        this.showClient.valid
+      );
+    });
+
     this.showClient.valueChanges.subscribe(() => {
       localStorage.setItem('Client', JSON.stringify(this.showClient.value));
       this.client.formValidation(
@@ -41,15 +48,20 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     });
 
     this.clientSub = this.client.getClient().subscribe((response) => {
-      if (response) {
-        this.showClient.patchValue(response);
-        this.showClient.markAsPristine();
-      } else {
-        this.showClient.patchValue(JSON.parse(localStorage.getItem('Client')));
-      }
+      this.showClient.patchValue(response);
+      this.showClient.markAsPristine();
+      setTimeout(() => {
+        this.showClient.updateValueAndValidity();
+      });
     });
   }
-
+  setCompanyName() {
+    this.client.setClientName(this.showClient.controls.companyName.value);
+  }
+  clearForm() {
+    this.showClient.reset();
+    localStorage.removeItem('ClientId');
+  }
   ngOnDestroy(): void {
     this.clientSub.unsubscribe();
   }

@@ -13,15 +13,16 @@ export class ClientControlsComponent implements OnInit {
   public formValid = false;
   public formPristine = false;
   public formChanged = false;
-  private clientID: string;
+
   clear() {
-    if (this.clientID && this.formChanged) {
-      this.client.reloadClient();
+    let clientID = localStorage.getItem('ClientId');
+    if (clientID && this.formChanged) {
+      this.client.reloadClient(clientID);
     } else this.client.clearClient();
-    this.client.formValidation(false, true, false);
   }
   save() {
-    this.client.saveClient();
+    let clientID = localStorage.getItem('ClientID');
+    this.client.saveClient(clientID);
   }
 
   ngOnInit() {
@@ -29,9 +30,6 @@ export class ClientControlsComponent implements OnInit {
       this.formChanged = res.dirty;
       this.formPristine = res.pristine;
       this.formValid = res.valid;
-    });
-    this.client.getClient().subscribe((res) => {
-      if (res) this.clientID = res._id;
     });
   }
 }

@@ -1,0 +1,146 @@
+<div class="header">
+  <button class="toggle-button" (click)="toggle = !toggle">
+    <span class="companyName">{{ companyName || "My Company" }}</span>
+  </button>
+  <button
+    class="save"
+    (click)="save()"
+    [disabled]="companydetails.invalid"
+    *ngIf="companydetails.dirty || logoChanged"
+  >
+    Save
+  </button>
+  <div class="logo-container" (click)="fileinput.click()" *ngIf="user">
+    <img src="{{ activeImage }}" alt="" class="logo" *ngIf="activeImage" />
+    <div *ngIf="!activeImage" class="logo-text">Upload Logo</div>
+
+    <input
+      type="file"
+      #fileinput
+      hidden
+      (change)="onFileChange($event); logoChanged = true"
+    />
+  </div>
+</div>
+<div class="company-container">
+  <form
+    [formGroup]="companydetails"
+    *ngIf="toggle"
+    class="container"
+    enctype="multipart/form-data"
+    @slide
+  >
+    <div class="company">
+      <p class="label">Name</p>
+
+      <input
+        type="text"
+        class="input outerinput"
+        required
+        formControlName="companyName"
+      />
+
+      <p class="label">Reg. Number</p>
+      <input
+        type="text"
+        class="input outerinput"
+        formControlName="registrationNumber"
+      />
+
+      <p class="label adresstitle">Adress</p>
+      <form formGroupName="adress" class="adress-container">
+        <p class="adresslabel">Street</p>
+
+        <input
+          class="adressinput input"
+          type="text"
+          id="street"
+          formControlName="street"
+        />
+
+        <p class="adresslabel">Nr</p>
+
+        <input
+          class="adressinput input"
+          type="text"
+          id="number"
+          formControlName="number"
+        />
+
+        <p class="adresslabel">Country</p>
+
+        <input
+          class="adressinput input"
+          type="text"
+          id="country"
+          formControlName="country"
+        />
+
+        <p class="adresslabel">Region</p>
+
+        <input
+          class="input adressinput"
+          type="text"
+          id="region"
+          formControlName="region"
+        />
+
+        <p class="adresslabel">City</p>
+
+        <input
+          class="adressinput input"
+          type="text"
+          id="city"
+          formControlName="city"
+        />
+
+        <p class="adresslabel">Postal Code</p>
+
+        <input
+          class="adressinput input"
+          type="text"
+          id="postalCode"
+          formControlName="postalCode"
+        />
+      </form>
+      <p class="label">Phone</p>
+
+      <input type="text" class="input outerinput" formControlName="phone" />
+
+      <p class="label">Email</p>
+
+      <input class="input outerinput" type="text" formControlName="email" />
+
+      <p class="label">Website</p>
+
+      <input class="input outerinput" type="text" formControlName="website" />
+      <p class="label">Bank</p>
+      <div
+        formArrayName="bank"
+        class="bank-container"
+        *ngFor="let bank of companydetails.controls.bank.controls; index as i"
+      >
+        <ng-container [formGroupName]="i">
+          <input
+            class="input outerinput"
+            type="text"
+            formControlName="bankname"
+          />
+
+          <input class="input outerinput" type="text" formControlName="iban" />
+
+          <input class="input outerinput" type="text" formControlName="bic" />
+        </ng-container>
+      </div>
+    </div>
+
+    <p
+      class="invalid-text"
+      [ngClass]="
+        !companydetails.valid ? 'show-invalid-text' : 'hide-invalid-text'
+      "
+    >
+      Company information incomplete !
+    </p>
+  </form>
+</div>

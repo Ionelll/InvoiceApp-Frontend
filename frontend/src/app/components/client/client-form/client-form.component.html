@@ -1,152 +1,157 @@
 <div class="container">
   <form [formGroup]="showClient" class="clientdata" #clientform>
-    <p class="label">Name</p>
-    <div
-      matRipple
-      [matRippleColor]="'var(--clr-input-focused)'"
-      class="fill-row"
+    <button class="button" (click)="clearForm()">Clear all fields</button>
+    <label
+      [ngClass]="{
+        'label-invalid': showClient.controls.companyName.invalid,
+        label: true
+      }"
+      for="clientname"
+      >Name *</label
     >
-      <input
-        required
-        type="text"
-        class="input clientname"
-        formControlName="companyName"
-      />
-    </div>
-    <p class="label number-label">Registration</p>
-    <div
-      matRipple
-      [matRippleColor]="'var(--clr-input-focused)'"
-      class="ripple number"
+    <input
+      type="text"
+      id="clientname"
+      class="input clientname"
+      formControlName="companyName"
+      (input)="setCompanyName()"
+    />
+    <label
+      for="taxRegistrationNr"
+      [ngClass]="{
+        'label-invalid': showClient.controls.registrationNumber.invalid,
+        label: true
+      }"
+      >Tax registration nr.*</label
     >
-      <input
-        required
-        type="text"
-        class="input"
-        formControlName="registrationNumber"
-      />
-    </div>
-    <p class="label euid-label">EUID</p>
-    <div
-      matRipple
-      [matRippleColor]="'var(--clr-input-focused)'"
-      class="ripple euid"
+    <input
+      id="taxRegistrationNr"
+      type="text"
+      class="input"
+      formControlName="registrationNumber"
+    />
+    <label
+      for="euid"
+      [ngClass]="{
+        'label-invalid': showClient.controls.euid.invalid,
+        label: true
+      }"
+      >EUID</label
     >
-      <input type="text" class="input" formControlName="euid" />
-    </div>
-    <p class="label adress-title">Adress</p>
+    <input type="text" id="euid" class="input" formControlName="euid" />
+    <label
+      [ngClass]="{
+        'label-invalid': showClient.controls.adress.invalid,
+        'adress-title': true
+      }"
+    >
+      Adress*
+    </label>
     <form class="adress-container" formGroupName="adress">
-      <label class="adress-label" for="street">Street</label>
-      <div
-        matRipple
-        [matRippleColor]="'var(--clr-input-focused)'"
-        class="ripple"
+      <label
+        [ngClass]="{
+          'label-invalid': showClient.controls.adress.controls.street.invalid,
+          'adress-label': true
+        }"
+        for="street"
+        >Street</label
       >
-        <input
-          required
-          class="adressinput input"
-          type="text"
-          id="street"
-          formControlName="street"
-        />
-      </div>
-      <label class="adress-label" for="number">Nr</label>
-      <div
-        matRipple
-        [matRippleColor]="'var(--clr-input-focused)'"
-        class="ripple"
+      <input
+        class="adressinput input"
+        type="text"
+        id="street"
+        formControlName="street"
+      />
+      <label
+        [ngClass]="{
+          'label-invalid': showClient.controls.adress.controls.number.invalid,
+          'adress-label': true
+        }"
+        for="number"
+        >Nr</label
       >
-        <input
-          required
-          class="adressinput input"
-          type="text"
-          id="number"
-          formControlName="number"
-        />
-      </div>
-      <label class="adress-label" for="city">City</label>
-      <div
-        matRipple
-        [matRippleColor]="'var(--clr-input-focused)'"
-        class="ripple"
+      <input
+        required
+        class="adressinput input"
+        type="text"
+        id="number"
+        formControlName="number"
+      />
+      <label
+        [ngClass]="{
+          'label-invalid': showClient.controls.adress.controls.city.invalid,
+          'adress-label': true
+        }"
+        for="city"
+        >City</label
       >
-        <input
-          required
-          class="adressinput input"
-          type="text"
-          id="city"
-          formControlName="city"
-        />
-      </div>
+      <input
+        required
+        class="adressinput input"
+        type="text"
+        id="city"
+        formControlName="city"
+      />
       <label class="adress-label" for="region">Region</label>
-      <div
-        matRipple
-        [matRippleColor]="'var(--clr-input-focused)'"
-        class="ripple"
+      <input
+        class="adressinput input"
+        type="text"
+        id="region"
+        formControlName="region"
+      />
+      <label
+        [ngClass]="{
+          'label-invalid': showClient.controls.adress.controls.country.invalid,
+          'adress-label': true
+        }"
+        for="country"
+        >Country</label
       >
-        <input
-          class="adressinput input"
-          type="text"
-          id="region"
-          formControlName="region"
-        />
-      </div>
-      <label class="adress-label" for="country">Country</label>
-      <div
-        matRipple
-        [matRippleColor]="'var(--clr-input-focused)'"
-        class="ripple"
+      <input
+        required
+        class="input adressinput"
+        type="text"
+        id="country"
+        formControlName="country"
+      />
+      <label
+        [ngClass]="{
+          'label-invalid':
+            showClient.controls.adress.controls.postalCode.invalid,
+          'adress-label': true
+        }"
+        for="postalCode"
+        >Zip</label
       >
-        <input
-          required
-          class="input adressinput"
-          type="text"
-          id="country"
-          formControlName="country"
-        />
-      </div>
-
-      <label class="adress-label" for="postalCode">Zip</label>
-      <div
-        matRipple
-        [matRippleColor]="'var(--clr-input-focused)'"
-        class="ripple"
-      >
-        <input
-          required
-          class="adressinput input"
-          type="text"
-          id="postalCode"
-          formControlName="postalCode"
-        />
-      </div>
+      <input
+        required
+        class="adressinput input"
+        type="text"
+        id="postalCode"
+        formControlName="postalCode"
+      />
     </form>
-
-    <p class="label">Telephone</p>
-    <div
-      matRipple
-      [matRippleColor]="'var(--clr-input-focused)'"
-      class="fill-row phone"
+    <label
+      [ngClass]="{
+        'label-invalid': showClient.controls.phone.invalid,
+        label: true
+      }"
+      for="phone"
+      >Telephone*</label
     >
-      <input required type="text" class="input" formControlName="phone" />
+    <input id="phone" type="text" class="input" formControlName="phone" />
+    <label
+      [ngClass]="{
+        'label-invalid': showClient.controls.email.invalid,
+        label: true
+      }"
+      for="email"
+      >Email*</label
+    >
+    <input class="input" id="email" type="text" formControlName="email" />
+    <div class="save-cancel-container">
+      <button class="button">Save</button>
+      <button class="button">Cancel</button>
     </div>
-    <p class="label">Email</p>
-    <div
-      matRipple
-      [matRippleColor]="'var(--clr-input-focused)'"
-      class="fill-row"
-    >
-      <input required class="input" type="text" formControlName="email" />
-    </div>
-    <p
-      class="invalid-text"
-      [ngClass]="
-        !showClient.valid && showClient.touched
-          ? 'show-invalid-text'
-          : 'hide-invalid-text'
-      "
-    >
-      Client information incomplete
-    </p>
   </form>
 </div>

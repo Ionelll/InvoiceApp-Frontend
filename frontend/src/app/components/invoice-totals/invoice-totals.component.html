@@ -1,31 +1,31 @@
 <div class="netto">
   <div class="item">
-    <label class="label" for="netto">Netto:</label>
+    <label class="label" for="netto">Netto</label>
     <input
       disabled
       type="text"
-      name="netto"
+      id="netto"
       class="input"
       [value]="netto | currency : currency"
       disabled
     />
   </div>
   <div class="item">
-    <label class="label" for="vat">VAT:</label>
+    <label class="label" for="vat">VAT</label>
     <input
       disabled
       type="text"
-      name="vat"
+      id="vat"
       class="input"
       [value]="vat | currency : currency"
     />
   </div>
   <div class="item">
-    <label class="label" for="total">Total:</label>
+    <label class="label" for="total">Total</label>
     <input
       disabled
       type="text"
-      name="total"
+      id="total"
       class="input"
       [value]="total | currency : currency"
       disabled

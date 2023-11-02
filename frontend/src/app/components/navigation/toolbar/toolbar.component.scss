@@ -1,0 +1,32 @@
+.toolbar {
+  background-color: var(--clr-secondary-light);
+  margin-bottom: 2rem;
+  padding: 0.2rem 4rem 0.5rem 4rem;
+  box-shadow: 0px 0px 13px 2px rgba(0, 45, 79, 0.305);
+}
+.invoice {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+.links,
+.buttons {
+  display: flex;
+}
+.button {
+  all: unset;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  display: flex;
+  font-size: calc(16px + 0.03vw);
+  text-decoration: none;
+  color: var(--clr-primary);
+  cursor: pointer;
+  padding: 0.2em 0.5em;
+  height: 1em;
+  margin-top: 0.5em;
+  transition-duration: 0.5s;
+}
+.button-active {
+  color: var(--clr-secondary-dark);
+}

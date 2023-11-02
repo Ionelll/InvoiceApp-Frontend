@@ -1,29 +1,29 @@
 .container {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
-  background-color: var(--clr-primary);
-  color: var(--clr-secondary-light);
-  height: 100%;
 }
-
+.ng-invalid:not(form) {
+  border: 1px solid var(--clr-accent-red);
+}
 .items {
   display: flex;
+  margin: auto;
+  white-space: nowrap;
 }
-.ripple {
-  border-radius: 10px;
-}
+
 .nrfactura {
-  font-size: calc(16px + 0.3vw);
-  color: var(--clr-secondary-light);
+  width: 100%;
+  padding: 0.5em;
+  font-size: 16px;
+  color: var(--clr-secondary-dark);
   text-align: center;
-  border: none;
+  border: 1px solid var(--clr-primary-light);
   outline: none;
   background-color: #ffffff11;
-  padding: 0.3em 0;
+
   border-radius: 10px;
   &:focus {
-    background-color: #ffffff15;
+    background-color: var(--clr-input-focused);
   }
 }
 
@@ -33,14 +33,15 @@
   gap: 1em;
 }
 label {
-  margin: auto 0;
-  font-size: calc(16px + 0.05vw);
+  margin: auto 10px;
+  font-size: 14px;
+  color: var(--clr-primary-light);
 }
 .date {
-  color: var(--clr-secondary-light);
+  color: var(--clr-secondary-dark);
   border: none;
   font-size: 16px;
   padding: 0.2em;
-  color-scheme: dark;
+
   outline: none;
 }

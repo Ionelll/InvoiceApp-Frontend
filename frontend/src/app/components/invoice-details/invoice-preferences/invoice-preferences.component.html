@@ -1,24 +1,23 @@
-<div class="container">
-  <p class="label">Invoice Period</p>
+<form class="container" [formGroup]="invoiceDetails" name="invoiceDetails">
+  <label for="startDate" class="label">Invoice Period</label>
   <div class="dates">
-    <label for="startDate" class="label">from:</label>
     <input
+      formControlName="startDate"
       class="date input"
-      name="startDate"
+      id="startDate"
       type="date"
-      [(ngModel)]="startDate"
       (change)="refreshDueDate()"
     />
-    <label for="endDate" class="label">to:</label>
+
     <input
+      formControlName="endDate"
       class="date input"
-      name="endDate"
+      id="endDate"
       type="date"
-      [(ngModel)]="dueDate"
     />
   </div>
-  <p class="label">Invoice type</p>
-  <select [(ngModel)]="invoiceType" (change)="setInvoiceType()" class="input">
+  <label for="invoiceType" class="label">Invoice type</label>
+  <select class="input" id="invoiceType" formControlName="invoiceType">
     <option value="326">Partial invoice</option>
     <option value="380">Commercial invoice</option>
     <option value="384">Corrected invoice</option>
@@ -29,57 +28,52 @@
     <option value="877">Final construction invoice</option>
   </select>
 
-  <p class="label">VAT %</p>
+  <label for="vatPercent" class="label">VAT %</label>
   <input
+    id="vatPercent"
+    formControlName="vatPercent"
     type="number"
     maxlength="2"
     class="input"
-    [(ngModel)]="vatPercent"
-    (change)="setVATPercent()"
   />
-  <p class="label">Currency</p>
-  <select [(ngModel)]="currency" (change)="setCurrency()" class="input">
-    <option>$</option>
-    <option>RON</option>
-    <option>€</option>
+  <label for="currency" class="label">Currency</label>
+
+  <select class="input" id="currency" formControlName="currency">
+    <option value="$">USA</option>
+    <option value="Ron">RON</option>
+    <option value="€">EUR</option>
   </select>
 
-  <p class="label">Order reference</p>
+  <label for="orderRef" class="label">Order reference</label>
+  <input formControlName="orderRef" id="orderRef" type="text" class="input" />
+  <label for="contractRef" class="label">Contract reference</label>
   <input
+    formControlName="contractRef"
+    id="contractRef"
     type="text"
     class="input"
-    [(ngModel)]="orderRef"
-    (change)="setOrderRef()"
-  />
-  <p class="label">Contract reference</p>
-  <input
-    type="text"
-    class="input"
-    [(ngModel)]="contractRef"
-    (change)="setContractRef()"
   />
 
-  <p class="label">Invoice introduction:</p>
-  <div matRipple matRippleColor="var(--clr-input-focused)" class="ripple">
-    <textarea
-      (input)="saveData()"
-      class="text"
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="3"
-    >
-    Thank you for your order and your trust. You will be charged the following amount for our work and material:
-  </textarea
-    >
-  </div>
-  <p class="label">Footnote</p>
-  <div matRipple matRippleColor="var(--clr-input-focused)" class="ripple">
-    <textarea
-      (input)="saveData()"
-      class="text"
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="3"
-    ></textarea>
-  </div>
-</div>
+  <label for="introduction" class="label">Invoice introduction:</label>
+
+  <textarea
+    formControlName="introduction"
+    class="text"
+    id="introduction"
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+  >
+  </textarea>
+
+  <label for="notes" class="label">Notes</label>
+
+  <textarea
+    id="notes"
+    formControlName="notes"
+    class="text"
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+  ></textarea>
+</form>

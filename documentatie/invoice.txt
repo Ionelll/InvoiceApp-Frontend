@@ -1,0 +1,120 @@
+{"Invoice":{
+      "cbc:InvoiceTypeCode":"380",              /*listID="UN/ECE 1001 Subset" listAgencyID="6"*/
+      "cbc:ID":"IF236556",
+      "cbc:IssueDate":2023-10-23,
+      "cac:InvoicePeriod":{
+            "cbc:StartDate":2023-10-23,
+            "cbc:EndDate":2023-11-22
+      },
+      "cbc:Note":["en","askfhjdsghfjsdf"],      /*languageID="en" -- list[0]*/
+      "cbc:DocumentCurrencyCode":"EUR",       /*listID="ISO 4217 Alpha" listAgencyID="6"*/
+      "cac:LegalMonetaryTotal":"1235",
+      "cbc:BuyerReference":"",
+      "cac:OrderReference":{
+            "cbc:ID":"IF236556"
+      },
+      "cac:ContractDocumentReference":{
+            "cbc:ID":"Contract 2335",
+            "cbc:DocumentType":"Ce vrei tu"
+      },
+      "cac:Signature":"",
+      "cac:AccountingSupplierParty":{
+            "cac:Party":{
+                  "cbc:EndpoinId":"1234567890123",         /*schemeID="GLN" schemeAgencyID="9" leitwegID pt Xrechnung */
+                  "cbc:IndustryClassificationCode":"",    
+                  "cac:PartyIdentification":{
+                        "cbc:ID":"IF23551"
+                  },
+                  "cac:PartyName":{
+                        "cbc:Name":"InvoiceFree"
+                  },
+                   "cac:PostalAdress":{
+                        "cbc:Postbox":"",
+                        "cbc:StreetName":"Metanului",
+                        "cbc:BuildingNumber":"10",
+                        "cbc:CityName":"Medias",
+                        "cbc:PostalZone":"513513",
+                        "cbc:CountrySubentity":"Sibiu",
+                        "cac:Country":{
+                              "cbc:IdentificationCode":"DE"   /* listID="ISO3166-1" listAgencyID="6"*/
+                        },
+                        "cac:Contact":{
+                              "cbc:Name":"Customer support",
+                              "cbc:Telephone":"553131",
+                              "cbc:ElectronicMail":"john.mail@gmail.com"
+                        }
+                  }
+                 
+                  }
+            },
+      "cac:AccountingCustomerParty":{
+            "cac:Party":{
+                  "cbc:EndpoinId":"1234567890123",         /*schemeID="GLN" schemeAgencyID="9" leitwegID pt Xrechnung */
+                  "cbc:IndustryClassificationCode":"",    
+                  "cac:PartyIdentification":{
+                        "cbc:ID":"IF23551"
+                  },
+                  "cac:PartyName":{
+                        "cbc:Name":"InvoiceFree"
+                  },
+                  "cac:PostalAdress":{
+                        "cbc:Postbox":"",
+                        "cbc:StreetName":"Metanului",
+                        "cbc:BuildingNumber":"10",
+                        "cbc:CityName":"Medias",
+                        "cbc:PostalZone":"513513",
+                        "cbc:CountrySubentity":"Sibiu",
+                        "cac:Country":{
+                              "cbc:IdentificationCode":"DE"   /* listID="ISO3166-1" listAgencyID="6"*/
+                        },
+                  "cac:Contact":{
+                        "cbc:Name":"Customer support",
+                        "cbc:Telephone":"553131",
+                        "cbc:ElectronicMail":"john.mail@gmail.com"
+                        }
+                  }
+                  }
+
+      },
+      "cac:Delivery":{
+            "cbc:ActualDeliveryDate":2023-12-06,
+            "cac:DeliveryLocation":{
+                  "cac:Adress":{
+                        "cbc:Postbox":"",
+                        "cbc:StreetName":"Metanului",
+                        "cbc:BuildingNumber":"10",
+                        "cbc:CityName":"Medias",
+                        "cbc:PostalZone":"513513",
+                        "cbc:CountrySubentity":"Sibiu",
+                        "cac:Country":{
+                              "cbc:IdentificationCode":"DE"   /* listID="ISO3166-1" listAgencyID="6"*/
+                        },
+                  }
+            }
+      },
+      "cac:PaymentMeans":{
+            "cbc:PaymentMeansCode":"31",                       // listID="UN/ECE 4461"
+            "cbc:PaymentId":"",
+            "cac:PayeeFinancialAccount":{
+                  "cbc:ID":"DE123123123123123".
+                  "cbc:CurrencyCode":"EUR",
+                  "cbc:FinancialInstitution":{
+                        "cbc:Name":"Sparkasse"
+                  }
+            }
+      },
+      "cac:TaxTotal":{
+            "cbc:TaxAmmount":100,                                         //currencyID="EUR"
+            "cac:TaxSubtotal":{
+                  "cbc:TaxableAmmount":                                 //currencyID="EUR                     "  
+                  "cac:TaxCategory":{
+                        "cbc:ID":"S",                                         //schemeID="UN/ECE 5305" schemeAgencyID="6"
+                        "cbc:Percent":"20",
+                        "cac:TaxScheme":{
+                        "cbc:ID":"VAT"                                  //schemeID="UN/ECE 5153" schemeAgencyID="6"
+                        }
+                  }
+            }
+      }
+
+}}
