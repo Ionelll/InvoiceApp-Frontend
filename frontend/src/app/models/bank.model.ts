@@ -1,5 +1,8 @@
 export interface Bank {
-  bankname: string;
-  iban: string;
-  bic: string;
+  ID: string;
+  CurrencyCode?: string;
+  FinancialInstitution?: {
+    Name?: string;
+    ID?: string;
+  };
 }

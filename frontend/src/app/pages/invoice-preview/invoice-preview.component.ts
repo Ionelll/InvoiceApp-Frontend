@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Adress } from 'src/app/models/adress.model';
-import { Client } from 'src/app/models/client.model';
 import { Company } from 'src/app/models/company.model';
+import { User } from 'src/app/models/user.model';
 @Component({
   selector: 'app-invoice-preview',
   templateUrl: './invoice-preview.component.html',
   styleUrls: ['./invoice-preview.component.scss'],
 })
 export class InvoicePreviewComponent {
-  public client: Client = JSON.parse(localStorage.getItem('Client'));
+  public client: Company = JSON.parse(localStorage.getItem('Client'));
+  public user: User = JSON.parse(sessionStorage.getItem('User'));
   public company: Company = JSON.parse(localStorage.getItem('Company'));
   public logo = localStorage.getItem('Logo');
   public table = JSON.parse(localStorage.getItem('TableValues'));

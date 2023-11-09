@@ -1,0 +1,87 @@
+<script>
+  let autocomplete;
+  function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(street, {
+      types: ["establishment"],
+      fields: ["place_id", "adress"],
+    });
+  }
+</script>
+
+<form [formGroup]="Delivery">
+  <div class="header">
+    <input
+      type="checkbox"
+      class="checkbox"
+      [(ngModel)]="deliveryToggle"
+      [ngModelOptions]="{ standalone: true }"
+      (change)="toggleDelivery()"
+    />
+    <p
+      [ngClass]="{
+        tabName: true,
+        tabNameDisabled: !deliveryToggle
+      }"
+    >
+      DELIVERY
+    </p>
+    <input type="date" class="date" formControlName="ActualDeliveryDate" />
+  </div>
+  <form
+    class="body"
+    *ngIf="deliveryToggle"
+    formGroupName="DeliveryLocation"
+    @openClose
+  >
+    <ng-container formGroupName="Adress">
+      <label class="label" for="street">Street</label>
+      <input
+        class="input"
+        type="text"
+        id="street"
+        formControlName="StreetName"
+      />
+      <label class="label" for="number">Nr.</label>
+      <input
+        required
+        class="input"
+        type="text"
+        id="number"
+        formControlName="BuildingNumber"
+      />
+      <label class="label" for="city">City*</label>
+      <input
+        required
+        class="input"
+        type="text"
+        id="city"
+        formControlName="CityName"
+      />
+      <label class="label" for="region">Region</label>
+      <input
+        class="input"
+        type="text"
+        id="region"
+        formControlName="CountrySubentity"
+      />
+      <ng-container formGroupName="Country">
+        <label class="label" for="country">Country Code *</label>
+        <input
+          required
+          class="input"
+          type="text"
+          id="country"
+          formControlName="IdentificationCode"
+        />
+      </ng-container>
+      <label class="label" for="postalCode">Postal Zone</label>
+      <input
+        required
+        class="input"
+        type="text"
+        id="postalCode"
+        formControlName="PostalZone"
+      />
+    </ng-container>
+  </form>
+</form>

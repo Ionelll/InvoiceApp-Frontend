@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'InvoiceFree';
   route: string;
+
   constructor(private router: Router) {
     setTimeout(() => {
       this.route = this.router.url;

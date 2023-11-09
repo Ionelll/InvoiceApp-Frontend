@@ -1,8 +1,8 @@
 <form class="container" [formGroup]="invoiceDetails" name="invoiceDetails">
   <label for="startDate" class="label">Invoice Period</label>
-  <div class="dates">
+  <div class="dates" formGroupName="InvoicePeriod">
     <input
-      formControlName="startDate"
+      formControlName="StartDate"
       class="date input"
       id="startDate"
       type="date"
@@ -10,14 +10,14 @@
     />
 
     <input
-      formControlName="endDate"
+      formControlName="EndDate"
       class="date input"
       id="endDate"
       type="date"
     />
   </div>
   <label for="invoiceType" class="label">Invoice type</label>
-  <select class="input" id="invoiceType" formControlName="invoiceType">
+  <select class="input" id="invoiceType" formControlName="InvoiceTypeCode">
     <option value="326">Partial invoice</option>
     <option value="380">Commercial invoice</option>
     <option value="384">Corrected invoice</option>
@@ -28,28 +28,25 @@
     <option value="877">Final construction invoice</option>
   </select>
 
-  <label for="vatPercent" class="label">VAT %</label>
-  <input
-    id="vatPercent"
-    formControlName="vatPercent"
-    type="number"
-    maxlength="2"
-    class="input"
-  />
   <label for="currency" class="label">Currency</label>
 
-  <select class="input" id="currency" formControlName="currency">
+  <select class="input" id="currency" formControlName="DocumentCurrencyCode">
     <option value="$">USA</option>
     <option value="Ron">RON</option>
     <option value="€">EUR</option>
   </select>
 
   <label for="orderRef" class="label">Order reference</label>
-  <input formControlName="orderRef" id="orderRef" type="text" class="input" />
-  <label for="contractRef" class="label">Contract reference</label>
   <input
-    formControlName="contractRef"
-    id="contractRef"
+    formControlName="OrderReference"
+    id="orderRef"
+    type="text"
+    class="input"
+  />
+  <label for="ContractReference" class="label">Contract reference</label>
+  <input
+    formControlName="ContractReference"
+    id="ContractReference"
     type="text"
     class="input"
   />
@@ -70,7 +67,7 @@
 
   <textarea
     id="notes"
-    formControlName="notes"
+    formControlName="Note"
     class="text"
     cdkTextareaAutosize
     #autosize="cdkTextareaAutosize"

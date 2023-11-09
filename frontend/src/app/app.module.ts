@@ -26,7 +26,6 @@ import { SignupComponent } from './components/signup/signup.component';
 import { AccountComponent } from './pages/account/account.component';
 import { loggedInGuard } from './guards/loggedIn.guard';
 import { InvoiceTotalsComponent } from './components/invoice-totals/invoice-totals.component';
-import { ClientControlsComponent } from './components/client/client-controls/client-controls.component';
 import { InvoicePreferencesComponent } from './components/invoice-details/invoice-preferences/invoice-preferences.component';
 import { CommonModule } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
@@ -35,6 +34,8 @@ import { InvoicePreviewComponent } from './pages/invoice-preview/invoice-preview
 import { DashboardPageComponent } from './pages/dashboard/dashboard.component';
 import { SettingsComponent } from './components/company/settings/settings.component';
 import { ToolbarComponent } from './components/navigation/toolbar/toolbar.component';
+import { SidebarComponent } from './components/navigation/sidebar/sidebar.component';
+import { DeliveryAdressComponent } from './components/delivery-adress/delivery-adress.component';
 
 registerLocaleData(localeFr, 'de-BE');
 
@@ -53,12 +54,13 @@ registerLocaleData(localeFr, 'de-BE');
     SignupComponent,
     AccountComponent,
     InvoiceTotalsComponent,
-    ClientControlsComponent,
     InvoicePreferencesComponent,
     InvoicePreviewComponent,
     DashboardPageComponent,
     SettingsComponent,
     ToolbarComponent,
+    SidebarComponent,
+    DeliveryAdressComponent,
   ],
   imports: [
     BrowserModule,

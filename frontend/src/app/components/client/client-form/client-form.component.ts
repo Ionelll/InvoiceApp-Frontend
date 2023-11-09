@@ -9,58 +9,87 @@ import { ClientService } from 'src/app/services/invoice-services/client.service'
   styleUrls: ['./client-form.component.scss'],
 })
 export class ClientFormComponent implements OnInit, OnDestroy {
-  showClient = new FormGroup({
-    companyName: new FormControl('', Validators.required),
-    adress: new FormGroup({
-      country: new FormControl('', Validators.required),
-      region: new FormControl(''),
-      city: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      number: new FormControl('', Validators.required),
-      postalCode: new FormControl('', Validators.required),
+  Customer = new FormGroup({
+    Party: new FormGroup({
+      PartyName: new FormGroup({
+        Name: new FormControl('', Validators.required),
+      }),
+      EndpointID: new FormControl(''),
+      IndustryClasificationCode: new FormControl(''),
+      PartyIdentification: new FormGroup({
+        ID: new FormControl('', Validators.required),
+      }),
+      PostalAdress: new FormGroup({
+        PostBox: new FormControl(''),
+        StreetName: new FormControl('', Validators.required),
+        BuildingNumber: new FormControl(''),
+        CityName: new FormControl('', Validators.required),
+        PostalZone: new FormControl(''),
+        CountrySubentity: new FormControl(''),
+        Country: new FormGroup({
+          IdentificationCode: new FormControl(''),
+        }),
+      }),
+      Contact: new FormGroup({
+        Name: new FormControl(''),
+        Telephone: new FormControl(''),
+        ElectronicMail: new FormControl(''),
+      }),
     }),
-    phone: new FormControl('', Validators.required),
-    registrationNumber: new FormControl('', Validators.required),
-    euid: new FormControl(''),
-    email: new FormControl('', Validators.required),
+    BuyerReference: new FormControl(''),
   });
+
   clientSub = new Subscription();
 
   constructor(private client: ClientService) {}
 
   ngOnInit(): void {
-    this.showClient.patchValue(JSON.parse(localStorage.getItem('Client')));
+    this.Customer.patchValue(JSON.parse(localStorage.getItem('Client')));
     setTimeout(() => {
       this.client.formValidation(
-        this.showClient.dirty,
-        this.showClient.pristine,
-        this.showClient.valid
+        this.Customer.dirty,
+        this.Customer.pristine,
+        this.Customer.valid
       );
     });
 
-    this.showClient.valueChanges.subscribe(() => {
-      localStorage.setItem('Client', JSON.stringify(this.showClient.value));
+    this.Customer.valueChanges.subscribe(() => {
+      localStorage.setItem('Client', JSON.stringify(this.Customer.value));
       this.client.formValidation(
-        this.showClient.dirty,
-        this.showClient.pristine,
-        this.showClient.valid
+        this.Customer.dirty,
+        this.Customer.pristine,
+        this.Customer.valid
       );
     });
 
     this.clientSub = this.client.getClient().subscribe((response) => {
-      this.showClient.patchValue(response);
-      this.showClient.markAsPristine();
+      console.log(response);
+      this.Customer.patchValue(response);
+      this.Customer.markAsPristine();
       setTimeout(() => {
-        this.showClient.updateValueAndValidity();
+        this.Customer.updateValueAndValidity();
       });
     });
   }
   setCompanyName() {
-    this.client.setClientName(this.showClient.controls.companyName.value);
+    this.client.setClientName(
+      this.Customer.controls.Party.controls.PartyName.controls.Name.value
+    );
   }
   clearForm() {
-    this.showClient.reset();
+    this.Customer.reset();
     localStorage.removeItem('ClientId');
+    this.client.setClientName(undefined);
+  }
+  saveCustomer() {
+    let clientID = localStorage.getItem('ClientID');
+    this.client.saveClient(clientID);
+  }
+  reloadCustomer() {
+    let clientID = localStorage.getItem('ClientId');
+    if (clientID && this.Customer.dirty) {
+      this.client.reloadClient(clientID);
+    } else this.Customer.reset();
   }
   ngOnDestroy(): void {
     this.clientSub.unsubscribe();

@@ -14,33 +14,36 @@ export class InvoicePreferencesComponent implements OnInit {
   public duePeriod = parseInt(sessionStorage.getItem('DUE-PERIOD')) || 30;
   private resetSub = new Subscription();
   public invoiceDetails = new FormGroup({
-    startDate: new FormControl(
-      this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
-      Validators.required
-    ),
-    endDate: new FormControl(
-      this.datePipe.transform(
-        new Date().setDate(new Date().getDate() + this.duePeriod),
-        'yyyy-MM-dd'
+    InvoicePeriod: new FormGroup({
+      StartDate: new FormControl(
+        this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+        Validators.required
       ),
-      Validators.required
-    ),
-    vatPercent: new FormControl('19', Validators.required),
-    invoiceType: new FormControl('380', Validators.required),
-    currency: new FormControl('€', Validators.required),
+      EndDate: new FormControl(
+        this.datePipe.transform(
+          new Date().setDate(new Date().getDate() + this.duePeriod),
+          'yyyy-MM-dd'
+        ),
+        Validators.required
+      ),
+    }),
+    InvoiceTypeCode: new FormControl('380', Validators.required),
+    DocumentCurrencyCode: new FormControl('EUR', Validators.required),
     introduction: new FormControl(
       'Thank you for your order and your trust. You will be charged the following amount for our work and material:'
     ),
-    notes: new FormControl(''),
-    orderRef: new FormControl(''),
-    contractRef: new FormControl(''),
+    Note: new FormControl(''),
+    OrderReference: new FormControl(''),
+    ContractReference: new FormControl(''),
   });
 
   refreshDueDate() {
-    let date = new Date(this.invoiceDetails.controls.startDate.value);
+    let date = new Date(
+      this.invoiceDetails.controls.InvoicePeriod.controls.StartDate.value
+    );
     const day = date.getDate();
     date.setDate(day + this.duePeriod);
-    this.invoiceDetails.controls.endDate.setValue(
+    this.invoiceDetails.controls.InvoicePeriod.controls.EndDate.setValue(
       this.datePipe.transform(date, 'yyyy-MM-dd')
     );
   }
@@ -50,7 +53,7 @@ export class InvoicePreferencesComponent implements OnInit {
         JSON.parse(sessionStorage.getItem('InvoiceDetails')) ||
           JSON.parse(localStorage.getItem('InvoiceDetails'))
       );
-      this.invoiceDetails.controls.startDate.setValue(
+      this.invoiceDetails.controls.InvoicePeriod.controls.StartDate.setValue(
         this.datePipe.transform(new Date(), 'yyyy-MM-dd')
       );
       this.refreshDueDate();
@@ -59,12 +62,11 @@ export class InvoicePreferencesComponent implements OnInit {
       localStorage.setItem('InvoiceDetails', JSON.stringify(values));
       this.details.setDetailsValidation(this.invoiceDetails.valid);
     });
-    this.invoiceDetails.controls.vatPercent.valueChanges.subscribe((value) => {
-      this.details.setvatPercent(value);
-    });
-    this.invoiceDetails.controls.currency.valueChanges.subscribe((value) => {
-      this.details.setCurrency(value);
-    });
+    this.invoiceDetails.controls.DocumentCurrencyCode.valueChanges.subscribe(
+      (value) => {
+        this.details.setCurrency(value);
+      }
+    );
     this.invoiceDetails.patchValue(
       JSON.parse(localStorage.getItem('InvoiceDetails')) ||
         JSON.parse(sessionStorage.getItem('InvoiceDetails'))

@@ -13,6 +13,8 @@ import { ClientFormComponent } from './components/client/client-form/client-form
 
 import { TabelComponent } from './components/tabel/tabel.component';
 import { InvoicePreferencesComponent } from './components/invoice-details/invoice-preferences/invoice-preferences.component';
+import { CompanyComponent } from './components/company/company-details/company.component';
+import { InvoiceDetails } from './services/invoice-services/details.service';
 
 const routes: Routes = [
   {
@@ -30,6 +32,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardPageComponent,
+    children: [
+      { path: 'company', component: CompanyComponent },
+      { path: 'settings', component: InvoicePreferencesComponent },
+    ],
   },
   {
     path: 'reports',

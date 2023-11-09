@@ -2,13 +2,14 @@
   <div class="button-container">
     <button
       class="button"
-      [disabled]="!clientValid || !detailsValid || !itemsValid"
+      [disabled]="!clientName || !itemsValid || !(detailsValid && invoiceValid)"
     >
       Save
     </button>
     <a
       [ngClass]="{
-        'button-disabled': !clientValid || !detailsValid || !itemsValid,
+        'button-disabled':
+          !clientName || !itemsValid || !(detailsValid && invoiceValid),
         button: true
       }"
       [routerLink]="['/invoice-preview']"
@@ -21,15 +22,8 @@
   <div class="client">
     <div class="header">
       <p class="tabName">CLIENT</p>
-      <app-search-client></app-search-client>
-      <div
-        [ngClass]="{
-          'client-name': clientValid,
-          'client-invalid': !clientValid
-        }"
-      >
-        {{ clientValid ? clientName : "Client information incomplete!" }}
-      </div>
+      <app-search-client class="search"></app-search-client>
+
       <button class="toggle" (click)="clientToggle = !clientToggle">
         <mat-icon class="arrow" *ngIf="!clientToggle"
           >keyboard_arrow_down</mat-icon
@@ -39,22 +33,48 @@
         >
       </button>
     </div>
+    <p class="client-invalid" *ngIf="!clientName && !clientToggle">
+      Search for a customer, or expand this card to add a new one...
+    </p>
+    <div class="client-details" *ngIf="!clientToggle && clientName" @hideShow>
+      <p class="name">{{ clientName }}</p>
+      <div>
+        <p class="label">Tax Registration</p>
+        <p>{{ clientDetails.PartyIdentification.ID }}</p>
+      </div>
+      <div>
+        <p class="label">Adress</p>
+        <p>
+          {{ clientDetails.PostalAdress.StreetName }}
+          {{ clientDetails.PostalAdress.BuildingNumber }},
+          {{ clientDetails.PostalAdress.CityName }},<br />
+          {{ clientDetails.PostalAdress.CountrySubentity }},
+          {{ clientDetails.PostalAdress.Country.IdentificationCode }}, Postal
+          Code
+          {{ clientDetails.PostalAdress.PostalZone }}
+        </p>
+      </div>
+    </div>
     <div class="body" *ngIf="clientToggle" @openClose>
       <app-client class="form"></app-client>
     </div>
   </div>
-  <div class="details">
-    <div class="header">
-      <p class="tabName">DETAILS</p>
-      <app-dates class="number-date"></app-dates>
-      <button class="toggle" (click)="detailsToggle = !detailsToggle">
-        <mat-icon *ngIf="!detailsToggle">keyboard_arrow_down</mat-icon>
-        <mat-icon *ngIf="detailsToggle">keyboard_arrow_up</mat-icon>
-      </button>
+  <div class="details-container">
+    <div class="details">
+      <div class="header">
+        <app-dates class="number-date"></app-dates>
+        <button class="toggle" (click)="clientToggle = !clientToggle">
+          <mat-icon *ngIf="!clientToggle">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="clientToggle">keyboard_arrow_up</mat-icon>
+        </button>
+      </div>
+      <div class="body" *ngIf="clientToggle" @openClose>
+        <app-invoice-preferences class="form"></app-invoice-preferences>
+      </div>
     </div>
-    <div class="body" *ngIf="detailsToggle" @openClose>
-      <app-invoice-preferences class="form"></app-invoice-preferences>
-    </div>
+  </div>
+  <div class="delivery">
+    <app-delivery-adress></app-delivery-adress>
   </div>
   <div class="items">
     <div class="header">
