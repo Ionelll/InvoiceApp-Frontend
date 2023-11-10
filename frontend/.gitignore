@@ -41,8 +41,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-documentatie
+/documentatie
 material-theming.scss
+/environment
+
 # Firebase
 .firebase
 *-debug.log

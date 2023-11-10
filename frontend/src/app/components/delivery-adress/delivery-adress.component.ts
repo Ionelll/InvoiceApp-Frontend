@@ -1,8 +1,15 @@
 import { transition, trigger, style, animate } from '@angular/animations';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 import { LocationService } from 'src/app/services/location.service';
+import { Loader } from '@googlemaps/js-api-loader';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-delivery-adress',
@@ -21,7 +28,7 @@ import { LocationService } from 'src/app/services/location.service';
     ]),
   ],
 })
-export class DeliveryAdressComponent implements OnInit {
+export class DeliveryAdressComponent implements OnInit, AfterViewInit {
   constructor(private location: LocationService) {}
   Delivery = new FormGroup({
     ActualDeliveryDate: new FormControl(Date, Validators.required),
@@ -45,29 +52,29 @@ export class DeliveryAdressComponent implements OnInit {
     localStorage.setItem('DeliveryToggle', JSON.stringify(this.deliveryToggle));
   }
   @ViewChild('street') street: ElementRef;
-  private getPlaceAutocomplete() {
-    const autocomplete = new google.maps.places.Autocomplete(
-      this.street.nativeElement,
-      {
-        componentRestrictions: { country: 'US' },
-        types: ['adress'], // 'establishment' / 'address' / 'geocode'
-      }
-    );
-    google.maps.event.addListener(autocomplete, 'place_changed', () => {
-      const place = autocomplete.getPlace();
-      this.invokeEvent(place);
-    });
-  }
-
-  invokeEvent(place: Object) {
-    console.log(place);
-  }
 
   ngOnInit() {
-    this.getPlaceAutocomplete();
+    // this.location.getLocation('cali');
     this.Delivery.valueChanges.subscribe(() => {
       localStorage.setItem('Delivery', JSON.stringify(this.Delivery.value));
     });
     this.Delivery.patchValue(JSON.parse(localStorage.getItem('Delivery')));
+  }
+  ngAfterViewInit(): void {
+    let autocomplete: google.maps.places.Autocomplete;
+    const loader = new Loader({
+      apiKey: environment.placesKey, //
+      version: 'weekly',
+      libraries: ['places'],
+    });
+    loader.importLibrary('places').then((google) => {
+      autocomplete = new google.Autocomplete(this.street.nativeElement, {
+        fields: ['address_components', 'geometry'],
+        types: ['address'],
+      });
+      autocomplete.addListener('place_changed', () => {
+        console.log(autocomplete.getPlace());
+      });
+    });
   }
 }

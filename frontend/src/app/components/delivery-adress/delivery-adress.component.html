@@ -1,13 +1,3 @@
-<script>
-  let autocomplete;
-  function initAutocomplete() {
-    autocomplete = new google.maps.places.Autocomplete(street, {
-      types: ["establishment"],
-      fields: ["place_id", "adress"],
-    });
-  }
-</script>
-
 <form [formGroup]="Delivery">
   <div class="header">
     <input
@@ -38,6 +28,7 @@
       <input
         class="input"
         type="text"
+        #street
         id="street"
         formControlName="StreetName"
       />
