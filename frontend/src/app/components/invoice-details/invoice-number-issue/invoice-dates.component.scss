@@ -1,13 +1,14 @@
 .container {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .ng-invalid:not(form) {
-  border: 1px solid var(--clr-accent-red);
+  outline: 1px solid var(--clr-accent-red);
 }
 .items {
   display: flex;
-  margin: auto;
+
   white-space: nowrap;
 }
 
@@ -17,11 +18,10 @@
   font-size: 16px;
   color: var(--clr-secondary-dark);
   text-align: center;
-  border: 1px solid var(--clr-primary-light);
+  border: none;
   outline: none;
   background-color: #ffffff11;
 
-  border-radius: 10px;
   &:focus {
     background-color: var(--clr-input-focused);
   }
@@ -42,6 +42,7 @@ label {
   border: none;
   font-size: 16px;
   padding: 0.2em;
-
+  text-align: center;
+  width: 100%;
   outline: none;
 }

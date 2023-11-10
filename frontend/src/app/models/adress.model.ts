@@ -1,8 +1,9 @@
 export interface Adress {
-  country?: string;
-  region?: string;
-  city?: string;
-  street?: string;
-  number?: string;
-  postalCode?: string;
+  Postbox?: string;
+  StreetName: string;
+  BuildingNumber?: string;
+  CityName: string;
+  PostalZone?: string;
+  CountrySubentity?: string;
+  Country: { IdentificationCode: string };
 }

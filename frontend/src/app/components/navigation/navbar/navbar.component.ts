@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private invoice: CreateInvoice,
-    private account: AccountService
+    private account: AccountService,
   ) {}
   ngOnInit(): void {
     this.account.isLoggedIn();

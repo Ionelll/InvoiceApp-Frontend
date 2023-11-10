@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="section" *ngIf="company">
-      <h2 class="companyName">{{ company.companyName }}</h2>
+      <h2 class="companyName">{{ company.Party.PartyName.Name }}</h2>
       <div class="imgcontainer">
         <img *ngIf="logo" [src]="logo" alt="logo" class="logo" />
       </div>
@@ -22,63 +22,81 @@
       <div class="details">
         <mat-icon class="icon-label">location_on</mat-icon>
         <p class="value">
-          {{ company.adress.street }} {{ company.adress.number }},
-          {{ company.adress.city }}, {{ company.adress.region }},
-          {{ company.adress.country }}, <br />PostalCode
-          {{ company.adress.postalCode }}
+          {{ company.Party.PostalAdress.StreetName }}
+          {{ company.Party.PostalAdress.BuildingNumber }},
+          {{ company.Party.PostalAdress.CityName }},
+          {{ company.Party.PostalAdress.CountrySubentity }},
+          {{ company.Party.PostalAdress.Country.IdentificationCode }},
+          <br />Postal Zone
+          {{ company.Party.PostalAdress.PostalZone }}
         </p>
-
-        <mat-icon class="icon-label" *ngIf="company.phone"
+        <label>Contact</label>
+        <p>{{ company.Party.Contact.Name }}</p>
+        <mat-icon class="icon-label" *ngIf="company.Party.Contact.Telephone"
           >local_phone</mat-icon
         >
-        <p class="value" *ngIf="company.phone">{{ company.phone }}</p>
-        <mat-icon class="icon-label" *ngIf="company.mobile"
-          >smartphone</mat-icon
+        <p class="value" *ngIf="company.Party.Contact.Telephone">
+          {{ company.Party.Contact.Telephone }}
+        </p>
+        <mat-icon
+          class="icon-label"
+          *ngIf="company.Party.Contact.ElectronicMail"
+          >email</mat-icon
         >
-        <p class="value" *ngIf="company.mobile">{{ company.mobile }}</p>
-        <mat-icon class="icon-label" *ngIf="company.email">email</mat-icon>
-        <p class="value" *ngIf="company.email">{{ company.email }}</p>
-        <mat-icon class="icon-label" *ngIf="company.website">web</mat-icon>
-        <a
-          [href]="company.website"
-          target="_blank"
-          *ngIf="company.website"
-          class="link"
-          >{{ company.website }}</a
-        >
+        <p class="value" *ngIf="company.Party.Contact.ElectronicMail">
+          {{ company.Party.Contact.ElectronicMail }}
+        </p>
+
         <mat-icon class="icon-label">credit_card</mat-icon>
-        <div *ngFor="let bank of company.bank">
-          <p class="value">{{ bank.bankname }}</p>
-          <p class="value">{{ bank.iban }}</p>
-          <p class="value">{{ bank.bic }}</p>
-        </div>
+
+        <p class="value">
+          {{ user.PayeeFinancialAccount.FinancialInstitution.Name }}
+        </p>
+        <p class="value">{{ user.PayeeFinancialAccount.ID }}</p>
+        <p class="value">
+          {{ user.PayeeFinancialAccount.FinancialInstitution.ID }}
+        </p>
       </div>
     </div>
     <div class="separator">
       <p>Buyer:</p>
       <p *ngIf="deliveryAdress">Delivery to:</p>
     </div>
-    <div [ngClass]="{ section: true, 'separator-single': !deliveryAdress }">
+    <div
+      [ngClass]="{
+        section: true,
+        'separator-single': !deliveryAdress
+      }"
+    >
       <div class="body">
-        <h2 class="clientName">{{ client.companyName }}</h2>
+        <h2 class="clientName">{{ client.Party.PartyName }}</h2>
         <div class="details">
           <mat-icon class="icon-label">location_on</mat-icon>
           <p class="value">
-            {{ client.adress.street }} {{ client.adress.number }},
-            {{ client.adress.city }}, {{ client.adress.region }},
-            {{ client.adress.country }}, Postal Code
-            {{ client.adress.postalCode }}
+            {{ client.Party.PostalAdress.StreetName }}
+            {{ client.Party.PostalAdress.BuildingNumber }},
+            {{ client.Party.PostalAdress.CityName }},
+            {{ client.Party.PostalAdress.CountrySubentity }},
+            {{ client.Party.PostalAdress.Country.IdentificationCode }}, Postal
+            Code
+            {{ client.Party.PostalAdress.PostalZone }}
           </p>
-          <mat-icon class="icon-label" *ngIf="client.phone"
+          <label>Contact</label>
+          <p>{{ client.Party.Contact.Name }}</p>
+          <mat-icon class="icon-label" *ngIf="client.Party.Contact.Telephone"
             >local_phone</mat-icon
           >
-          <p class="value" *ngIf="client.phone">{{ client.phone }}</p>
-          <mat-icon class="icon-label" *ngIf="client.mobile"
-            >smartphone</mat-icon
+          <p class="value" *ngIf="client.Party.Contact.Telephone">
+            {{ client.Party.Contact.Telephone }}
+          </p>
+          <mat-icon
+            class="icon-label"
+            *ngIf="client.Party.Contact.ElectronicMail"
+            >email</mat-icon
           >
-          <p class="value" *ngIf="client.mobile">{{ client.mobile }}</p>
-          <mat-icon class="icon-label" *ngIf="client.email">email</mat-icon>
-          <p class="value" *ngIf="client.email">{{ client.email }}</p>
+          <p class="value" *ngIf="client.Party.Contact.ElectronicMail">
+            {{ client.Party.Contact.ElectronicMail }}
+          </p>
         </div>
       </div>
     </div>

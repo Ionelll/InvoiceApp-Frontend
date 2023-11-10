@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  min-height: 4rem;
+}
+.ng-invalid:not(form),
+.ng-invalid:not(ng-container) {
+  border-bottom: 1px solid var(--clr-accent-red);
+}
+.date {
+  color: var(--clr-secondary-dark);
+  border: none;
+  font-size: 16px;
+  padding: 0.2em;
+  text-align: center;
+  margin: auto 0;
+  outline: none;
+}
+.tabName {
+  color: var(--clr-primary-light);
+  margin: auto 0;
+  font-family: "Audiowide", sans-serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+.tabNameDisabled {
+  color: gray;
+}
+
+.input {
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  padding-left: 1rem;
+  outline: none;
+  border: none;
+  margin: 3px;
+  &:focus {
+    background-color: var(--clr-input-focused);
+  }
+}
+.body {
+  padding: 0 1.5rem 1rem 1.5rem;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr 0.2fr 1fr;
+}
+.label {
+  color: var(--clr-primary-light);
+  margin: auto;
+  font-size: smaller;
+  white-space: nowrap;
+}

@@ -17,8 +17,8 @@ export class InvoiceDatesComponent implements OnInit {
   resetSub = new Subscription();
 
   invoiceNrandDate = new FormGroup({
-    invoiceNr: new FormControl('', Validators.required),
-    issued: new FormControl(
+    ID: new FormControl('', Validators.required),
+    IssueDate: new FormControl(
       this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
       Validators.required
     ),
@@ -35,12 +35,13 @@ export class InvoiceDatesComponent implements OnInit {
       this.details.setInvoiceValidation(this.invoiceNrandDate.valid);
     });
     this.details.getInvoiceNr().subscribe((res) => {
-      this.invoiceNrandDate.controls.invoiceNr.setValue(res);
+      this.invoiceNrandDate.controls.ID.setValue(res);
     });
     this.resetSub = this.details.subscribeResetDetails().subscribe((res) => {
-      this.invoiceNrandDate.controls.issued.setValue(
+      this.invoiceNrandDate.controls.IssueDate.setValue(
         this.datePipe.transform(new Date(), 'yyyy-MM-dd')
       );
     });
+    this.details.setInvoiceValidation(this.invoiceNrandDate.valid);
   }
 }

@@ -1,157 +1,196 @@
 <div class="container">
-  <form [formGroup]="showClient" class="clientdata" #clientform>
-    <button class="button" (click)="clearForm()">Clear all fields</button>
+  <form [formGroup]="Customer" class="clientdata" #clientform>
+    <button class="button" (click)="clearForm()">New</button>
     <label
-      [ngClass]="{
-        'label-invalid': showClient.controls.companyName.invalid,
-        label: true
-      }"
-      for="clientname"
-      >Name *</label
+      class="label"
+      for="BuyerReference"
+      title="An identifier assigned by the Buyer used for internal routing purposes. An invoice must have buyer reference or purchase order reference"
+      >Customer Reference</label
     >
     <input
       type="text"
-      id="clientname"
-      class="input clientname"
-      formControlName="companyName"
-      (input)="setCompanyName()"
-    />
-    <label
-      for="taxRegistrationNr"
-      [ngClass]="{
-        'label-invalid': showClient.controls.registrationNumber.invalid,
-        label: true
-      }"
-      >Tax registration nr.*</label
-    >
-    <input
-      id="taxRegistrationNr"
-      type="text"
+      id="BuyerReference"
+      formControlName="BuyerReference"
       class="input"
-      formControlName="registrationNumber"
     />
-    <label
-      for="euid"
-      [ngClass]="{
-        'label-invalid': showClient.controls.euid.invalid,
-        label: true
-      }"
-      >EUID</label
-    >
-    <input type="text" id="euid" class="input" formControlName="euid" />
-    <label
-      [ngClass]="{
-        'label-invalid': showClient.controls.adress.invalid,
-        'adress-title': true
-      }"
-    >
-      Adress*
-    </label>
-    <form class="adress-container" formGroupName="adress">
+    <ng-container formGroupName="Party">
+      <ng-container formGroupName="PartyName">
+        <label
+          [ngClass]="{
+            'label-invalid':
+              Customer.controls.Party.controls.PartyName.controls.Name.invalid,
+            label: true
+          }"
+          for="customerName"
+          >Customer Name *</label
+        >
+        <input
+          type="text"
+          id="customerName"
+          class="input clientname"
+          formControlName="Name"
+          (input)="setCompanyName()"
+        />
+      </ng-container>
+      <ng-container formGroupName="PartyIdentification">
+        <label
+          for="PartyIdentification"
+          [ngClass]="{
+            'label-invalid':
+              Customer.controls.Party.controls.PartyIdentification.invalid,
+            label: true
+          }"
+          >Tax identification nr.*</label
+        >
+        <input
+          id="PartyIdentification"
+          type="text"
+          class="input"
+          formControlName="ID"
+        />
+      </ng-container>
       <label
+        title="Identifies the Buyer's electronic address to which the invoice is delivered"
+        for="EndpointID"
         [ngClass]="{
-          'label-invalid': showClient.controls.adress.controls.street.invalid,
-          'adress-label': true
+          'label-invalid': Customer.controls.Party.controls.EndpointID.invalid,
+          label: true
         }"
-        for="street"
-        >Street</label
+        >EndpointID</label
       >
       <input
-        class="adressinput input"
         type="text"
-        id="street"
-        formControlName="street"
+        id="EndpointID"
+        class="input"
+        formControlName="EndpointID"
       />
-      <label
-        [ngClass]="{
-          'label-invalid': showClient.controls.adress.controls.number.invalid,
-          'adress-label': true
-        }"
-        for="number"
-        >Nr</label
-      >
-      <input
-        required
-        class="adressinput input"
-        type="text"
-        id="number"
-        formControlName="number"
-      />
-      <label
-        [ngClass]="{
-          'label-invalid': showClient.controls.adress.controls.city.invalid,
-          'adress-label': true
-        }"
-        for="city"
-        >City</label
-      >
-      <input
-        required
-        class="adressinput input"
-        type="text"
-        id="city"
-        formControlName="city"
-      />
-      <label class="adress-label" for="region">Region</label>
-      <input
-        class="adressinput input"
-        type="text"
-        id="region"
-        formControlName="region"
-      />
-      <label
-        [ngClass]="{
-          'label-invalid': showClient.controls.adress.controls.country.invalid,
-          'adress-label': true
-        }"
-        for="country"
-        >Country</label
-      >
-      <input
-        required
-        class="input adressinput"
-        type="text"
-        id="country"
-        formControlName="country"
-      />
+
       <label
         [ngClass]="{
           'label-invalid':
-            showClient.controls.adress.controls.postalCode.invalid,
-          'adress-label': true
+            Customer.controls.Party.controls.PostalAdress.invalid,
+          'adress-title': true
         }"
-        for="postalCode"
-        >Zip</label
       >
-      <input
-        required
-        class="adressinput input"
-        type="text"
-        id="postalCode"
-        formControlName="postalCode"
-      />
-    </form>
-    <label
-      [ngClass]="{
-        'label-invalid': showClient.controls.phone.invalid,
-        label: true
-      }"
-      for="phone"
-      >Telephone*</label
-    >
-    <input id="phone" type="text" class="input" formControlName="phone" />
-    <label
-      [ngClass]="{
-        'label-invalid': showClient.controls.email.invalid,
-        label: true
-      }"
-      for="email"
-      >Email*</label
-    >
-    <input class="input" id="email" type="text" formControlName="email" />
-    <div class="save-cancel-container">
-      <button class="button">Save</button>
-      <button class="button">Cancel</button>
-    </div>
+        Adress*
+      </label>
+      <form class="adress-container" formGroupName="PostalAdress">
+        <label
+          [ngClass]="{
+            'label-invalid':
+              Customer.controls.Party.controls.PostalAdress.controls.StreetName
+                .invalid,
+            'adress-label': true
+          }"
+          for="street"
+          >Street</label
+        >
+        <input
+          class="adressinput input"
+          type="text"
+          id="street"
+          formControlName="StreetName"
+        />
+        <label
+          [ngClass]="{
+            'label-invalid':
+              Customer.controls.Party.controls.PostalAdress.controls
+                .BuildingNumber.invalid,
+            'adress-label': true
+          }"
+          for="number"
+          >Nr.</label
+        >
+        <input
+          required
+          class="adressinput input"
+          type="text"
+          id="number"
+          formControlName="BuildingNumber"
+        />
+        <label
+          [ngClass]="{
+            'label-invalid':
+              Customer.controls.Party.controls.PostalAdress.controls.CityName
+                .invalid,
+            'adress-label': true
+          }"
+          for="city"
+          >City*</label
+        >
+        <input
+          required
+          class="adressinput input"
+          type="text"
+          id="city"
+          formControlName="CityName"
+        />
+        <label class="adress-label" for="region">Region</label>
+        <input
+          class="adressinput input"
+          type="text"
+          id="region"
+          formControlName="CountrySubentity"
+        />
+        <ng-container formGroupName="Country">
+          <label
+            [ngClass]="{
+              'label-invalid':
+                Customer.controls.Party.controls.PostalAdress.controls.Country
+                  .controls.IdentificationCode.invalid,
+              'adress-label': true
+            }"
+            for="country"
+            >Country Code *</label
+          >
+          <input
+            required
+            class="input adressinput"
+            type="text"
+            id="country"
+            formControlName="IdentificationCode"
+          />
+        </ng-container>
+        <label
+          [ngClass]="{
+            'label-invalid':
+              Customer.controls.Party.controls.PostalAdress.controls.PostalZone
+                .invalid,
+            'adress-label': true
+          }"
+          for="postalCode"
+          >Postal Zone</label
+        >
+        <input
+          required
+          class="adressinput input"
+          type="text"
+          id="postalCode"
+          formControlName="PostalZone"
+        />
+      </form>
+      <ng-container formGroupName="Contact">
+        <label class="label" for="name">Name</label>
+        <input id="name" type="text" formControlName="Name" />
+        <label for="phone" class="label">Telephone</label>
+        <input
+          id="phone"
+          type="text"
+          class="input"
+          formControlName="Telephone"
+        />
+        <label class="label" for="email">Email</label>
+        <input
+          class="input"
+          id="email"
+          type="text"
+          formControlName="ElectronicMail"
+        />
+      </ng-container>
+      <div class="save-cancel-container">
+        <button class="button" (click)="saveCustomer()">Save</button>
+        <button class="button" (click)="reloadCustomer()">Cancel</button>
+      </div>
+    </ng-container>
   </form>
 </div>

@@ -32,9 +32,9 @@ export class AccountService {
         sessionStorage.setItem('VAT-PERCENT', res.user.preferedVat);
         sessionStorage.setItem('DUE-PERIOD', res.user.preferedDuePeriod);
         sessionStorage.setItem('CURRENCY', res.user.preferedCurrency);
-        sessionStorage.setItem('ARTICLES', JSON.stringify(res.user.articles));
+        sessionStorage.setItem('ARTICLES', JSON.stringify(res.user.item));
         localStorage.setItem('Company', JSON.stringify(res.user.company));
-        this.details.setInvoiceNr(res.user.nextInvoiceNr);
+        this.details.setInvoiceNr(res.user.lastInvoiceNr);
         this.router.navigate(['invoice']);
       });
   }

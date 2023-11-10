@@ -49,54 +49,63 @@ export class CompanyComponent implements OnInit, OnDestroy {
   activeImage: string;
   company = new FormData();
   logoChanged = false;
-  companydetails = new FormGroup({
-    companyName: new FormControl('', Validators.required),
-    adress: new FormGroup({
-      country: new FormControl('', Validators.required),
-      region: new FormControl(''),
-      city: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      number: new FormControl('', Validators.required),
-      postalCode: new FormControl('', Validators.required),
+  currencyList = ['EUR', 'RON', 'GBP'];
+
+  Supplier = new FormGroup({
+    PartyName: new FormGroup({
+      Name: new FormControl('', Validators.required),
     }),
-    registrationNumber: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', Validators.required),
-    fax: new FormControl(''),
-    website: new FormControl(''),
-    caen: new FormControl(''),
-    bank: new FormArray([
-      new FormGroup({
-        bankname: new FormControl(''),
-        iban: new FormControl(''),
-        bic: new FormControl(''),
+    EndpointID: new FormControl(''),
+    IndustryClasificationCode: new FormControl(''),
+    PartyIdentification: new FormGroup({
+      ID: new FormControl('', Validators.required),
+    }),
+    PostalAdress: new FormGroup({
+      PostBox: new FormControl(''),
+      StreetName: new FormControl('', Validators.required),
+      BuildingNumber: new FormControl(''),
+      CityName: new FormControl('', Validators.required),
+      PostalZone: new FormControl('', Validators.required),
+      CountrySubentity: new FormControl(''),
+      Country: new FormGroup({
+        IdentificationCode: new FormControl('', Validators.required),
       }),
-    ]),
+    }),
+    Contact: new FormGroup({
+      Name: new FormControl(''),
+      Telephone: new FormControl(''),
+      ElectronicMail: new FormControl(''),
+    }),
+    PayeeFinancialAccount: new FormGroup({
+      ID: new FormControl('', Validators.required),
+      CurrencyCode: new FormControl(''),
+      FinancialInstitution: new FormGroup({
+        ID: new FormControl('', Validators.required),
+        Name: new FormControl(''),
+      }),
+    }),
   });
 
   ngOnInit(): void {
-    this.companySub = this.account.getCompany().subscribe((res) => {
+    this.companySub = this.account.getUser().subscribe((res) => {
       if (res) {
         this.activeImage = res.logo;
         localStorage.setItem('Logo', res.logo);
         this.user = true;
-        this.companydetails.patchValue(res);
+        this.Supplier.patchValue(res.company.Party);
         this.toggle = false;
         // } else {
         //   localStorage.removeItem('Company');
       }
     });
-    this.companydetails.valueChanges.subscribe(() => {
-      localStorage.setItem(
-        'Company',
-        JSON.stringify(this.companydetails.value)
-      );
-      this.account.setCompanyValidation(this.companydetails.valid);
+    this.Supplier.valueChanges.subscribe(() => {
+      localStorage.setItem('Company', JSON.stringify(this.Supplier.value));
+      this.account.setCompanyValidation(this.Supplier.valid);
     });
-    this.companydetails.controls.companyName.valueChanges.subscribe((res) => {
-      this.companyName = res || 'My Company';
+    this.Supplier.controls.PartyName.valueChanges.subscribe((res) => {
+      this.companyName = res.Name || 'My Company';
     });
-    this.companydetails.patchValue(JSON.parse(localStorage.getItem('Company')));
+    this.Supplier.patchValue(JSON.parse(localStorage.getItem('Company')));
   }
 
   onFileChange(event) {

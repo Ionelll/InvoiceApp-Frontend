@@ -50,7 +50,7 @@ $frontend-dark-theme: mat.define-dark-theme(
 /* You can add global styles to this file, and also import other style files */
 :root {
   --clr-input-focused: #3179c71e;
-  --clr-background: #f4f4f4;
+  --clr-background: #f9fbff;
   --clr-primary: #2d2d2d;
   --clr-primary-light: #3179c7;
   --clr-secondary: #fefefe;
@@ -77,6 +77,7 @@ input[type="number"] {
 }
 html,
 body {
+  overflow-y: scroll;
   margin: 0;
   padding: 0;
   width: 100%;
