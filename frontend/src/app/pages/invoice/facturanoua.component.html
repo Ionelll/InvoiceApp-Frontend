@@ -9,7 +9,9 @@
     <a
       [ngClass]="{
         'button-disabled':
-          !clientName || !itemsValid || !(detailsValid && invoiceValid),
+          (!clientName && !clientValid) ||
+          !itemsValid ||
+          !(detailsValid && invoiceValid),
         button: true
       }"
       [routerLink]="['/invoice-preview']"
@@ -33,10 +35,17 @@
         >
       </button>
     </div>
-    <p class="client-invalid" *ngIf="!clientName && !clientToggle">
+    <p
+      class="client-invalid"
+      *ngIf="(!clientValid || !clientName) && !clientToggle"
+    >
       Search for a customer, or expand this card to add a new one...
     </p>
-    <div class="client-details" *ngIf="!clientToggle && clientName" @hideShow>
+    <div
+      class="client-details"
+      *ngIf="!clientToggle && clientName && clientValid"
+      @hideShow
+    >
       <p class="name">{{ clientName }}</p>
       <div>
         <p class="label">Tax Registration</p>

@@ -1,6 +1,6 @@
 .container {
   background-color: white;
-  padding: 1rem 5rem 0 5rem;
+  padding: 2rem;
   width: 100%;
 }
 .ng-invalid:not(form) {
@@ -11,7 +11,7 @@
   grid-column: 1;
   color: var(--clr-primary-light);
   margin: auto;
-  font-size: 12px;
+  font-size: 0.85rem;
   font-weight: 400;
   white-space: nowrap;
 }
@@ -67,9 +67,9 @@
   all: unset;
   grid-column: 2;
   color: var(--clr-primary-light);
-  padding: 0.5em 0.7em;
+  padding: 0.3em 1em;
   text-align: center;
-  width: 5rem;
+  width: 3rem;
   margin: auto;
   margin-right: 0;
   outline: none;

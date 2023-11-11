@@ -28,7 +28,6 @@ import { environment } from 'src/environment/environment';
   ],
 })
 export class DeliveryAdressComponent implements OnInit, AfterViewInit {
-  constructor(private location: LocationService) {}
   Delivery = new FormGroup({
     ActualDeliveryDate: new FormControl(Date, Validators.required),
     DeliveryLocation: new FormGroup({
@@ -55,7 +54,6 @@ export class DeliveryAdressComponent implements OnInit, AfterViewInit {
   @ViewChild('street') street: ElementRef;
 
   ngOnInit() {
-    // this.location.getLocation('cali');
     this.Delivery.valueChanges.subscribe(() => {
       localStorage.setItem('Delivery', JSON.stringify(this.Delivery.value));
     });
@@ -72,7 +70,7 @@ export class DeliveryAdressComponent implements OnInit, AfterViewInit {
     });
     loader.importLibrary('places').then((google) => {
       autocomplete = new google.Autocomplete(this.street.nativeElement, {
-        fields: ['address_components', 'geometry'],
+        fields: ['address_components'],
         types: ['address'],
       });
       autocomplete.addListener('place_changed', () => {
