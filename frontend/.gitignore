@@ -43,7 +43,7 @@ testem.log
 Thumbs.db
 /documentatie
 material-theming.scss
-/environment
+/frontent/src/environment
 
 # Firebase
 .firebase
