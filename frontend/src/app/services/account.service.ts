@@ -6,11 +6,12 @@ import { environment } from 'src/environment/environment';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { InvoiceDetails } from './invoice-services/details.service';
+import { Item } from '../models/item.model';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   private user = new BehaviorSubject<User>(undefined);
-  private company = new BehaviorSubject<Company>(undefined);
+  private company = new BehaviorSubject<Company['Party']>(undefined);
   private companyValidation = new Subject<boolean>();
 
   constructor(
@@ -26,14 +27,16 @@ export class AccountService {
         form
       )
       .subscribe((res) => {
+        if (!res) return;
         this.user.next(res.user);
-        this.company.next(res.user.company);
-        console.log(res);
-        sessionStorage.setItem('VAT-PERCENT', res.user.preferedVat);
-        sessionStorage.setItem('DUE-PERIOD', res.user.preferedDuePeriod);
-        sessionStorage.setItem('CURRENCY', res.user.preferedCurrency);
-        sessionStorage.setItem('ARTICLES', JSON.stringify(res.user.item));
-        localStorage.setItem('Company', JSON.stringify(res.user.company));
+        this.company.next(res.user.Party);
+        sessionStorage.setItem(
+          'InvoiceSettings',
+          JSON.stringify(res.user.invoiceSettings)
+        );
+        sessionStorage.setItem('Articles', JSON.stringify(res.user.Items));
+        localStorage.setItem('Company', JSON.stringify(res.user.Party));
+        localStorage.setItem('Logo', res.user.Logo);
         this.details.setInvoiceNr(res.user.lastInvoiceNr);
         this.router.navigate(['invoice']);
       });
@@ -45,10 +48,21 @@ export class AccountService {
         `${environment.apiUrl}/isloggedin`
       )
       .subscribe((res) => {
-        console.log(res);
         if (res.loggedin) {
           this.user.next(res.user);
-          this.company.next(res.user.company);
+          sessionStorage.setItem(
+            'InvoiceSettings',
+            JSON.stringify(res.user.invoiceSettings)
+          );
+          sessionStorage.setItem('Articles', JSON.stringify(res.user.Items));
+          localStorage.setItem('Company', JSON.stringify(res.user.Party));
+          localStorage.setItem('Logo', res.user.Logo);
+          this.details.setInvoiceNr(res.user.lastInvoiceNr);
+          this.company.next(res.user.Party);
+          localStorage.setItem(
+            'Bank',
+            JSON.stringify(res.user.PayeeFinancialAccount)
+          );
         } else this.user.next(undefined);
       });
   }
@@ -62,23 +76,24 @@ export class AccountService {
   logout() {
     this.user.next(undefined);
     localStorage.clear();
+    sessionStorage.clear();
     this.http.get(`${environment.apiUrl}/logout`).subscribe();
     window.location.reload();
   }
 
-  updateCompany(company: FormData) {
+  updateCompany(company) {
     this.http
-      .post<{ company: Company; message: string }>(
+      .post<{ user: User; message: string }>(
         `${environment.apiUrl}/updatecompany`,
         company
       )
       .subscribe((res) => {
-        this.company.next(res.company);
+        this.user.next(res.user);
       });
   }
   register(form: FormData) {
     this.http
-      .post<Company>(`${environment.apiUrl}/register`, form)
+      .post<Company['Party']>(`${environment.apiUrl}/register`, form)
       .subscribe((res) => {
         this.company.next(res);
       });
@@ -88,5 +103,24 @@ export class AccountService {
   }
   getCompanyValidation() {
     return this.companyValidation.asObservable();
+  }
+  updateItems(items: Item[]) {
+    this.http
+      .post<{ result: User }>(`${environment.apiUrl}/updateItems`, items)
+      .subscribe((res) => {
+        this.user.next(res.result);
+        sessionStorage.setItem('Articles', JSON.stringify(res.result.Items));
+      });
+  }
+  updateSettings(settings) {
+    this.http
+      .post<{ result: User }>(`${environment.apiUrl}/update-settings`, settings)
+      .subscribe((res) => {
+        this.user.next(res.result);
+        sessionStorage.setItem(
+          'InvoiceSettings',
+          JSON.stringify(res.result.invoiceSettings)
+        );
+      });
   }
 }

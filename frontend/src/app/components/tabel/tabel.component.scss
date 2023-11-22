@@ -1,7 +1,7 @@
 .table {
   display: grid;
   grid-template-columns:
-    3em minmax(15em, 50em) repeat(4, minmax(5em, auto))
+    3em minmax(15em, 50em) repeat(5, minmax(5em, auto))
     3em;
   background-color: var(--clr-secondary);
   width: 100%;
@@ -10,8 +10,14 @@
 input:disabled {
   color: black;
 }
+select {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--clr-primary-light);
+}
 textarea.ng-invalid:not(form),
-input.ng-invalid {
+input.ng-invalid,
+select.ng-invalid:not(form) {
   border-bottom: 1px solid var(--clr-accent-red);
 }
 
@@ -40,9 +46,8 @@ input {
   background-color: transparent;
   outline: none;
   overflow: hidden;
-  min-height: 40px;
+  font-size: 18px;
   padding-top: 1em;
-  font-size: 14px;
 }
 
 .minus {
@@ -79,19 +84,21 @@ input {
 .icon {
   transform: scale(1.5);
 }
-.row {
-  grid-column-start: 1;
-  grid-column-end: 8;
 
-  display: grid;
-  grid-template-columns:
-    3em minmax(15em, 50em) repeat(4, minmax(5em, auto))
-    3em;
-}
 .column-label {
   color: var(--clr-primary-light);
   text-align: center;
   font-family: "Poppins", sans-serif;
   font-size: 12px;
   white-space: nowrap;
+}
+@media only screen and (max-width: 950px) {
+  .table {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    p {
+      display: none;
+    }
+  }
 }

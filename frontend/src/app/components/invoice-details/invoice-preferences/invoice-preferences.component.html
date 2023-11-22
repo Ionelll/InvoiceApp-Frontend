@@ -31,9 +31,9 @@
   <label for="currency" class="label">Currency</label>
 
   <select class="input" id="currency" formControlName="DocumentCurrencyCode">
-    <option value="$">USA</option>
-    <option value="Ron">RON</option>
-    <option value="€">EUR</option>
+    <option *ngFor="let item of currencies" [value]="item.code">
+      {{ item.name }}
+    </option>
   </select>
 
   <label for="orderRef" class="label">Order reference</label>
@@ -63,7 +63,7 @@
   >
   </textarea>
 
-  <label for="notes" class="label">Notes</label>
+  <label for="notes" class="label">Note</label>
 
   <textarea
     id="notes"
@@ -73,4 +73,15 @@
     #autosize="cdkTextareaAutosize"
     cdkAutosizeMinRows="1"
   ></textarea>
+  <ng-container formGroupName="PaymentTerms">
+    <label for="notes" class="label">Payment terms</label>
+    <textarea
+      id="terms"
+      formControlName="Note"
+      class="text"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+    ></textarea>
+  </ng-container>
 </form>

@@ -1,5 +1,117 @@
-<div class="header" *ngIf="company">
-  <button class="toggle-button" (click)="toggle = !toggle">
-    <span class="tab-name">Invoice Settings</span>
-  </button>
+<div class="listcontainer">
+  <p class="label">Items</p>
+  <div class="item" *ngFor="let item of items; index as i">
+    <p>Description</p>
+    <p>{{ item.Item.Name }}</p>
+    <p>Tax %</p>
+    <p>{{ item.Item.ClassifiedTaxCategory.Percent }}</p>
+    <p>unit of measure</p>
+    <p>{{ item.Price.UnitCode }}</p>
+    <p>Price per unit</p>
+    <p>{{ item.Price.PriceAmount }}</p>
+    <button (click)="editItem(i, item)">
+      <mat-icon>drive_file_rename_outline</mat-icon>
+    </button>
+    <button (click)="deleteItem(i)"><mat-icon>delete_outline</mat-icon></button>
+    <hr />
+  </div>
 </div>
+
+<form [formGroup]="itemsForm">
+  <ng-container formGroupName="Item">
+    <label for="name">Description</label>
+    <input type="text" id="name" formControlName="Name" />
+    <ng-container formGroupName="ClassifiedTaxCategory">
+      <label for="category">Tax Category</label>
+      <select id="category" formControlName="ID">
+        <option value="S">Standard rate</option>
+        <option value="E">Exempt from Tax</option>
+        <option value="AE">Tax reverse charge</option>
+        <option value="Z">Zero rated goods</option>
+        <option value="G">Free export item, VAT not charged</option>
+        <option value="O">Services outside scope of tax</option>
+        <option value="K">
+          VAT exempt for EEA intra-community supply of goods and services
+        </option>
+        <option value="B">Transferred (VAT), In Italy</option>
+      </select>
+      <label for="percent">Tax percent</label>
+      <input
+        type="number"
+        step="0.01"
+        max="100"
+        min="0"
+        id="percent"
+        formControlName="Percent"
+      />
+      <label for="scheme">Tax Scheme</label>
+      <ng-container formGroupName="TaxScheme">
+        <input type="text" id="scheme" formControlName="ID" />
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container formGroupName="Price">
+    <label for="price">Price exclusive of Tax</label>
+    <input type="number" step="0.01" id="price" formControlName="PriceAmount" />
+    <label for="quantity">Base quantity</label>
+    <input
+      type="number"
+      step="0.01"
+      id="quantity"
+      formControlName="BaseQuantity"
+    />
+    <label for="unit">Unit of measure</label>
+    <select id="unit" formControlName="UnitCode">
+      <option *ngFor="let item of unitList" [value]="item.CommonCode">
+        {{ item.name }}
+      </option>
+    </select>
+  </ng-container>
+  <button
+    (click)="addItem()"
+    *ngIf="index == undefined"
+    [disabled]="!itemsForm.valid"
+  >
+    Add
+  </button>
+  <button
+    (click)="saveItem()"
+    *ngIf="index != undefined"
+    [disabled]="!itemsForm.valid"
+  >
+    Save
+  </button>
+  <button (click)="cancel()">Reset</button>
+</form>
+<form [formGroup]="settingsForm">
+  <label for="period" class="label">Invoice period in days</label>
+  <input type="text" id="period" class="input" formControlName="duePeriod" />
+  <label for="currency">Invoice currency</label>
+  <select id="currency" formControlName="DocumentCurrencyCode">
+    <option *ngFor="let item of currencyList" [value]="item.code">
+      {{ item.name }}
+    </option>
+  </select>
+  <label
+    for="text"
+    title="A text for pdf Invoice thanking the customer (optional)"
+    >Introduction</label
+  >
+  <textarea id="text" formControlName="introduction"></textarea>
+  <label
+    for="note"
+    title="A textual note that gives unstructured information that is relevant to the Invoice as a whole.Such as the reason for any correction or assignment note in case the invoice has been factored, tax exemption reason, etc..."
+    >Note</label
+  >
+  <textarea id="note" formControlName="Note"></textarea>
+  <ng-container formGroupName="PaymentTerms">
+    <label
+      for="terms"
+      title="A textual description of the payment terms that apply to the amount due for payment (Including description of possible penalties).(optional)"
+    >
+      Payment Terms</label
+    >
+    <textarea id="terms" formControlName="Note"></textarea>
+  </ng-container>
+  <button (click)="saveSettings()">Save</button>
+</form>

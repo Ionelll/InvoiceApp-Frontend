@@ -1,78 +1,90 @@
-<div class="table" id="content" [formGroup]="tabel">
+<form class="table" id="content" [formGroup]="Lines">
   <p class="column-label">Pos.</p>
   <p class="column-label" value="Article">Article</p>
-  <p class="column-label" value="Unit">Unit</p>
-  <p class="column-label" value="Ammount">Ammount</p>
+  <p class="column-label">Vat%</p>
+  <p class="column-label" value="Unit">Ammount</p>
+  <p class="column-label" value="Ammount">Unit</p>
   <p class="column-label">Cost per unit ({{ currency }})</p>
   <p class="column-label">Total</p>
+  <p></p>
 
-  <div
-    @slide
-    [@.disabled]="disableAnimation"
+  <ng-container
     class="row"
     formArrayName="array"
-    *ngFor="let row of tabel.controls.array.controls; index as i"
+    *ngFor="let row of Lines.controls.array.controls; index as i"
   >
-    <input class="pos" [value]="i + 1" disabled />
     <ng-container [formGroupName]="i">
-      <textarea
-        @slide
-        placeholder="Article"
-        class="articol"
-        cdkTextareaAutosize
-        #autosize="cdkTextareaAutosize"
-        formControlName="articol"
-        required
-        [matAutocomplete]="auto2"
-      ></textarea>
-      <mat-autocomplete
-        class="mat-input-element"
-        #auto2="matAutocomplete"
-        (optionSelected)="autofillRow($event.option.value, i)"
-      >
-        <mat-option
-          *ngFor="let option of filteredOptions[i] | async"
-          [value]="option.articol"
+      <input class="pos" type="number" value="{{ i + 1 }}" disabled @slide />
+      <ng-container formGroupName="Item">
+        <textarea
+          placeholder="Article"
+          class="articol"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2"
+          #autosize="cdkTextareaAutosize"
+          formControlName="Name"
+          (focus)="manageAutocompleteInArray(i)"
+          [matAutocomplete]="auto2"
+        ></textarea>
+        <mat-autocomplete
+          class="mat-input-element"
+          #auto2="matAutocomplete"
+          (optionSelected)="autofillRow($event.option.value, i)"
         >
-          {{ option.articol }}
-        </mat-option>
-      </mat-autocomplete>
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option.Item.Name"
+          >
+            {{ option.Item.Name }}
+          </mat-option>
+        </mat-autocomplete>
+
+        <ng-container formGroupName="ClassifiedTaxCategory">
+          <input type="text" formControlName="ID" hidden />
+          <input type="number" formControlName="Percent" @slide />
+          <ng-container formGroupName="TaxScheme" />
+          <input type="text" formControlName="ID" hidden />
+        </ng-container>
+      </ng-container>
       <input
         @slide
-        required
-        type="text"
+        type="number"
         class="unit"
-        formControlName="unit"
+        formControlName="InvoicedQuantity"
         placeholder="Unit"
       />
+      <ng-container formGroupName="Price">
+        <select
+          @slide
+          class="bucati"
+          formControlName="UnitCode"
+          placeholder="Ammount"
+        >
+          <option *ngFor="let item of units" [value]="item.CommonCode">
+            {{ item.name }}
+          </option>
+        </select>
+        <input
+          @slide
+          type="number"
+          class="prett"
+          formControlName="PriceAmount"
+          placeholder="Price per Unit"
+        />
+        <input type="text" formControlName="BaseQuantity" hidden />
+      </ng-container>
       <input
         @slide
-        required
-        type="number"
-        class="bucati"
-        formControlName="bucati"
-        placeholder="Ammount"
-      />
-      <input
-        @slide
-        required
-        type="number"
-        class="prett"
-        formControlName="pret"
-        placeholder="Price per Unit"
+        readonly
+        type="text"
+        class="total"
+        formControlName="LineExtensionAmount"
       />
     </ng-container>
-    <input
-      @slide
-      type="text"
-      class="total"
-      lang="de"
-      [value]="suma(i) | currency : currency"
-      disabled
-    />
+
     <button (click)="removeInput(i)" class="minus" [tabindex]="-1">
       <mat-icon class="actionslabel">delete_outline</mat-icon>
     </button>
-  </div>
+  </ng-container>
   <button (click)="addInput()" class="add-row">+ Add row</button>
-</div>
+</form>

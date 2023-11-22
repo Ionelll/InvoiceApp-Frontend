@@ -1,9 +1,25 @@
 <div class="container">
-  <ul>
-    <li><a routerLink="company">My Company</a></li>
-    <li><a href="">Items</a></li>
-    <li><a routerLink="settings">Invoice Settings</a></li>
-    <li><a href="">Reports</a></li>
-    <li><a href="">Charts</a></li>
-  </ul>
+  <div class="top">
+    <a routerLink="company" routerLinkActive="active" class="links"
+      >My Company</a
+    >
+    <a
+      routerLink="settings"
+      *ngIf="token"
+      routerLinkActive="active"
+      class="links"
+      >Invoice Settings</a
+    >
+    <a routerLink="under-construction" routerLinkActive="active" class="links"
+      >Saved Invoices</a
+    >
+    <a routerLink="under-construction" routerLinkActive="active" class="links"
+      >Charts</a
+    >
+  </div>
+  <div class="bottom">
+    <a routerLink="login" *ngIf="!token">Login</a>
+    <a routerLink="signup" *ngIf="!token">Create Account</a>
+    <button (click)="logout()" *ngIf="token">Logout</button>
+  </div>
 </div>

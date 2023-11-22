@@ -27,9 +27,10 @@ export class ClientService {
       .subscribe((res) => {
         if (res.result) {
           this.client.next(res.result);
-          this.setClientName(res.result.Party.PartyName.Name);
-          localStorage.setItem('ClientId', res.result._id);
-          localStorage.setItem('Client', JSON.stringify(res.result));
+          localStorage.setItem(
+            'AccountingCustomerParty',
+            JSON.stringify(res.result)
+          );
           this.formValidation(true, false, true);
         }
       });
@@ -38,14 +39,13 @@ export class ClientService {
   getClient() {
     return this.client.asObservable();
   }
-  setClientName(name: string) {
-    this.clientName.next(name);
+
+  setClient(client) {
+    this.client.next(client);
   }
-  getClientName() {
-    return this.clientName.asObservable();
-  }
+
   clearClient() {
-    localStorage.removeItem('Client');
+    localStorage.removeItem('AccountingCustomerParty');
     localStorage.removeItem('ClientId');
     this.client.next({
       Party: {
@@ -83,7 +83,7 @@ export class ClientService {
       this.http
         .post<Company>(
           `${environment.apiUrl}/addcustomer`,
-          JSON.parse(sessionStorage.getItem('Client'))
+          JSON.parse(sessionStorage.getItem('AccountingCustomerParty'))
         )
         .subscribe((res) => {
           this.client.next(res);
@@ -92,7 +92,7 @@ export class ClientService {
     } else {
       this.http
         .post<Company>(`${environment.apiUrl}/updatecustomer`, {
-          client: JSON.parse(localStorage.getItem('Client')),
+          client: JSON.parse(localStorage.getItem('AccountingCustomerParty')),
           id: clientID,
         })
         .subscribe((res) => {

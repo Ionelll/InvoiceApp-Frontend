@@ -1,10 +1,9 @@
-<form [formGroup]="Delivery">
+<div>
   <div class="header">
     <input
       type="checkbox"
       class="checkbox"
       [(ngModel)]="deliveryToggle"
-      [ngModelOptions]="{ standalone: true }"
       (change)="toggleDelivery()"
     />
     <p
@@ -15,64 +14,29 @@
     >
       DELIVERY
     </p>
-    <input type="date" class="date" formControlName="ActualDeliveryDate" />
+    <form [formGroup]="deliverydate">
+      <input type="date" class="date" formControlName="ActualDeliveryDate" />
+    </form>
   </div>
-  <form
-    class="body"
-    *ngIf="deliveryToggle"
-    formGroupName="DeliveryLocation"
-    @openClose
-  >
-    <ng-container formGroupName="Adress">
-      <label class="label" for="street">Street</label>
-      <input
-        class="input"
-        type="text"
-        #street
-        id="street"
-        formControlName="StreetName"
-      />
-      <label class="label" for="number">Nr.</label>
-      <input
-        required
-        class="input"
-        type="text"
-        id="number"
-        formControlName="BuildingNumber"
-      />
-      <label class="label" for="city">City*</label>
-      <input
-        required
-        class="input"
-        type="text"
-        id="city"
-        formControlName="CityName"
-      />
-      <label class="label" for="region">Region</label>
-      <input
-        class="input"
-        type="text"
-        id="region"
-        formControlName="CountrySubentity"
-      />
-      <ng-container formGroupName="Country">
-        <label class="label" for="country">Country Code *</label>
-        <input
-          required
-          class="input"
-          type="text"
-          id="country"
-          formControlName="IdentificationCode"
-        />
-      </ng-container>
-      <label class="label" for="postalCode">Postal Zone</label>
-      <input
-        required
-        class="input"
-        type="text"
-        id="postalCode"
-        formControlName="PostalZone"
-      />
-    </ng-container>
-  </form>
-</form>
+  <div *ngIf="deliveryToggle" @openClose class="body">
+    <div class="label">Adress</div>
+    <div class="formatted-adress">
+      <div *ngIf="adress?.Postbox">{{ adress?.Postbox }},&nbsp;</div>
+      <div *ngIf="adress?.StreetName">{{ adress?.StreetName }}&nbsp;</div>
+      <div *ngIf="adress?.BuildingNumber">
+        {{ adress?.BuildingNumber }},&nbsp;
+      </div>
+      <div *ngIf="adress?.CityName">{{ adress?.CityName }},&nbsp;</div>
+      <div class="break"></div>
+      <div *ngIf="adress?.CountrySubentity">
+        {{ adress?.CountrySubentity }},&nbsp;
+      </div>
+      <div *ngIf="adress?.Country.IdentificationCode">
+        {{ adress?.Country.IdentificationCode }}&nbsp;
+      </div>
+      <div *ngIf="adress?.PostalZone">{{ adress?.PostalZone }}</div>
+    </div>
+
+    <button class="button" (click)="openModal()">Search</button>
+  </div>
+</div>

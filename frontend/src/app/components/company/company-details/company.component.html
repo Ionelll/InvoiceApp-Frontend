@@ -1,31 +1,6 @@
 <div class="company-container">
-  <form
-    [formGroup]="Supplier"
-    *ngIf="toggle"
-    class="container"
-    enctype="multipart/form-data"
-    @slide
-  >
-    <label for="PartyName" class="label">Name*</label>
-    <input
-      type="text"
-      id="PartyName"
-      class="input outerinput"
-      formControlName="PartyName"
-    />
-
-    <button class="toggle-button" (click)="toggle = !toggle">
-      <span class="companyName">{{ companyName || "My Company" }}</span>
-    </button>
-    <button
-      class="save"
-      (click)="save()"
-      [disabled]="Supplier.invalid"
-      *ngIf="Supplier.dirty || logoChanged"
-    >
-      Save
-    </button>
-    <div class="logo-container" (click)="fileinput.click()" *ngIf="user">
+  <form [formGroup]="Supplier" class="container" enctype="multipart/form-data">
+    <div class="logo-container" (click)="fileinput.click()">
       <img src="{{ activeImage }}" alt="" class="logo" *ngIf="activeImage" />
       <div *ngIf="!activeImage" class="logo-text">Upload Logo</div>
 
@@ -33,101 +8,156 @@
         type="file"
         #fileinput
         hidden
-        formControlName="Logo"
         (change)="onFileChange($event); logoChanged = true"
       />
     </div>
-    <label for="PartyIdentification" class="label">Tax identification*</label>
-    <input
-      type="text"
-      id="PartyIdentification"
-      class="input outerinput"
-      formControlName="PartyIdentification"
-    />
-
-    <label class="label adresstitle">Adress</label>
-    <form formGroupName="PostalAdress" class="adress-container">
-      <label class="adresslabel">Str.</label>
-
-      <input
-        class="adressinput input"
-        type="text"
-        id="street"
-        formControlName="StreetName"
-      />
-
-      <label class="adresslabel">Nr.</label>
-
-      <input
-        class="adressinput input"
-        type="text"
-        id="number"
-        formControlName="BuildingNumber"
-      />
-      <label class="adresslabel">City</label>
-
-      <input
-        class="adressinput input"
-        type="text"
-        id="city"
-        formControlName="CityName"
-      />
-      <label class="adresslabel">Region</label>
-
-      <input
-        class="input adressinput"
-        type="text"
-        id="region"
-        formControlName="CountrySubentity"
-      />
-      <ng-container formGroupName="Country">
-        <label class="adresslabel">Country</label>
-
+    <ng-container formGroupName="Party">
+      <ng-container formGroupName="PartyName">
+        <label for="PartyName" class="label">Name*</label>
         <input
-          class="adressinput input"
           type="text"
-          id="country"
-          formControlName="IdentificationCode"
+          id="PartyName"
+          class="input outerinput"
+          formControlName="Name"
         />
       </ng-container>
-      <label class="adresslabel">Postal Zone</label>
 
+      <ng-container formGroupName="PartyIdentification">
+        <label for="PartyIdentification" class="label"
+          >Tax identification*</label
+        >
+        <input
+          type="text"
+          id="PartyIdentification"
+          class="input outerinput"
+          formControlName="ID"
+        />
+      </ng-container>
+      <label for="EndpointID" class="label">EndpointID</label>
       <input
-        class="adressinput input"
         type="text"
-        id="postalCode"
-        formControlName="PostalZone"
-      />
-    </form>
-    <p class="label">Contact</p>
-    <form formGroupName="Contact">
-      <label for="Name" class="label">Name</label>
-      <input
-        type="text"
-        id="Name"
+        id="EndpointID"
         class="input outerinput"
-        formControlName="Name"
+        formControlName="EndpointID"
       />
+      <label class="label adresstitle">Adress</label>
+      <div class="formatted-adress">
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls.PostBox.value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls.PostBox
+              .value
+          }},&nbsp;
+        </div>
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls.StreetName
+              .value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls.StreetName
+              .value
+          }}&nbsp;
+        </div>
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls
+              .BuildingNumber.value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls
+              .BuildingNumber.value
+          }},&nbsp;
+        </div>
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls.CityName
+              .value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls.CityName
+              .value
+          }},&nbsp;
+        </div>
+        <div class="break"></div>
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls
+              .CountrySubentity.value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls
+              .CountrySubentity.value
+          }},&nbsp;
+        </div>
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls.Country
+              .controls.IdentificationCode.value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls.Country
+              .controls.IdentificationCode.value
+          }}&nbsp;
+        </div>
+        <div
+          *ngIf="
+            Supplier.controls.Party.controls.PostalAdress.controls.PostalZone
+              .value
+          "
+        >
+          {{
+            Supplier.controls.Party.controls.PostalAdress.controls.PostalZone
+              .value
+          }}
+        </div>
+        <button class="button" (click)="openModal()">Search</button>
+      </div>
 
-      <label for="Telephone" class="label">Telephone</label>
-      <input
-        type="text"
-        id="Telephone"
-        class="input outerinput"
-        formControlName="Telephone"
-      />
+      <ng-container formGroupName="Contact">
+        <p class="label">Contact</p>
 
-      <label for="email" class="label">Email</label>
-      <input
-        id="email"
-        class="input outerinput"
-        type="text"
-        formControlName="ElectronicMail"
-      />
-    </form>
+        <label for="Name" class="label">Name</label>
+        <input
+          type="text"
+          id="Name"
+          class="input outerinput"
+          formControlName="Name"
+        />
 
+        <label for="Telephone" class="label">Telephone</label>
+        <input
+          type="text"
+          id="Telephone"
+          class="input outerinput"
+          formControlName="Telephone"
+        />
+
+        <label for="email" class="label">Email</label>
+        <input
+          id="email"
+          class="input outerinput"
+          type="text"
+          formControlName="ElectronicMail"
+        />
+      </ng-container>
+    </ng-container>
     <p class="label">Bank Account</p>
     <form formGroupName="PayeeFinancialAccount" class="bank-container">
+      <label for="currency">Currency</label>
+      <select id="currency" formControlName="CurrencyCode">
+        <option value="" *ngFor="let item of currencyList" [value]="item.code">
+          {{ item.name }}
+        </option>
+      </select>
       <label for="ID" class="label">IBAN</label>
       <input
         id="ID"
@@ -136,16 +166,19 @@
         formControlName="ID"
       />
       <form formGroupName="FinancialInstitution">
-        <label for="currency">Currency</label>
-        <select id="currency">
-          <option value="" *ngFor="let item of currencyList">item</option>
-        </select>
         <label for="BIC">Swift Code</label>
         <input
           class="input outerinput"
           id="BIC"
           type="text"
           formControlName="ID"
+        />
+        <label for="name">Bank Name</label>
+        <input
+          class="input outerinput"
+          id="name"
+          type="text"
+          formControlName="Name"
         />
       </form>
     </form>
@@ -157,4 +190,12 @@
       Company information incomplete !
     </p>
   </form>
+  <button
+    class="save"
+    (click)="save()"
+    [disabled]="Supplier.invalid"
+    *ngIf="Supplier.dirty || logoChanged"
+  >
+    Save
+  </button>
 </div>

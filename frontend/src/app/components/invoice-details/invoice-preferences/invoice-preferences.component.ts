@@ -3,6 +3,9 @@ import { InvoiceDetails } from 'src/app/services/invoice-services/details.servic
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { CurrencySymbolMap } from 'src/app/models/currencies.model';
+import { AccountService } from 'src/app/services/account.service';
+import { invoiceSettings } from 'src/app/models/invoiceSettings.model';
 
 @Component({
   selector: 'app-invoice-preferences',
@@ -10,9 +13,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./invoice-preferences.component.scss'],
 })
 export class InvoicePreferencesComponent implements OnInit {
-  constructor(private details: InvoiceDetails, private datePipe: DatePipe) {}
-  public duePeriod = parseInt(sessionStorage.getItem('DUE-PERIOD')) || 30;
+  constructor(
+    private details: InvoiceDetails,
+    private datePipe: DatePipe,
+    private account: AccountService
+  ) {}
+  duePeriod: number;
   private resetSub = new Subscription();
+  public currencies = CurrencySymbolMap;
   public invoiceDetails = new FormGroup({
     InvoicePeriod: new FormGroup({
       StartDate: new FormControl(
@@ -21,7 +29,7 @@ export class InvoicePreferencesComponent implements OnInit {
       ),
       EndDate: new FormControl(
         this.datePipe.transform(
-          new Date().setDate(new Date().getDate() + this.duePeriod),
+          new Date().setDate(new Date().getDate() + 30),
           'yyyy-MM-dd'
         ),
         Validators.required
@@ -35,24 +43,39 @@ export class InvoicePreferencesComponent implements OnInit {
     Note: new FormControl(''),
     OrderReference: new FormControl(''),
     ContractReference: new FormControl(''),
+    PaymentTerms: new FormGroup({
+      Note: new FormControl(''),
+    }),
   });
-
+  initialValues = this.invoiceDetails.value;
   refreshDueDate() {
     let date = new Date(
       this.invoiceDetails.controls.InvoicePeriod.controls.StartDate.value
     );
     const day = date.getDate();
-    date.setDate(day + this.duePeriod);
+    date.setDate(day + (this.duePeriod || 30));
     this.invoiceDetails.controls.InvoicePeriod.controls.EndDate.setValue(
       this.datePipe.transform(date, 'yyyy-MM-dd')
     );
   }
   ngOnInit(): void {
+    localStorage.setItem(
+      'InvoiceDetails',
+      JSON.stringify(this.invoiceDetails.value)
+    );
+    this.account.getUser().subscribe((res) => {
+      if (res) {
+        this.duePeriod = res.invoiceSettings.duePeriod;
+        this.invoiceDetails.patchValue(res.invoiceSettings);
+        this.refreshDueDate();
+      }
+    });
     this.resetSub = this.details.subscribeResetDetails().subscribe((res) => {
-      this.invoiceDetails.patchValue(
-        JSON.parse(sessionStorage.getItem('InvoiceDetails')) ||
-          JSON.parse(localStorage.getItem('InvoiceDetails'))
+      this.invoiceDetails.reset(
+        JSON.parse(sessionStorage.getItem('InvoiceSettings')) ||
+          this.initialValues
       );
+      this.invoiceDetails.controls.InvoiceTypeCode.setValue('380');
       this.invoiceDetails.controls.InvoicePeriod.controls.StartDate.setValue(
         this.datePipe.transform(new Date(), 'yyyy-MM-dd')
       );
@@ -66,10 +89,6 @@ export class InvoicePreferencesComponent implements OnInit {
       (value) => {
         this.details.setCurrency(value);
       }
-    );
-    this.invoiceDetails.patchValue(
-      JSON.parse(localStorage.getItem('InvoiceDetails')) ||
-        JSON.parse(sessionStorage.getItem('InvoiceDetails'))
     );
   }
 }

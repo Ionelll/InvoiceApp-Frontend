@@ -1,5 +1,4 @@
 .container {
-  padding: 2rem;
   display: grid;
   grid-template-columns: 1fr 0.8fr;
   gap: 1.5rem;
@@ -17,7 +16,7 @@
 .delivery {
   background: #ffffff;
   box-shadow: 0px 2px 3px #32324d;
-  overflow: hidden;
+
   border-radius: 5px;
   position: relative;
 }
@@ -147,7 +146,7 @@
     font-family: "Poppins", sans-serif;
   }
   .name {
-    font-size: 2em;
+    font-size: calc(16px + 0.3vw);
   }
   .label {
     margin: auto 0;
@@ -157,5 +156,18 @@
   div {
     display: flex;
     gap: 3rem;
+  }
+}
+@media only screen and (max-width: 950px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .button-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 105;
   }
 }

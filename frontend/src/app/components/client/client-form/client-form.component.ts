@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { ClientService } from 'src/app/services/invoice-services/client.service';
 
 @Component({
@@ -41,10 +41,12 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   clientSub = new Subscription();
 
-  constructor(private client: ClientService) {}
+  constructor(private client: ClientService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.Customer.patchValue(JSON.parse(localStorage.getItem('Client')));
+    this.Customer.patchValue(
+      JSON.parse(localStorage.getItem('AccountingCustomerParty'))
+    );
     setTimeout(() => {
       this.client.formValidation(
         this.Customer.dirty,
@@ -53,33 +55,34 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       );
     });
 
-    this.Customer.valueChanges.subscribe(() => {
-      localStorage.setItem('Client', JSON.stringify(this.Customer.value));
+    this.Customer.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+      localStorage.setItem(
+        'AccountingCustomerPary',
+        JSON.stringify(this.Customer.value)
+      );
       this.client.formValidation(
         this.Customer.dirty,
         this.Customer.pristine,
         this.Customer.valid
       );
+      this.client.setClient(
+        JSON.parse(localStorage.getItem('AccountingCustomerParty'))
+      );
     });
 
     this.clientSub = this.client.getClient().subscribe((response) => {
-      console.log(response);
       this.Customer.patchValue(response);
       this.Customer.markAsPristine();
       setTimeout(() => {
         this.Customer.updateValueAndValidity();
       });
     });
+    this.cd.detectChanges();
   }
-  setCompanyName() {
-    this.client.setClientName(
-      this.Customer.controls.Party.controls.PartyName.controls.Name.value
-    );
-  }
+
   clearForm() {
     this.Customer.reset();
-    localStorage.removeItem('ClientId');
-    this.client.setClientName(undefined);
+    localStorage.removeItem('AccountingCustomerParty');
   }
   saveCustomer() {
     let clientID = localStorage.getItem('ClientID');
@@ -87,7 +90,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
   reloadCustomer() {
     let clientID = localStorage.getItem('ClientId');
-    if (clientID && this.Customer.dirty) {
+    if (clientID) {
       this.client.reloadClient(clientID);
     } else this.Customer.reset();
   }

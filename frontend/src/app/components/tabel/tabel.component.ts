@@ -1,6 +1,12 @@
 import { Component, ViewChildren } from '@angular/core';
 import { Observable, Subject, Subscription, debounceTime } from 'rxjs';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { startWith, map } from 'rxjs';
 import { OnInit, AfterViewInit } from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
@@ -8,6 +14,12 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CreateInvoice } from 'src/app/services/invoice-services/articles.service';
 import { InvoiceDetails } from 'src/app/services/invoice-services/details.service';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { Item } from 'src/app/models/item.model';
+import { Invoice } from 'src/app/models/invoice.model';
+import { CurrencyPipe } from '@angular/common';
+import { UnitSymbolMap } from 'src/app/models/units.model';
+import { TaxSubtotal } from 'src/app/models/tax-subtotal.model';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
 
 @Component({
   selector: 'app-tabel',
@@ -20,7 +32,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
       ]),
       transition(':enter', [
         style({ height: 0, opacity: 0 }),
-        animate('200ms'),
+        animate('200ms', style({ height: '*', opacity: 1 })),
       ]),
     ]),
   ],
@@ -28,50 +40,69 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 export class TabelComponent implements OnInit, AfterViewInit {
   constructor(
     private cd: ChangeDetectorRef,
-    private invoice: CreateInvoice,
-    private details: InvoiceDetails
+    private createInvoice: CreateInvoice,
+    private details: InvoiceDetails,
+    private currencyPipe: CurrencyPipe,
+    private invoice: InvoiceService
   ) {}
   @ViewChildren('autosize') autosize: CdkTextareaAutosize;
-  tabel = new FormGroup({
+
+  Lines = new FormGroup({
     array: new FormArray([
       new FormGroup({
-        articol: new FormControl('', Validators.required),
-        unit: new FormControl('', Validators.required),
-        bucati: new FormControl('', Validators.required),
-        pret: new FormControl('', Validators.required),
+        InvoicedQuantity: new FormControl('', Validators.required),
+        LineExtensionAmount: new FormControl(),
+        Item: new FormGroup({
+          Name: new FormControl('', Validators.required),
+          ClassifiedTaxCategory: new FormGroup({
+            ID: new FormControl('S'),
+            Percent: new FormControl('0', Validators.required),
+            TaxScheme: new FormGroup({
+              ID: new FormControl(''),
+            }),
+          }),
+        }),
+        Price: new FormGroup({
+          PriceAmount: new FormControl('', Validators.required),
+          BaseQuantity: new FormControl(''),
+          UnitCode: new FormControl('', Validators.required),
+        }),
       }),
     ]),
   });
-  vatPercent: string;
-  netto: string;
-  articleOptions = JSON.parse(sessionStorage.getItem('ARTICLES'));
-  filteredOptions: Observable<
-    { articol: string; unit: string; pret: string }[]
-  >[] = [];
+  units = UnitSymbolMap;
+  articleOptions: Item[];
+  filteredOptions: Observable<Item[]>;
   disableAnimation = true;
-  currency: string;
+  currency = JSON.parse(localStorage.getItem('InvoiceDetails'))
+    ?.DocumentCurrencyCode;
   clearTableEvent = new Subscription();
 
-  private _filter2(
-    value: string
-  ): { articol: string; unit: string; pret: string }[] {
+  private _filter2(value: string): Item[] {
     const filterValue = value;
     return this.articleOptions?.filter((option) =>
-      option.articol.toLowerCase().includes(filterValue.toLowerCase())
+      option.Item.Name.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
   suma(i: number) {
-    return (
-      parseFloat(this.tabel.controls.array.controls[i].controls.bucati.value) *
-        parseFloat(this.tabel.controls.array.controls[i].controls.pret.value) ||
-      0
+    let x = (
+      parseFloat(
+        this.Lines.controls.array.controls[i].controls.InvoicedQuantity.value
+      ) *
+        parseFloat(
+          this.Lines.controls.array.controls[i].controls.Price.controls
+            .PriceAmount.value
+        ) || 0
     ).toFixed(2);
+    this.Lines.controls.array.at(i).controls.LineExtensionAmount.setValue(x);
+    return x;
   }
 
   manageAutocompleteInArray(i: number) {
-    this.filteredOptions[i] = this.tabel.controls.array.controls[
+    // if (!this.filteredOptions) return;
+    this.filteredOptions = this.Lines.controls.array.controls[
       i
-    ].controls.articol.valueChanges.pipe(
+    ].controls.Item.controls.Name.valueChanges.pipe(
       startWith(''),
       map((value: string) => {
         if (value != null) return this._filter2(value);
@@ -80,105 +111,167 @@ export class TabelComponent implements OnInit, AfterViewInit {
     );
   }
   autofillRow(value: string, i: number) {
-    console.log(value);
-    let selected = this.articleOptions.find((item) => item.articol == value);
+    let selected = this.articleOptions.find((item) => item.Item.Name == value);
     console.log(selected);
-    this.tabel.controls.array.controls[i].patchValue(selected);
+    this.Lines.controls.array.controls[i].controls.Item.patchValue(
+      selected.Item
+    );
+    this.Lines.controls.array.controls[i].controls.Price.patchValue(
+      selected.Price
+    );
   }
   removeInput(index: number) {
     this.disableAnimation = false;
-    const arrayControls = this.tabel.controls.array;
-    if (arrayControls.length > 1) {
-      arrayControls.removeAt(index);
+    if (this.Lines.controls.array.length > 1) {
+      this.Lines.controls.array.removeAt(index);
     } else {
-      arrayControls.reset();
-      localStorage.removeItem('TabelValues');
+      this.Lines.reset();
+      localStorage.removeItem('LinesValues');
     }
   }
 
   addInput() {
     this.disableAnimation = false;
-    this.tabel.controls.array.push(
+    this.Lines.controls.array.push(
       new FormGroup({
-        articol: new FormControl(''),
-        unit: new FormControl(''),
-        bucati: new FormControl(''),
-        pret: new FormControl(''),
+        InvoicedQuantity: new FormControl(''),
+        LineExtensionAmount: new FormControl(''),
+        Item: new FormGroup({
+          Name: new FormControl(''),
+          ClassifiedTaxCategory: new FormGroup({
+            ID: new FormControl('S'),
+            Percent: new FormControl('0'),
+            TaxScheme: new FormGroup({
+              ID: new FormControl(''),
+            }),
+          }),
+        }),
+        Price: new FormGroup({
+          PriceAmount: new FormControl(''),
+          BaseQuantity: new FormControl(''),
+          UnitCode: new FormControl(''),
+        }),
       })
     );
-    this.manageAutocompleteInArray(this.tabel.controls.array.length - 1);
+    // this.manageAutocompleteInArray(this.Lines.controls.array.length - 1);
   }
 
   ngOnInit(): void {
-    this.clearTableEvent = this.invoice
+    if (sessionStorage.getItem('Articles')) {
+      this.articleOptions = JSON.parse(sessionStorage.getItem('Articles'));
+    }
+
+    this.clearTableEvent = this.createInvoice
       .subscribeClearTable()
       .subscribe((res) => {
-        this.tabel.reset();
-        while (this.tabel.controls.array.length !== 1) {
-          this.tabel.controls.array.removeAt(0);
+        this.Lines.reset();
+        while (this.Lines.controls.array.length !== 1) {
+          this.Lines.controls.array.removeAt(0);
         }
       });
 
     this.details.getCurrency().subscribe((res) => {
       this.currency = res;
+      this.updateCurrency();
     });
 
-    this.details.getvatPercent().subscribe((res) => {
-      this.vatPercent = res;
-    });
-
-    this.tabel.controls.array.valueChanges
+    this.Lines.controls.array.valueChanges
       .pipe(debounceTime(500))
       .subscribe(() => {
-        localStorage.setItem(
-          'TableValues',
-          JSON.stringify(this.tabel.controls.array.value)
-        );
-
-        this.invoice.setArticlesValidation(this.tabel.controls.array.valid);
-
-        let total = 0;
-        this.tabel.controls.array.controls.forEach((articol) => {
-          total +=
-            parseFloat(articol.value.bucati) * parseFloat(articol.value.pret) ||
-            0;
-        });
-        this.invoice.setnetto(
-          (total / (1 + parseFloat(this.vatPercent) / 100)).toFixed(2)
-        );
-        this.invoice.setVat(
-          (total - total / (1 + parseFloat(this.vatPercent) / 100)).toFixed(2)
-        );
-        this.invoice.setTotal(total.toFixed(2));
-        this.cd.detectChanges();
+        this.createInvoice.setArticlesValidation(this.Lines.valid);
+        this.updateCurrency();
+        this.setInvoiceTotals();
+        localStorage.setItem('TableValues', JSON.stringify(this.Lines.value));
       });
 
-    this.manageAutocompleteInArray(0);
+    // this.manageAutocompleteInArray(0);
 
-    const rememberedTable = JSON.parse(localStorage.getItem('TableValues'));
+    const rememberedTable = JSON.parse(
+      localStorage.getItem('TableValues')
+    )?.array;
+
     if (rememberedTable) {
-      rememberedTable.forEach((articol, index) => {
-        if (index === 0) {
-          this.tabel.controls.array.controls[index].setValue({
-            articol: articol.articol,
-            unit: articol.unit,
-            bucati: articol.bucati,
-            pret: articol.pret,
-          });
-        } else {
-          this.tabel.controls.array.push(
+      rememberedTable.forEach((InvoiceLine, index) => {
+        if (index == 0) {
+          this.Lines.controls.array.controls[0].setValue(InvoiceLine);
+        } else
+          this.Lines.controls.array.push(
             new FormGroup({
-              articol: new FormControl(articol.articol),
-              unit: new FormControl(articol.unit),
-              bucati: new FormControl(articol.bucati),
-              pret: new FormControl(articol.pret),
+              InvoicedQuantity: new FormControl(InvoiceLine.InvoicedQuantity),
+              LineExtensionAmount: new FormControl(
+                InvoiceLine.LineExtensionAmount
+              ),
+              Item: new FormGroup({
+                Name: new FormControl(InvoiceLine.Item.Name),
+                ClassifiedTaxCategory: new FormGroup({
+                  ID: new FormControl('S'),
+                  Percent: new FormControl(
+                    InvoiceLine.Item.ClassifiedTaxCategory.Percent
+                  ),
+                  TaxScheme: new FormGroup({
+                    ID: new FormControl(''),
+                  }),
+                }),
+              }),
+              Price: new FormGroup({
+                PriceAmount: new FormControl(InvoiceLine.Price.PriceAmount),
+                BaseQuantity: new FormControl(InvoiceLine.Price.BaseQuantity),
+                UnitCode: new FormControl(InvoiceLine.Price.UnitCode),
+              }),
             })
           );
-        }
       });
     }
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges();
+  }
+
+  updateCurrency() {
+    this.Lines.controls.array.controls.forEach((InvoiceLine) => {
+      InvoiceLine.controls.LineExtensionAmount.patchValue(
+        this.currencyPipe.transform(
+          parseFloat(InvoiceLine.controls.InvoicedQuantity.value) *
+            parseFloat(InvoiceLine.controls.Price.controls.PriceAmount.value),
+          this.currency
+        ),
+        { emitEvent: false }
+      );
+    });
+  }
+
+  setInvoiceTotals() {
+    let totalNoVat = 0;
+    let totalWithVat = 0;
+    let taxSubtotals: TaxSubtotal[] = [];
+
+    this.Lines.controls.array.controls.forEach((InvoiceLine, index) => {
+      totalNoVat +=
+        parseFloat(InvoiceLine.controls.InvoicedQuantity.value) *
+        parseFloat(InvoiceLine.controls.Price.controls.PriceAmount.value);
+      totalWithVat +=
+        parseFloat(InvoiceLine.controls.InvoicedQuantity.value) *
+        parseFloat(InvoiceLine.controls.Price.controls.PriceAmount.value) *
+        (1 +
+          parseFloat(
+            InvoiceLine.controls.Item.controls.ClassifiedTaxCategory.controls
+              .Percent.value
+          ) /
+            100);
+      taxSubtotals.push({
+        TaxSubtotal: {
+          TaxableAmount: totalNoVat.toFixed(2),
+          TaxCategory:
+            InvoiceLine.controls.Item.controls.ClassifiedTaxCategory.getRawValue(),
+        },
+      });
+    });
+    this.invoice.setTaxSubtotal(
+      (totalWithVat - totalNoVat).toFixed(2),
+      taxSubtotals
+    );
+    this.createInvoice.setnetto(totalNoVat.toFixed(2) || '0');
+    this.createInvoice.setTotal(totalWithVat.toFixed(2) || '0');
+    this.createInvoice.setVat((totalWithVat - totalNoVat).toFixed(2) || '0');
   }
 }

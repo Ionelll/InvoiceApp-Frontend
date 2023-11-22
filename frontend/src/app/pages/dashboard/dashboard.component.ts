@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -7,8 +6,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardPageComponent implements OnInit {
-  constructor(private router: Router) {}
-  ngOnInit(): void {
-    this.router.navigateByUrl('dashboard/company');
-  }
+  constructor() {}
+  ngOnInit(): void {}
 }
