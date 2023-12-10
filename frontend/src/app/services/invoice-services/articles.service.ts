@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Company } from '../../models/company.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environment/environment';
+import { environment } from 'environment';
 
 @Injectable({ providedIn: 'root' })
 export class CreateInvoice {
@@ -14,6 +14,7 @@ export class CreateInvoice {
   public articlesValidation = new BehaviorSubject<boolean>(true);
 
   setnetto(x: string) {
+    localStorage.setItem('TaxExclusiveAmount', x);
     this.netto.next(x);
   }
 
@@ -22,6 +23,7 @@ export class CreateInvoice {
   }
 
   setVat(x: string) {
+    localStorage.setItem('TaxAmount', x);
     this.vat.next(x);
   }
 
@@ -30,6 +32,7 @@ export class CreateInvoice {
   }
 
   setTotal(x: string) {
+    localStorage.setItem('TaxInclusiveAmount', x);
     this.total.next(x);
   }
 

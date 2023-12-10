@@ -1,112 +1,159 @@
 <div class="container">
   <div class="invoice-container">
-    <div class="title">
-      <h1 class="invoice">INVOICE</h1>
-      <div class="item">
-        <p class="label">Invoice Nr.</p>
-        <p class="value">{{ invoiceNrandDate.invoiceNr }}</p>
-
-        <p class="label">Issued</p>
-        <p class="value">{{ invoiceNrandDate.issued | date }}</p>
-
-        <p class="label">Due</p>
-        <p class="value">{{ invoiceDetails.endDate | date }}</p>
-      </div>
+    <div class="img-container">
+      <img *ngIf="logo" [src]="logo" alt="logo" class="logo" />
     </div>
-    <div class="section" *ngIf="company">
-      <h2 class="companyName">{{ company.Party.PartyName.Name }}</h2>
-      <div class="imgcontainer">
-        <img *ngIf="logo" [src]="logo" alt="logo" class="logo" />
-      </div>
-
-      <div class="details">
-        <mat-icon class="icon-label">location_on</mat-icon>
-        <p class="value">
-          {{ company.Party.PostalAdress.StreetName }}
-          {{ company.Party.PostalAdress.BuildingNumber }},
-          {{ company.Party.PostalAdress.CityName }},
-          {{ company.Party.PostalAdress.CountrySubentity }},
-          {{ company.Party.PostalAdress.Country.IdentificationCode }},
-          <br />Postal Zone
-          {{ company.Party.PostalAdress.PostalZone }}
-        </p>
-        <label>Contact</label>
-        <p>{{ company.Party.Contact.Name }}</p>
-        <mat-icon class="icon-label" *ngIf="company.Party.Contact.Telephone"
-          >local_phone</mat-icon
-        >
-        <p class="value" *ngIf="company.Party.Contact.Telephone">
-          {{ company.Party.Contact.Telephone }}
-        </p>
-        <mat-icon
-          class="icon-label"
-          *ngIf="company.Party.Contact.ElectronicMail"
-          >email</mat-icon
-        >
-        <p class="value" *ngIf="company.Party.Contact.ElectronicMail">
-          {{ company.Party.Contact.ElectronicMail }}
-        </p>
-
-        <mat-icon class="icon-label">credit_card</mat-icon>
-
-        <p class="value">
-          {{ user.PayeeFinancialAccount.FinancialInstitution.Name }}
-        </p>
-        <p class="value">{{ user.PayeeFinancialAccount.ID }}</p>
-        <p class="value">
-          {{ user.PayeeFinancialAccount.FinancialInstitution.ID }}
-        </p>
-      </div>
-    </div>
-    <div class="separator">
-      <p>Buyer:</p>
-      <p *ngIf="deliveryAdress">Delivery to:</p>
-    </div>
-    <div
-      [ngClass]="{
-        section: true,
-        'separator-single': !deliveryAdress
-      }"
-    >
+    <div class="supplier" *ngIf="company">
+      <h2 class="supplier-name">{{ company.PartyName.Name }}</h2>
       <div class="body">
-        <h2 class="clientName">{{ client.Party.PartyName }}</h2>
-        <div class="details">
+        <div class="adress">
           <mat-icon class="icon-label">location_on</mat-icon>
-          <p class="value">
-            {{ client.Party.PostalAdress.StreetName }}
-            {{ client.Party.PostalAdress.BuildingNumber }},
-            {{ client.Party.PostalAdress.CityName }},
-            {{ client.Party.PostalAdress.CountrySubentity }},
-            {{ client.Party.PostalAdress.Country.IdentificationCode }}, Postal
-            Code
-            {{ client.Party.PostalAdress.PostalZone }}
-          </p>
-          <label>Contact</label>
-          <p>{{ client.Party.Contact.Name }}</p>
-          <mat-icon class="icon-label" *ngIf="client.Party.Contact.Telephone"
-            >local_phone</mat-icon
-          >
-          <p class="value" *ngIf="client.Party.Contact.Telephone">
-            {{ client.Party.Contact.Telephone }}
-          </p>
-          <mat-icon
-            class="icon-label"
-            *ngIf="client.Party.Contact.ElectronicMail"
-            >email</mat-icon
-          >
-          <p class="value" *ngIf="client.Party.Contact.ElectronicMail">
-            {{ client.Party.Contact.ElectronicMail }}
-          </p>
+          <div class="formated-adress">
+            <div *ngIf="company.PostalAdress.Postbox">
+              {{ company.PostalAdress.Postbox }},&nbsp;
+            </div>
+            <div *ngIf="company.PostalAdress.StreetName">
+              {{ company.PostalAdress.StreetName }}&nbsp;
+            </div>
+            <div *ngIf="company.PostalAdress.BuildingNumber">
+              {{ company.PostalAdress.BuildingNumber }},&nbsp;
+            </div>
+            <div *ngIf="company.PostalAdress.CityName">
+              {{ company.PostalAdress.CityName }},&nbsp;
+            </div>
+
+            <div *ngIf="company.PostalAdress.CountrySubentity">
+              {{ company.PostalAdress.CountrySubentity }},&nbsp;
+            </div>
+            <div *ngIf="company.PostalAdress.Country.IdentificationCode">
+              {{ company.PostalAdress.Country.IdentificationCode }}&nbsp;
+            </div>
+            <div *ngIf="company.PostalAdress.PostalZone">
+              {{ company.PostalAdress.PostalZone }}
+            </div>
+          </div>
+        </div>
+        <div class="contact">
+          <div class="base">
+            <mat-icon class="icon-label" *ngIf="company.Contact.Telephone"
+              >local_phone</mat-icon
+            >
+            <p class="company-details" *ngIf="company.Contact.Telephone">
+              {{ company.Contact.Telephone }}
+            </p>
+          </div>
+          <div class="base">
+            <mat-icon class="icon-label" *ngIf="company.Contact.ElectronicMail"
+              >email</mat-icon
+            >
+            <p class="company-details" *ngIf="company.Contact.ElectronicMail">
+              {{ company.Contact.ElectronicMail }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="invoice-details">
-      <span>{{ invoiceDetails.introduction }}</span>
+
+    <div class="client">
+      <h3 class="client-name">{{ client.Party.PartyName.Name }}</h3>
+      <div class="client-body">
+        <div class="adress">
+          <mat-icon class="icon-label">location_on</mat-icon>
+          <div class="formated-adress">
+            <div *ngIf="client.Party.PostalAdress.Postbox">
+              {{ client.Party.PostalAdress.Postbox }},&nbsp;
+            </div>
+            <div *ngIf="client.Party.PostalAdress.StreetName">
+              {{ client.Party.PostalAdress.StreetName }}&nbsp;
+            </div>
+            <div *ngIf="client.Party.PostalAdress.BuildingNumber">
+              {{ client.Party.PostalAdress.BuildingNumber }},&nbsp;
+            </div>
+            <div *ngIf="client.Party.PostalAdress.CityName">
+              {{ client.Party.PostalAdress.CityName }},&nbsp;
+            </div>
+
+            <div *ngIf="client.Party.PostalAdress.CountrySubentity">
+              {{ client.Party.PostalAdress.CountrySubentity }},&nbsp;
+            </div>
+            <div *ngIf="client.Party.PostalAdress.Country.IdentificationCode">
+              {{ client.Party.PostalAdress.Country.IdentificationCode }}&nbsp;
+            </div>
+            <div *ngIf="client.Party.PostalAdress.PostalZone">
+              {{ client.Party.PostalAdress.PostalZone }}
+            </div>
+          </div>
+        </div>
+        <div class="contact">
+          <div class="base">
+            <mat-icon class="icon-label" *ngIf="client.Party.Contact.Name"
+              >local_phone</mat-icon
+            >
+            <p class="client-details" *ngIf="client.Party.Contact.Telephone">
+              {{ client.Party.Contact.Telephone }}
+            </p>
+          </div>
+          <div class="base">
+            <mat-icon
+              class="icon-label"
+              *ngIf="client.Party.Contact.ElectronicMail"
+              >email</mat-icon
+            >
+            <p
+              class="client-details"
+              *ngIf="client.Party.Contact.ElectronicMail"
+            >
+              {{ client.Party.Contact.ElectronicMail }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="delivery" *ngIf="delivery">
+      <p class="text-label">date</p>
+      <p class="company-details">{{ deliveryDate }}</p>
+      <p class="text-label">Adress</p>
+      <div class="formated-adress">
+        <div *ngIf="client.Party.PostalAdress.Postbox">
+          {{ client.Party.PostalAdress.Postbox }},&nbsp;
+        </div>
+        <div *ngIf="client.Party.PostalAdress.StreetName">
+          {{ client.Party.PostalAdress.StreetName }}&nbsp;
+        </div>
+        <div *ngIf="client.Party.PostalAdress.BuildingNumber">
+          {{ client.Party.PostalAdress.BuildingNumber }},&nbsp;
+        </div>
+        <div *ngIf="client.Party.PostalAdress.CityName">
+          {{ client.Party.PostalAdress.CityName }},&nbsp;
+        </div>
+
+        <div *ngIf="client.Party.PostalAdress.CountrySubentity">
+          {{ client.Party.PostalAdress.CountrySubentity }},&nbsp;
+        </div>
+        <div *ngIf="client.Party.PostalAdress.Country.IdentificationCode">
+          {{ client.Party.PostalAdress.Country.IdentificationCode }}&nbsp;
+        </div>
+        <div *ngIf="client.Party.PostalAdress.PostalZone">
+          {{ client.Party.PostalAdress.PostalZone }}
+        </div>
+      </div>
+    </div>
+    <span class="introduction">{{ invoiceDetails.introduction }}</span>
+    <div class="invoice-details">
+      <p class="label">Invoice Nr.</p>
+      <p class="value">{{ invoiceNrandDate.ID }}</p>
+      <p class="label">Issued</p>
+      <p class="value">{{ invoiceNrandDate.IssueDate | date }}</p>
+      <p class="label">Due</p>
+      <p class="value">
+        {{ invoiceDetails.InvoicePeriod.EndDate | date }}
+      </p>
+    </div>
+
     <div class="table">
       <div class="table-header">
         <p>Pos.</p>
-        <p>Article</p>
+        <p>Description</p>
         <p>Unit</p>
         <p>Ammount</p>
         <p>Cost per unit</p>
@@ -118,12 +165,7 @@
         <p>{{ item.unit }}</p>
         <p>{{ item.bucati }}</p>
         <p>
-          {{
-            item.pret.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-            })
-          }}
+          {{ item.pret }}
           {{ invoiceDetails.currency }}
         </p>
         <p>
@@ -133,6 +175,7 @@
       </div>
     </div>
   </div>
+
   <div class="buttons-container">
     <button class="button" (click)="print()">Save Pdf or Print</button>
   </div>

@@ -1,14 +1,11 @@
 import { transition, trigger, style, animate } from '@angular/animations';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit,
-} from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Loader } from '@googlemaps/js-api-loader';
-import { environment } from 'src/environment/environment';
+import { Adress } from 'src/app/models/adress.model';
+import { deliveryService } from 'src/app/services/invoice-services/delivery.service';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-delivery-adress',
@@ -27,55 +24,66 @@ import { environment } from 'src/environment/environment';
     ]),
   ],
 })
-export class DeliveryAdressComponent implements OnInit, AfterViewInit {
-  Delivery = new FormGroup({
-    ActualDeliveryDate: new FormControl(Date, Validators.required),
-    DeliveryLocation: new FormGroup({
-      Adress: new FormGroup({
-        PostBox: new FormControl(''),
-        StreetName: new FormControl('', Validators.required),
-        BuildingNumber: new FormControl(''),
-        CityName: new FormControl('', Validators.required),
-        PostalZone: new FormControl(''),
-        CountrySubentity: new FormControl(''),
-        Country: new FormGroup({
-          IdentificationCode: new FormControl(''),
-        }),
-      }),
-    }),
+export class DeliveryAdressComponent implements OnInit {
+  constructor(
+    private modalService: ModalService,
+    private deliveryService: deliveryService,
+    private invoice: InvoiceService,
+    private datePipe: DatePipe
+  ) {}
+  deliverydate = new FormGroup({
+    ActualDeliveryDate: new FormControl(
+      this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      [Validators.required]
+    ),
   });
 
-  public deliveryToggle = JSON.parse(
-    localStorage.getItem('DeliveryToggle') || 'none'
-  );
+  adress: Adress;
+  adressValid: boolean = false;
+  public deliveryToggle: boolean = false;
+  ngOnInit(): void {
+    this.deliveryService.setValidation(!this.deliveryToggle);
+    this.modalService.subscribeCloseModal().subscribe((res) => {
+      if (res) {
+        this.adress = res.PostalAdress;
+        this.adressValid = true;
+        localStorage.setItem(
+          'DeliveryAdress',
+          JSON.stringify(res.PostalAdress)
+        );
+
+        if (this.deliverydate.valid) {
+          this.deliveryService.setValidation(true);
+          this.invoice.set_Delivery(
+            this.adress,
+            this.deliverydate.controls.ActualDeliveryDate.value
+          );
+        }
+      }
+    });
+    this.deliverydate.valueChanges.subscribe(() => {
+      if (this.adressValid && this.deliverydate.valid) {
+        this.deliveryService.setValidation(true);
+        this.invoice.set_Delivery(
+          this.adress,
+          this.deliverydate.controls.ActualDeliveryDate.value
+        );
+      }
+    });
+  }
+
   toggleDelivery() {
     localStorage.setItem('DeliveryToggle', JSON.stringify(this.deliveryToggle));
+    this.deliveryService.setValidation(!this.deliveryToggle);
+    if (!this.deliveryToggle) this.invoice.remove_Delivery();
   }
-  @ViewChild('street') street: ElementRef;
-
-  ngOnInit() {
-    this.Delivery.valueChanges.subscribe(() => {
-      localStorage.setItem('Delivery', JSON.stringify(this.Delivery.value));
-    });
-    this.Delivery.patchValue(
-      JSON.parse(localStorage.getItem('Delivery') || 'none')
+  openModal() {
+    this.modalService.openModal('DeliveryAdress', this.adress);
+  }
+  setDate() {
+    localStorage.setItem(
+      'DeliveryDate',
+      JSON.stringify(this.deliverydate.controls.ActualDeliveryDate)
     );
-  }
-  ngAfterViewInit(): void {
-    let autocomplete: google.maps.places.Autocomplete;
-    const loader = new Loader({
-      apiKey: environment.placesKey, //
-      version: 'weekly',
-      libraries: ['places'],
-    });
-    loader.importLibrary('places').then((google) => {
-      autocomplete = new google.Autocomplete(this.street.nativeElement, {
-        fields: ['address_components'],
-        types: ['address'],
-      });
-      autocomplete.addListener('place_changed', () => {
-        console.log(autocomplete.getPlace());
-      });
-    });
   }
 }

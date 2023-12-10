@@ -1,17 +1,24 @@
 <div class="container">
   <div class="button-container">
     <button
+      (click)="saveInvoice()"
       class="button"
-      [disabled]="!clientName || !itemsValid || !(detailsValid && invoiceValid)"
+      [disabled]="
+        !clientValid ||
+        !itemsValid ||
+        !(detailsValid && invoiceValid) ||
+        !deliveryValid
+      "
     >
       Save
     </button>
     <a
       [ngClass]="{
         'button-disabled':
-          (!clientName && !clientValid) ||
+          !clientValid ||
           !itemsValid ||
-          !(detailsValid && invoiceValid),
+          !(detailsValid && invoiceValid) ||
+          !deliveryValid,
         button: true
       }"
       [routerLink]="['/invoice-preview']"
@@ -35,39 +42,36 @@
         >
       </button>
     </div>
-    <p
-      class="client-invalid"
-      *ngIf="(!clientValid || !clientName) && !clientToggle"
-    >
+    <p class="client-invalid" *ngIf="!clientValid && !clientToggle">
       Search for a customer, or expand this card to add a new one...
     </p>
     <div
       class="client-details"
-      *ngIf="!clientToggle && clientName && clientValid"
-      @hideShow
+      *ngIf="(!clientToggle && clientValid) || (detailsToggle && mediaSub)"
     >
-      <p class="name">{{ clientName }}</p>
+      <p class="name">{{ clientDetails?.PartyName.Name }}</p>
       <div>
         <p class="label">Tax Registration</p>
-        <p>{{ clientDetails.PartyIdentification.ID }}</p>
+        <p>{{ clientDetails?.PartyIdentification.ID }}</p>
       </div>
       <div>
         <p class="label">Adress</p>
         <p>
-          {{ clientDetails.PostalAdress.StreetName }}
-          {{ clientDetails.PostalAdress.BuildingNumber }},
-          {{ clientDetails.PostalAdress.CityName }},<br />
-          {{ clientDetails.PostalAdress.CountrySubentity }},
-          {{ clientDetails.PostalAdress.Country.IdentificationCode }}, Postal
-          Code
-          {{ clientDetails.PostalAdress.PostalZone }}
+          {{ clientDetails?.PostalAdress.StreetName }}
+          {{ clientDetails?.PostalAdress.BuildingNumber }},
+          {{ clientDetails?.PostalAdress.CityName }},<br />
+          {{ clientDetails?.PostalAdress.CountrySubentity }},
+          {{ clientDetails?.PostalAdress.Country.IdentificationCode }},
+          {{ clientDetails?.PostalAdress.PostalZone }}
         </p>
       </div>
     </div>
+
     <div class="body" *ngIf="clientToggle" @openClose>
       <app-client class="form"></app-client>
     </div>
   </div>
+
   <div class="details-container">
     <div class="details">
       <div class="header">

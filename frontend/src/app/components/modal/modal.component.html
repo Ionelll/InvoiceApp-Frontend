@@ -1,0 +1,31 @@
+<div [ngClass]="{ opened: id, closed: !id }" (click)="outsideClick($event)">
+  <form [formGroup]="PostalAdress" class="container">
+    <div class="header">
+      <p>Adress</p>
+      <button (click)="closeModal()" class="close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <input type="text" class="search" id="search" #search />
+    <div class="body">
+      <label for="StreetName">Street</label>
+      <input type="text" formControlName="StreetName" />
+      <label for="BuildingNumber">Nr</label>
+      <input type="text" formControlName="BuildingNumber" />
+      <label for="CityName">CityName</label>
+      <input type="text" formControlName="CityName" />
+      <label for="CountrySubentity">Region</label>
+      <input type="text" formControlName="CountrySubentity" />
+      <ng-container formGroupName="Country">
+        <label for="IdentificationCode">Country Code</label>
+        <input type="text" formControlName="IdentificationCode" />
+      </ng-container>
+      <label for="PostalZone">Postal Zone</label>
+      <input type="text" formControlName="PostalZone" />
+    </div>
+    <div class="actions">
+      <button (click)="returnForm()" class="button">Confirm</button>
+      <button (click)="closeModal()" class="button">Cancel</button>
+    </div>
+  </form>
+</div>

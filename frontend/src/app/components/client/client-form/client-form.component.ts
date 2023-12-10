@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { ClientService } from 'src/app/services/invoice-services/client.service';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
 
 @Component({
   selector: 'app-client',
@@ -41,45 +42,51 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   clientSub = new Subscription();
 
-  constructor(private client: ClientService) {}
+  constructor(
+    private client: ClientService,
+    private cd: ChangeDetectorRef,
+    private invoice: InvoiceService
+  ) {}
 
   ngOnInit(): void {
-    this.Customer.patchValue(JSON.parse(localStorage.getItem('Client')));
-    setTimeout(() => {
+    if (localStorage.getItem('AccountingCustomerParty')) {
+      this.Customer.patchValue(
+        JSON.parse(localStorage.getItem('AccountingCustomerParty'))
+      );
+      this.invoice.setClient(
+        JSON.parse(localStorage.getItem('AccountingCustomerParty'))
+      );
+    }
+    this.Customer.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+      localStorage.setItem(
+        'AccountingCustomerPary',
+        JSON.stringify(this.Customer.value)
+      );
       this.client.formValidation(
         this.Customer.dirty,
         this.Customer.pristine,
         this.Customer.valid
       );
-    });
-
-    this.Customer.valueChanges.subscribe(() => {
-      localStorage.setItem('Client', JSON.stringify(this.Customer.value));
-      this.client.formValidation(
-        this.Customer.dirty,
-        this.Customer.pristine,
-        this.Customer.valid
-      );
+      this.invoice.setClient(this.Customer.getRawValue());
     });
 
     this.clientSub = this.client.getClient().subscribe((response) => {
-      console.log(response);
       this.Customer.patchValue(response);
       this.Customer.markAsPristine();
       setTimeout(() => {
         this.Customer.updateValueAndValidity();
       });
     });
-  }
-  setCompanyName() {
-    this.client.setClientName(
-      this.Customer.controls.Party.controls.PartyName.controls.Name.value
+    this.client.formValidation(
+      this.Customer.dirty,
+      this.Customer.pristine,
+      this.Customer.valid
     );
   }
+
   clearForm() {
     this.Customer.reset();
-    localStorage.removeItem('ClientId');
-    this.client.setClientName(undefined);
+    localStorage.removeItem('AccountingCustomerParty');
   }
   saveCustomer() {
     let clientID = localStorage.getItem('ClientID');
@@ -87,7 +94,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
   reloadCustomer() {
     let clientID = localStorage.getItem('ClientId');
-    if (clientID && this.Customer.dirty) {
+    if (clientID) {
       this.client.reloadClient(clientID);
     } else this.Customer.reset();
   }

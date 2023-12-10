@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class InvoiceDetails {
   public vatPercent = new BehaviorSubject<string>('19');
-  public currency = new BehaviorSubject<string>('€');
+  public currency = new Subject<string>();
   public validation = new BehaviorSubject<boolean>(true);
   public invoiceValidation = new BehaviorSubject<boolean>(true);
   private invoiceNr = new Subject<string>();
@@ -34,6 +34,7 @@ export class InvoiceDetails {
     return this.invoiceValidation.asObservable();
   }
   setInvoiceNr(invoiceNr) {
+    if (!invoiceNr) return;
     const invoiceNrList = invoiceNr.match(/([a-zA-Z]+)|(\d+)/g);
     const obj = { pre: '', nr: '', suf: '' };
     switch (invoiceNrList.length) {

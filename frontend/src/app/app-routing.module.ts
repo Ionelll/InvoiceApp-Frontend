@@ -15,6 +15,7 @@ import { TabelComponent } from './components/tabel/tabel.component';
 import { InvoicePreferencesComponent } from './components/invoice-details/invoice-preferences/invoice-preferences.component';
 import { CompanyComponent } from './components/company/company-details/company.component';
 import { InvoiceDetails } from './services/invoice-services/details.service';
+import { SettingsComponent } from './components/company/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -27,14 +28,19 @@ const routes: Routes = [
       { path: 'articles', component: TabelComponent },
     ],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+
   {
     path: 'dashboard',
     component: DashboardPageComponent,
     children: [
+      { path: '', redirectTo: 'company', pathMatch: 'full' },
       { path: 'company', component: CompanyComponent },
-      { path: 'settings', component: InvoicePreferencesComponent },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+      },
+      { path: 'login', component: LoginComponent },
+      { path: 'signup', component: SignupComponent },
     ],
   },
   {
