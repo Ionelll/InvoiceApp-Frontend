@@ -32,6 +32,7 @@ export class InvoiceDatesComponent implements OnInit {
     this.invoiceNrandDate.patchValue(
       JSON.parse(localStorage.getItem('InvoiceNrandDate'))
     );
+
     this.invoiceNrandDate.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       localStorage.setItem(
         'InvoiceNrandDate',
@@ -49,5 +50,6 @@ export class InvoiceDatesComponent implements OnInit {
       );
     });
     this.details.setInvoiceValidation(this.invoiceNrandDate.valid);
+    this.invoice.set_ID_IssueDate(this.invoiceNrandDate.getRawValue());
   }
 }

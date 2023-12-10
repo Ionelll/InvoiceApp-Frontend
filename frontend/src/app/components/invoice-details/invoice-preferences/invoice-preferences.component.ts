@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { InvoiceDetails } from 'src/app/services/invoice-services/details.service';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { CurrencySymbolMap } from 'src/app/models/currencies.model';
 import { AccountService } from 'src/app/services/account.service';
 import { invoiceSettings } from 'src/app/models/invoiceSettings.model';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
 
 @Component({
   selector: 'app-invoice-preferences',
@@ -16,7 +17,8 @@ export class InvoicePreferencesComponent implements OnInit {
   constructor(
     private details: InvoiceDetails,
     private datePipe: DatePipe,
-    private account: AccountService
+    private account: AccountService,
+    private invoice: InvoiceService
   ) {}
   duePeriod: number;
   private resetSub = new Subscription();
@@ -59,10 +61,6 @@ export class InvoicePreferencesComponent implements OnInit {
     );
   }
   ngOnInit(): void {
-    localStorage.setItem(
-      'InvoiceDetails',
-      JSON.stringify(this.invoiceDetails.value)
-    );
     this.account.getUser().subscribe((res) => {
       if (res) {
         this.duePeriod = res.invoiceSettings.duePeriod;
@@ -81,14 +79,24 @@ export class InvoicePreferencesComponent implements OnInit {
       );
       this.refreshDueDate();
     });
-    this.invoiceDetails.valueChanges.subscribe((values) => {
-      localStorage.setItem('InvoiceDetails', JSON.stringify(values));
-      this.details.setDetailsValidation(this.invoiceDetails.valid);
-    });
+    this.invoiceDetails.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((values) => {
+        localStorage.setItem('InvoiceDetails', JSON.stringify(values));
+        this.details.setDetailsValidation(this.invoiceDetails.valid);
+        if (this.invoiceDetails.valid) {
+          this.invoice.set_Details(this.invoiceDetails.getRawValue());
+        }
+      });
     this.invoiceDetails.controls.DocumentCurrencyCode.valueChanges.subscribe(
       (value) => {
         this.details.setCurrency(value);
       }
     );
+    localStorage.setItem(
+      'InvoiceDetails',
+      JSON.stringify(this.invoiceDetails.value)
+    );
+    this.invoice.set_Details(this.invoiceDetails.getRawValue());
   }
 }

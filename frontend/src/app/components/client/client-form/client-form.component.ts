@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, debounceTime } from 'rxjs';
 import { ClientService } from 'src/app/services/invoice-services/client.service';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
 
 @Component({
   selector: 'app-client',
@@ -41,20 +42,21 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   clientSub = new Subscription();
 
-  constructor(private client: ClientService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private client: ClientService,
+    private cd: ChangeDetectorRef,
+    private invoice: InvoiceService
+  ) {}
 
   ngOnInit(): void {
-    this.Customer.patchValue(
-      JSON.parse(localStorage.getItem('AccountingCustomerParty'))
-    );
-    setTimeout(() => {
-      this.client.formValidation(
-        this.Customer.dirty,
-        this.Customer.pristine,
-        this.Customer.valid
+    if (localStorage.getItem('AccountingCustomerParty')) {
+      this.Customer.patchValue(
+        JSON.parse(localStorage.getItem('AccountingCustomerParty'))
       );
-    });
-
+      this.invoice.setClient(
+        JSON.parse(localStorage.getItem('AccountingCustomerParty'))
+      );
+    }
     this.Customer.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       localStorage.setItem(
         'AccountingCustomerPary',
@@ -65,9 +67,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         this.Customer.pristine,
         this.Customer.valid
       );
-      this.client.setClient(
-        JSON.parse(localStorage.getItem('AccountingCustomerParty'))
-      );
+      this.invoice.setClient(this.Customer.getRawValue());
     });
 
     this.clientSub = this.client.getClient().subscribe((response) => {
@@ -77,7 +77,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         this.Customer.updateValueAndValidity();
       });
     });
-    this.cd.detectChanges();
+    this.client.formValidation(
+      this.Customer.dirty,
+      this.Customer.pristine,
+      this.Customer.valid
+    );
   }
 
   clearForm() {

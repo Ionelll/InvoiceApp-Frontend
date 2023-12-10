@@ -14,7 +14,7 @@
     *ngFor="let row of Lines.controls.array.controls; index as i"
   >
     <ng-container [formGroupName]="i">
-      <input class="pos" type="number" value="{{ i + 1 }}" disabled @slide />
+      <input class="pos" type="number" value="{{ i + 1 }}" disabled />
       <ng-container formGroupName="Item">
         <textarea
           placeholder="Article"
@@ -41,31 +41,24 @@
 
         <ng-container formGroupName="ClassifiedTaxCategory">
           <input type="text" formControlName="ID" hidden />
-          <input type="number" formControlName="Percent" @slide />
+          <input type="number" formControlName="Percent" />
           <ng-container formGroupName="TaxScheme" />
           <input type="text" formControlName="ID" hidden />
         </ng-container>
       </ng-container>
       <input
-        @slide
         type="number"
         class="unit"
         formControlName="InvoicedQuantity"
         placeholder="Unit"
       />
       <ng-container formGroupName="Price">
-        <select
-          @slide
-          class="bucati"
-          formControlName="UnitCode"
-          placeholder="Ammount"
-        >
+        <select class="bucati" formControlName="UnitCode" placeholder="Ammount">
           <option *ngFor="let item of units" [value]="item.CommonCode">
             {{ item.name }}
           </option>
         </select>
         <input
-          @slide
           type="number"
           class="prett"
           formControlName="PriceAmount"
@@ -74,7 +67,6 @@
         <input type="text" formControlName="BaseQuantity" hidden />
       </ng-container>
       <input
-        @slide
         readonly
         type="text"
         class="total"

@@ -53,7 +53,6 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.account.getUser().subscribe((res: User) => {
       if (res) {
-        console.log(res);
         this.items = res.Items;
         this.settingsForm.patchValue(res.invoiceSettings);
       }

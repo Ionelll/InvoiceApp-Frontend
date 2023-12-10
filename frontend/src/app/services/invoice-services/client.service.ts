@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Company } from '../../models/company.model';
-import { environment } from 'src/environment/environment';
+import { environment } from 'environment';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { InvoiceService } from './invoice.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private invoice: InvoiceService) {}
 
   private client = new Subject<Company>();
   private clientName = new Subject<string>();
@@ -31,6 +32,7 @@ export class ClientService {
             'AccountingCustomerParty',
             JSON.stringify(res.result)
           );
+          this.invoice.setClient(res.result);
           this.formValidation(true, false, true);
         }
       });

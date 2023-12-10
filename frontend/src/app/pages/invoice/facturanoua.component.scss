@@ -1,13 +1,16 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr 0.8fr;
+  grid-template-areas:
+    "client client buttons"
+    "client client details"
+    "client client delivery"
+    "items items items";
+  grid-template-columns: 1fr 0.3fr 1fr;
+
   gap: 1.5rem;
 }
 .details-container {
-  grid-row-start: 1;
-  grid-row-end: 3;
-  grid-column: 2;
-  margin-top: 8rem;
+  grid-area: details;
   position: relative;
 }
 .client,
@@ -21,13 +24,10 @@
   position: relative;
 }
 .delivery {
-  grid-column: 2;
-  grid-row: 3;
+  grid-area: delivery;
 }
 .client {
-  grid-column: 1;
-  grid-row-start: 1;
-  grid-row-end: 4;
+  grid-area: client;
 }
 .details {
   .header {
@@ -35,8 +35,7 @@
   }
 }
 .items {
-  grid-column-start: 1;
-  grid-column-end: 3;
+  grid-area: items;
   .header {
     justify-content: space-between;
     background-color: #dbebfc;
@@ -129,8 +128,7 @@
 }
 .button-container {
   box-shadow: 0px 2px 3px #32324d;
-  grid-row: 1;
-  grid-column: 2;
+  grid-area: buttons;
   background-color: var(--clr-secondary);
   display: flex;
   height: 6rem;
@@ -141,6 +139,8 @@
 .client-details {
   padding: 0 2rem;
   position: absolute;
+  display: flex;
+  flex-direction: column;
   p {
     font-size: 1em;
     font-family: "Poppins", sans-serif;
@@ -158,16 +158,20 @@
     gap: 3rem;
   }
 }
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 800px) {
   .container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
   }
   .button-container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 105;
+    display: none;
+    margin: 0;
+  }
+
+  .items {
+    .header {
+      display: none;
+    }
   }
 }

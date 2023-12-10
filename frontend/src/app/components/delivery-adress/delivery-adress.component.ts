@@ -1,8 +1,10 @@
 import { transition, trigger, style, animate } from '@angular/animations';
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Adress } from 'src/app/models/adress.model';
 import { deliveryService } from 'src/app/services/invoice-services/delivery.service';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
 import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
@@ -25,10 +27,15 @@ import { ModalService } from 'src/app/services/modal.service';
 export class DeliveryAdressComponent implements OnInit {
   constructor(
     private modalService: ModalService,
-    private deliveryService: deliveryService
+    private deliveryService: deliveryService,
+    private invoice: InvoiceService,
+    private datePipe: DatePipe
   ) {}
   deliverydate = new FormGroup({
-    ActualDeliveryDate: new FormControl('', [Validators.required]),
+    ActualDeliveryDate: new FormControl(
+      this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      [Validators.required]
+    ),
   });
 
   adress: Adress;
@@ -44,21 +51,34 @@ export class DeliveryAdressComponent implements OnInit {
           'DeliveryAdress',
           JSON.stringify(res.PostalAdress)
         );
-        if (this.deliverydate.valid) this.deliveryService.setValidation(true);
+
+        if (this.deliverydate.valid) {
+          this.deliveryService.setValidation(true);
+          this.invoice.set_Delivery(
+            this.adress,
+            this.deliverydate.controls.ActualDeliveryDate.value
+          );
+        }
       }
     });
     this.deliverydate.valueChanges.subscribe(() => {
-      if (this.adressValid && this.deliverydate.valid)
+      if (this.adressValid && this.deliverydate.valid) {
         this.deliveryService.setValidation(true);
+        this.invoice.set_Delivery(
+          this.adress,
+          this.deliverydate.controls.ActualDeliveryDate.value
+        );
+      }
     });
   }
 
   toggleDelivery() {
     localStorage.setItem('DeliveryToggle', JSON.stringify(this.deliveryToggle));
     this.deliveryService.setValidation(!this.deliveryToggle);
+    if (!this.deliveryToggle) this.invoice.remove_Delivery();
   }
   openModal() {
-    this.modalService.openModal('DeliveryAdress');
+    this.modalService.openModal('DeliveryAdress', this.adress);
   }
   setDate() {
     localStorage.setItem(

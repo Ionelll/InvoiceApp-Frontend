@@ -77,24 +77,24 @@ input[type="number"] {
 }
 html,
 body {
-  overflow-y: scroll;
+  // overflow-y: scroll;
   margin: 0;
   padding: 0;
 
   user-select: none;
   background-color: var(--clr-background);
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--clr-secondary-dark);
-    margin: 10rem 0 10rem 0;
-    border-radius: 15px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 15px;
-    background: var(--clr-primary);
-  }
+  // ::-webkit-scrollbar {
+  //   width: 7px;
+  // }
+  // ::-webkit-scrollbar-track {
+  //   background: var(--clr-secondary-dark);
+  //   margin: 10rem 0 10rem 0;
+  //   border-radius: 15px;
+  // }
+  // ::-webkit-scrollbar-thumb {
+  //   border-radius: 15px;
+  //   background: var(--clr-primary);
+  // }
 }
 * {
   box-sizing: border-box;
@@ -128,6 +128,5 @@ a {
   body {
     background-color: white;
     color: black;
-    overflow-y: auto;
   }
 }

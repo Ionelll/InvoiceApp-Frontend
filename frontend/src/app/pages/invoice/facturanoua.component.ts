@@ -45,6 +45,7 @@ export class FacturaNouaComponent implements OnInit, OnDestroy {
   private detailsSub = new Subscription();
   private itemsSub = new Subscription();
   private deliverySub = new Subscription();
+  public mediaSub = false;
   public clientDetails = JSON.parse(
     localStorage.getItem('AccountingCustomerParty')
   )?.Party;
@@ -57,9 +58,14 @@ export class FacturaNouaComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private deliveryService: deliveryService,
     private invoice: InvoiceService
-  ) {}
+  ) {
+    if (window.innerWidth > 800) {
+      this.mediaSub = true;
+    }
+  }
 
   ngOnInit(): void {
+    if (window.innerWidth > 800) this.mediaSub = true;
     this.deliverySub = this.deliveryService.getValidation().subscribe((res) => {
       this.deliveryValid = res;
     });
@@ -89,11 +95,11 @@ export class FacturaNouaComponent implements OnInit, OnDestroy {
   }
 
   newInvoice() {
-    const invoiceNr = JSON.parse(localStorage.getItem('InvoiceNrandDate')).ID;
-
+    const invoiceNr = JSON.parse(localStorage.getItem('InvoiceNrandDate'))?.ID;
     this.details.setInvoiceNr(invoiceNr);
     this.items.clearTable();
     this.details.emitResetDetails(true);
+    this.invoice.newInvoice();
   }
   ngOnDestroy(): void {
     this.invoiceSub.unsubscribe();

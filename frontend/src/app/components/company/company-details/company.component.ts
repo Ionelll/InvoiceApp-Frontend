@@ -3,17 +3,10 @@ import { Subscription } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Company } from '../../../models/company.model';
-import {
-  animate,
-  query,
-  stagger,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { User } from 'src/app/models/user.model';
 import { ModalService } from 'src/app/services/modal.service';
 import { CurrencySymbolMap } from 'src/app/models/currencies.model';
+import { InvoiceService } from 'src/app/services/invoice-services/invoice.service';
 
 @Component({
   selector: 'app-company',
@@ -23,7 +16,8 @@ import { CurrencySymbolMap } from 'src/app/models/currencies.model';
 export class CompanyComponent implements OnInit, OnDestroy {
   constructor(
     private account: AccountService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private invoice: InvoiceService
   ) {}
   companySub: Subscription;
   activeImage: string;
@@ -76,6 +70,8 @@ export class CompanyComponent implements OnInit, OnDestroy {
         this.activeImage = res.Logo;
         this.company = res;
         this.Supplier.patchValue(res);
+        this.invoice.set_AccountingSupplierParty(res.Party);
+        this.invoice.set_PaymentMeans(res.PayeeFinancialAccount);
       }
     });
     this.Supplier.valueChanges.subscribe(() => {
@@ -164,7 +160,10 @@ export class CompanyComponent implements OnInit, OnDestroy {
   }
 
   openModal() {
-    this.modalService.openModal('Supplier');
+    this.modalService.openModal(
+      'Supplier',
+      this.Supplier.controls.Party.controls.PostalAdress.getRawValue()
+    );
   }
 
   ngOnDestroy() {

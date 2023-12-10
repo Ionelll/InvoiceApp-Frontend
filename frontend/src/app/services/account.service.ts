@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Company } from '../models/company.model';
-import { environment } from 'src/environment/environment';
+import { environment } from 'environment';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { InvoiceDetails } from './invoice-services/details.service';
 import { Item } from '../models/item.model';
+import { InvoiceService } from './invoice-services/invoice.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -17,7 +18,8 @@ export class AccountService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private details: InvoiceDetails
+    private details: InvoiceDetails,
+    private invoice: InvoiceService
   ) {}
 
   login(form: FormData) {
@@ -30,6 +32,7 @@ export class AccountService {
         if (!res) return;
         this.user.next(res.user);
         this.company.next(res.user.Party);
+        this.invoice.set_AccountingSupplierParty(res.user.Party);
         sessionStorage.setItem(
           'InvoiceSettings',
           JSON.stringify(res.user.invoiceSettings)
@@ -48,6 +51,7 @@ export class AccountService {
         `${environment.apiUrl}/isloggedin`
       )
       .subscribe((res) => {
+        console.log(res);
         if (res.loggedin) {
           this.user.next(res.user);
           sessionStorage.setItem(
@@ -59,6 +63,8 @@ export class AccountService {
           localStorage.setItem('Logo', res.user.Logo);
           this.details.setInvoiceNr(res.user.lastInvoiceNr);
           this.company.next(res.user.Party);
+          this.invoice.set_AccountingSupplierParty(res.user.Party);
+          this.invoice.set_PaymentMeans(res.user.PayeeFinancialAccount);
           localStorage.setItem(
             'Bank',
             JSON.stringify(res.user.PayeeFinancialAccount)

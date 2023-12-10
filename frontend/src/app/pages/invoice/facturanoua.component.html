@@ -45,7 +45,10 @@
     <p class="client-invalid" *ngIf="!clientValid && !clientToggle">
       Search for a customer, or expand this card to add a new one...
     </p>
-    <div class="client-details" *ngIf="!clientToggle && clientValid" @hideShow>
+    <div
+      class="client-details"
+      *ngIf="(!clientToggle && clientValid) || (detailsToggle && mediaSub)"
+    >
       <p class="name">{{ clientDetails?.PartyName.Name }}</p>
       <div>
         <p class="label">Tax Registration</p>
@@ -63,10 +66,12 @@
         </p>
       </div>
     </div>
+
     <div class="body" *ngIf="clientToggle" @openClose>
       <app-client class="form"></app-client>
     </div>
   </div>
+
   <div class="details-container">
     <div class="details">
       <div class="header">

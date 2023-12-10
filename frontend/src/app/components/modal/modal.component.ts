@@ -9,7 +9,7 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Loader } from '@googlemaps/js-api-loader';
 import { ModalService } from 'src/app/services/modal.service';
-import { environment } from 'src/environment/environment';
+import { environment } from 'environment';
 
 @Component({
   selector: 'app-modal',
@@ -34,7 +34,8 @@ export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.modalService.subscribeOpenModal().subscribe((res) => {
-      this.id = res;
+      this.id = res.id;
+      this.PostalAdress.patchValue(res.PostalAdress);
     });
   }
 
@@ -46,7 +47,6 @@ export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   outsideClick($event) {
     const event = $event.target as Element;
-    console.log(event.className);
     if (event.className == 'opened') {
       this.closeModal();
     }
@@ -54,8 +54,6 @@ export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {
   returnForm() {
     if (this.PostalAdress.valid) {
       this.modalService.closeModal(this.id, this.PostalAdress.getRawValue());
-      this.search.nativeElement.value = '';
-      this.PostalAdress.reset();
       this.closeModal();
     } else return;
   }

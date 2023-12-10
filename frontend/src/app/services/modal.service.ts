@@ -4,11 +4,14 @@ import { Adress } from '../models/adress.model';
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
-  private openModalEmmiter = new Subject<string>();
+  private openModalEmmiter = new Subject<{
+    id: string;
+    PostalAdress: Adress;
+  }>();
   private updated = new Subject<{ id: string; PostalAdress: Adress }>();
 
-  openModal(id: string) {
-    this.openModalEmmiter.next(id);
+  openModal(id: string, PostalAdress: Adress) {
+    this.openModalEmmiter.next({ id, PostalAdress });
   }
 
   subscribeOpenModal() {

@@ -37,9 +37,8 @@ import { InvoiceService } from 'src/app/services/invoice-services/invoice.servic
     ]),
   ],
 })
-export class TabelComponent implements OnInit, AfterViewInit {
+export class TabelComponent implements OnInit {
   constructor(
-    private cd: ChangeDetectorRef,
     private createInvoice: CreateInvoice,
     private details: InvoiceDetails,
     private currencyPipe: CurrencyPipe,
@@ -134,22 +133,22 @@ export class TabelComponent implements OnInit, AfterViewInit {
     this.disableAnimation = false;
     this.Lines.controls.array.push(
       new FormGroup({
-        InvoicedQuantity: new FormControl(''),
-        LineExtensionAmount: new FormControl(''),
+        InvoicedQuantity: new FormControl('', Validators.required),
+        LineExtensionAmount: new FormControl(),
         Item: new FormGroup({
-          Name: new FormControl(''),
+          Name: new FormControl('', Validators.required),
           ClassifiedTaxCategory: new FormGroup({
             ID: new FormControl('S'),
-            Percent: new FormControl('0'),
+            Percent: new FormControl('0', Validators.required),
             TaxScheme: new FormGroup({
-              ID: new FormControl(''),
+              ID: new FormControl('VAT'),
             }),
           }),
         }),
         Price: new FormGroup({
-          PriceAmount: new FormControl(''),
+          PriceAmount: new FormControl('', Validators.required),
           BaseQuantity: new FormControl(''),
-          UnitCode: new FormControl(''),
+          UnitCode: new FormControl('', Validators.required),
         }),
       })
     );
@@ -181,6 +180,7 @@ export class TabelComponent implements OnInit, AfterViewInit {
         this.createInvoice.setArticlesValidation(this.Lines.valid);
         this.updateCurrency();
         this.setInvoiceTotals();
+        this.invoice.set_Lines(this.Lines.controls.array.value);
         localStorage.setItem('TableValues', JSON.stringify(this.Lines.value));
       });
 
@@ -204,12 +204,16 @@ export class TabelComponent implements OnInit, AfterViewInit {
               Item: new FormGroup({
                 Name: new FormControl(InvoiceLine.Item.Name),
                 ClassifiedTaxCategory: new FormGroup({
-                  ID: new FormControl('S'),
+                  ID: new FormControl(
+                    InvoiceLine.Item.ClassifiedTaxCategory.ID
+                  ),
                   Percent: new FormControl(
                     InvoiceLine.Item.ClassifiedTaxCategory.Percent
                   ),
                   TaxScheme: new FormGroup({
-                    ID: new FormControl(''),
+                    ID: new FormControl(
+                      InvoiceLine.Item.ClassifiedTaxCategory.TaxScheme.ID
+                    ),
                   }),
                 }),
               }),
@@ -222,9 +226,6 @@ export class TabelComponent implements OnInit, AfterViewInit {
           );
       });
     }
-  }
-  ngAfterViewInit(): void {
-    this.cd.detectChanges();
   }
 
   updateCurrency() {
@@ -245,7 +246,7 @@ export class TabelComponent implements OnInit, AfterViewInit {
     let totalWithVat = 0;
     let taxSubtotals: TaxSubtotal[] = [];
 
-    this.Lines.controls.array.controls.forEach((InvoiceLine, index) => {
+    this.Lines.controls.array.controls.forEach((InvoiceLine) => {
       totalNoVat +=
         parseFloat(InvoiceLine.controls.InvoicedQuantity.value) *
         parseFloat(InvoiceLine.controls.Price.controls.PriceAmount.value);
@@ -258,18 +259,43 @@ export class TabelComponent implements OnInit, AfterViewInit {
               .Percent.value
           ) /
             100);
-      taxSubtotals.push({
-        TaxSubtotal: {
-          TaxableAmount: totalNoVat.toFixed(2),
-          TaxCategory:
-            InvoiceLine.controls.Item.controls.ClassifiedTaxCategory.getRawValue(),
-        },
-      });
+
+      let SameTaxCategory_index = taxSubtotals.findIndex(
+        (element) =>
+          element.TaxSubtotal.TaxCategory.ID ===
+            InvoiceLine.controls.Item.controls.ClassifiedTaxCategory.controls.ID
+              .value &&
+          element.TaxSubtotal.TaxCategory.Percent ===
+            InvoiceLine.controls.Item.controls.ClassifiedTaxCategory.controls
+              .Percent.value
+      );
+
+      if (SameTaxCategory_index >= 0) {
+        taxSubtotals[SameTaxCategory_index].TaxSubtotal.TaxableAmount = (
+          parseFloat(
+            taxSubtotals[SameTaxCategory_index].TaxSubtotal.TaxableAmount
+          ) +
+          parseFloat(InvoiceLine.controls.InvoicedQuantity.value) *
+            parseFloat(InvoiceLine.controls.Price.controls.PriceAmount.value)
+        ).toFixed(2);
+      } else {
+        taxSubtotals.push({
+          TaxSubtotal: {
+            TaxableAmount: (
+              parseFloat(InvoiceLine.controls.InvoicedQuantity.value) *
+              parseFloat(InvoiceLine.controls.Price.controls.PriceAmount.value)
+            ).toFixed(2),
+            TaxCategory:
+              InvoiceLine.controls.Item.controls.ClassifiedTaxCategory.getRawValue(),
+          },
+        });
+      }
     });
     this.invoice.setTaxSubtotal(
       (totalWithVat - totalNoVat).toFixed(2),
       taxSubtotals
     );
+    this.invoice.set_Total(totalNoVat, totalWithVat);
     this.createInvoice.setnetto(totalNoVat.toFixed(2) || '0');
     this.createInvoice.setTotal(totalWithVat.toFixed(2) || '0');
     this.createInvoice.setVat((totalWithVat - totalNoVat).toFixed(2) || '0');

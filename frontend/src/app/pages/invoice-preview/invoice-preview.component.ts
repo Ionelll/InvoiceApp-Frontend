@@ -23,7 +23,7 @@ export class InvoicePreviewComponent implements OnInit {
     window.print();
   }
   ngOnInit(): void {
-    this.client = JSON.parse(localStorage.getItem('Client'));
+    this.client = JSON.parse(localStorage.getItem('AccountingCustomerParty'));
     this.company = JSON.parse(localStorage.getItem('Company'));
     this.bank = JSON.parse(localStorage.getItem('Bank'));
     this.logo = localStorage.getItem('Logo');

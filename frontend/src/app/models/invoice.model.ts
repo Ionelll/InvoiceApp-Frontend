@@ -14,14 +14,14 @@ export interface Invoice {
       StartDate: string;
       EndDate: string;
     };
-    Note: [string, string];
+    Note: string;
     DocumentCurrencyCode: string;
     BuyerReference?: string;
     OrderReference?: { ID: string };
     ContractDocumentReference?: { ID: string; DocumentType: string };
     AccountingSupplierParty: Company;
     AccountingCustomerParty: Company;
-    Delivery: {
+    Delivery?: {
       ActualDeliveryDate: string;
       DeliveryLocation: {
         Adress: Adress;
@@ -48,7 +48,6 @@ export interface Invoice {
     Lines: [
       {
         InvoiceLine: {
-          ID: string; //array index
           InvoicedQuantity: string;
           LineExtensionAmount: string;
           Item: Item['Item'];
