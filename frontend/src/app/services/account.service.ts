@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Company } from '../models/company.model';
-import { environment } from '../../../../environment';
+import { environment } from '../../../environment';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { InvoiceDetails } from './invoice-services/details.service';

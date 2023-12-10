@@ -9,7 +9,7 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Loader } from '@googlemaps/js-api-loader';
 import { ModalService } from 'src/app/services/modal.service';
-import { environment } from '../../../../../environment';
+import { environment } from '../../../../environment';
 
 @Component({
   selector: 'app-modal',

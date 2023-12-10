@@ -5,7 +5,7 @@ import { TaxSubtotal } from 'src/app/models/tax-subtotal.model';
 import { Company } from 'src/app/models/company.model';
 import { Adress } from 'src/app/models/adress.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environment';
+import { environment } from '../../../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceService {
