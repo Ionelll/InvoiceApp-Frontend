@@ -2,65 +2,58 @@ import { Adress } from './adress.model';
 import { Bank } from './bank.model';
 import { Company } from './company.model';
 import { Item } from './item.model';
+import { TaxSubtotal } from './tax-subtotal.model';
 
 export interface Invoice {
   _id?: string;
   Invoice: {
-    InvoiceTypeCode: number;
+    InvoiceTypeCode: string;
     ID: string;
-    IssueDate: Date;
+    IssueDate: string;
     InvoicePeriod: {
-      StartDate: Date;
-      EndDate: Date;
+      StartDate: string;
+      EndDate: string;
     };
-    Note: [string, string];
+    Note: string;
     DocumentCurrencyCode: string;
     BuyerReference?: string;
     OrderReference?: { ID: string };
     ContractDocumentReference?: { ID: string; DocumentType: string };
-    AccountingSupplierParty: Company['Party'];
-    AccountingCustomerParty: Company['Party'];
-    Delivery: {
-      ActualDeliveryDate: Date;
+    AccountingSupplierParty: Company;
+    AccountingCustomerParty: Company;
+    Delivery?: {
+      ActualDeliveryDate: string;
       DeliveryLocation: {
         Adress: Adress;
       };
     };
     PaymentMeans: {
-      PaymentCode: number;
+      PaymentCode: string;
       PaymentID: string;
       PayeeFinancialAccount: Bank;
     };
+    PaymentTerms: {
+      Note: string;
+    };
     TaxTotal: {
-      TaxAmout: number;
-      ApplyedTaxes: [
-        {
-          TaxSubtotal: {
-            TaxableAmount: number;
-            TaxCategory: {
-              ID: string;
-              Percent: number;
-              TaxScheme: {
-                ID: string;
-              };
-            };
-          };
-        }
-      ];
+      TaxAmout: string;
+      ApplyedTaxes: TaxSubtotal[];
     };
     LegalMonetaryTotal: {
-      TaxExclusiveAmount: number;
-      TaxInclusiveAmount: number;
-      LineExtensionAmount: number;
-      PayableAmount: number;
+      TaxExclusiveAmount: string;
+      TaxInclusiveAmount: string;
+      LineExtensionAmount: string;
+      PayableAmount: string;
     };
-    Lines: {
-      InvoiceLine:{
-      ID: number;
-      InvoicedQuantity: number;
-      LineExtensionAmount: number;
-      Item: Item['Item'];
-      Price: Item['Price'];
-    }}[];
+    Lines: [
+      {
+        InvoiceLine: {
+          InvoicedQuantity: string;
+          LineExtensionAmount: string;
+          Item: Item['Item'];
+          Price: Item['Price'];
+        };
+      }
+    ];
   };
 }

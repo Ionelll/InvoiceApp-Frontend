@@ -1,20 +1,17 @@
 import { Company } from './company.model';
 import { Item } from './item.model';
 import { Bank } from './bank.model';
+import { invoiceSettings } from './invoiceSettings.model';
 
 export interface User {
   email: string;
-  password: string;
+  password?: string;
   role: string;
-  company: Company;
+  Party: Company['Party'];
   PayeeFinancialAccount?: Bank;
-  preferedCurrency?: string;
   preferedLanguage?: string;
-  preferedInvoiceText: string;
-  footNotes?: string;
-  preferedDuePeriod?: string;
-  preferedVat?: string;
-  item?: Item[];
+  Items?: Item[];
   lastInvoiceNr?: string;
-  logo?: any;
+  Logo?: any;
+  invoiceSettings?: invoiceSettings;
 }

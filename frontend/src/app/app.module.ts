@@ -36,6 +36,8 @@ import { SettingsComponent } from './components/company/settings/settings.compon
 import { ToolbarComponent } from './components/navigation/toolbar/toolbar.component';
 import { SidebarComponent } from './components/navigation/sidebar/sidebar.component';
 import { DeliveryAdressComponent } from './components/delivery-adress/delivery-adress.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { CurrencyPipe } from '@angular/common';
 
 registerLocaleData(localeFr, 'de-BE');
 
@@ -61,6 +63,7 @@ registerLocaleData(localeFr, 'de-BE');
     ToolbarComponent,
     SidebarComponent,
     DeliveryAdressComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +89,7 @@ registerLocaleData(localeFr, 'de-BE');
       useClass: CustomInterceptor,
       multi: true,
     },
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent],
 })

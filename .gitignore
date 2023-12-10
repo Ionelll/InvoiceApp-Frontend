@@ -2,6 +2,7 @@
 
 # Compiled output
 /frontend/dist
+/frontend/environment.ts
 /tmp
 /out-tsc
 /bazel-out

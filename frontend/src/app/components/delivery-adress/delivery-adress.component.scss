@@ -3,10 +3,7 @@
   justify-content: space-around;
   min-height: 4rem;
 }
-.ng-invalid:not(form),
-.ng-invalid:not(ng-container) {
-  border-bottom: 1px solid var(--clr-accent-red);
-}
+
 .date {
   color: var(--clr-secondary-dark);
   border: none;
@@ -27,21 +24,48 @@
   color: gray;
 }
 
-.input {
-  width: 100%;
-  font-family: "Poppins", sans-serif;
-  padding-left: 1rem;
-  outline: none;
-  border: none;
-  margin: 3px;
-  &:focus {
-    background-color: var(--clr-input-focused);
-  }
-}
 .body {
   padding: 0 1.5rem 1rem 1.5rem;
-  display: grid;
-  grid-template-columns: 0.2fr 1fr 0.2fr 1fr;
+  display: flex;
+  justify-content: space-around;
+}
+.formatted-adress {
+  font-size: small;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 1rem;
+  div {
+    white-space: nowrap;
+    align-self: flex-end;
+    margin: auto 0;
+  }
+}
+.break {
+  height: 0;
+  flex-basis: 100%;
+}
+.button {
+  all: unset;
+  grid-column: 2;
+  color: var(--clr-primary-light);
+  padding: 0.3em 1em;
+  text-align: center;
+  width: 3rem;
+  margin: auto;
+  margin-right: 0;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: 5px 5px #558abb;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid var(--clr-primary-light);
+  transition-duration: 0.1s;
+  &:active {
+    box-shadow: none;
+  }
 }
 .label {
   color: var(--clr-primary-light);

@@ -1,5 +1,5 @@
 .router {
-  padding: 7rem 4rem;
+  padding: 7rem 5%;
 }
 
 @media print {
@@ -7,8 +7,8 @@
     padding: 0;
   }
 }
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 800px) {
   .router {
-    padding: 0;
+    padding: 7rem 0.5rem;
   }
 }

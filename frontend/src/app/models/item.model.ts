@@ -3,14 +3,15 @@ export interface Item {
     Name: string;
     ClassifiedTaxCategory: {
       ID: string;
-      Percent: number;
-      TaxScheme: string;
+      Percent: string;
+      TaxScheme: {
+        ID: string;
+      };
     };
   };
   Price: {
-    PriceAmount: number;
-    BaseQuantity: number;
+    PriceAmount: string;
+    BaseQuantity: string;
     UnitCode: string;
   };
-  
 }

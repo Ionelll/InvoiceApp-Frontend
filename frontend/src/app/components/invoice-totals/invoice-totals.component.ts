@@ -15,19 +15,23 @@ export class InvoiceTotalsComponent implements OnInit {
   public netto = '';
   public total = '';
   public vat = '';
-  public currency: string;
+  public currency = JSON.parse(localStorage.getItem('InvoiceDetails'))
+    ?.DocumentCurrencyCode;
   ngOnInit(): void {
     this.details.getCurrency().subscribe((res) => {
       this.currency = res;
     });
     this.invoice.getVat().subscribe((res) => {
-      this.vat = res;
+      if (!isNaN(parseFloat(res))) this.vat = res;
+      else this.vat = '0.00';
     });
     this.invoice.getnetto().subscribe((res) => {
-      this.netto = res;
+      if (!isNaN(parseFloat(res))) this.netto = res;
+      else this.netto = '0.00';
     });
     this.invoice.getTotal().subscribe((res) => {
-      this.total = res;
+      if (!isNaN(parseFloat(res))) this.total = res;
+      else this.total = '0.00';
     });
   }
 }
