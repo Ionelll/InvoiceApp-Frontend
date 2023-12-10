@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
-import { Company } from '../../models/company.model';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CreateInvoice {

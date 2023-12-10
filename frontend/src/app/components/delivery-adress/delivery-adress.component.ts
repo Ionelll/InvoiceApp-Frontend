@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Loader } from '@googlemaps/js-api-loader';
-import { environment } from 'src/environment/environment';
+import { environment } from '../../../../../environment';
 
 @Component({
   selector: 'app-delivery-adress',
