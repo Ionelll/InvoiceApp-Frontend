@@ -24,12 +24,13 @@ export class AccountService {
 
   login(form: FormData) {
     this.http
-      .post<{ loggedin: string; user: User }>(
+      .post<{ loggedin: string; user: User; token: string }>(
         `${environment.apiUrl}/login`,
         form
       )
       .subscribe((res) => {
         if (!res) return;
+        localStorage.setItem('token', res.token);
         this.user.next(res.user);
         this.company.next(res.user.Party);
         this.invoice.set_AccountingSupplierParty(res.user.Party);
@@ -88,6 +89,7 @@ export class AccountService {
   }
 
   updateCompany(company) {
+    console.log(company);
     this.http
       .post<{ user: User; message: string }>(
         `${environment.apiUrl}/updatecompany`,
@@ -114,8 +116,10 @@ export class AccountService {
     this.http
       .post<{ result: User }>(`${environment.apiUrl}/updateItems`, items)
       .subscribe((res) => {
-        this.user.next(res.result);
-        sessionStorage.setItem('Articles', JSON.stringify(res.result.Items));
+        if (res) {
+          this.user.next(res.result);
+          sessionStorage.setItem('Articles', JSON.stringify(res.result.Items));
+        }
       });
   }
   updateSettings(settings) {

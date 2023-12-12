@@ -63,7 +63,7 @@ export class InvoicePreferencesComponent implements OnInit {
   ngOnInit(): void {
     this.account.getUser().subscribe((res) => {
       if (res) {
-        this.duePeriod = res.invoiceSettings.duePeriod;
+        this.duePeriod = res.invoiceSettings?.duePeriod || 30;
         this.invoiceDetails.patchValue(res.invoiceSettings);
         this.refreshDueDate();
       }

@@ -161,16 +161,20 @@
       </div>
       <div class="row" *ngFor="let item of table; index as i">
         <p>{{ i + 1 }}</p>
-        <span>{{ item.articol }}</span>
-        <p>{{ item.unit }}</p>
-        <p>{{ item.bucati }}</p>
+        <span>{{ item.Item.Name }}</span>
+        <p>{{ item.Price.UnitCode }}</p>
+        <p>{{ item.InvoicedQuantity }}</p>
         <p>
-          {{ item.pret }}
-          {{ invoiceDetails.currency }}
+          {{
+            item.Price.PriceAmount
+              | currency : invoiceDetails.DocumentCurrencyCode
+          }}
         </p>
         <p>
-          {{ (item.bucati * item.pret).toLocaleString() }}
-          {{ invoiceDetails.currency }}
+          {{
+            item.InvoicedQuantity * item.Price.PriceAmount
+              | currency : invoiceDetails.DocumentCurrencyCode
+          }}
         </p>
       </div>
     </div>
