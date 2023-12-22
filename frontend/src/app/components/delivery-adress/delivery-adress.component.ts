@@ -40,9 +40,16 @@ export class DeliveryAdressComponent implements OnInit {
 
   adress: Adress;
   adressValid: boolean = false;
-  public deliveryToggle: boolean = false;
+  public deliveryToggle: boolean;
   ngOnInit(): void {
-    this.deliveryService.setValidation(!this.deliveryToggle);
+    this.deliveryToggle =
+      JSON.parse(localStorage.getItem('DeliveryToggle')) || false;
+    this.adress = JSON.parse(localStorage.getItem('DeliveryAdress'));
+    if (!this.deliveryToggle) this.deliveryService.setValidation(true);
+    else
+      this.deliveryService.setValidation(
+        this.adress && this.deliverydate.valid
+      );
     this.modalService.subscribeCloseModal().subscribe((res) => {
       if (res) {
         this.adress = res.PostalAdress;
@@ -73,9 +80,20 @@ export class DeliveryAdressComponent implements OnInit {
   }
 
   toggleDelivery() {
+    if (this.deliveryToggle) {
+      this.invoice.set_Delivery(
+        this.adress,
+        this.deliverydate.controls.ActualDeliveryDate.value
+      );
+
+      this.deliveryService.setValidation(
+        this.adress && this.deliverydate.valid
+      );
+    } else {
+      this.invoice.remove_Delivery();
+      this.deliveryService.setValidation(true);
+    }
     localStorage.setItem('DeliveryToggle', JSON.stringify(this.deliveryToggle));
-    this.deliveryService.setValidation(!this.deliveryToggle);
-    if (!this.deliveryToggle) this.invoice.remove_Delivery();
   }
   openModal() {
     this.modalService.openModal('DeliveryAdress', this.adress);

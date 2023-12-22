@@ -21,7 +21,7 @@ import { TabelComponent } from './components/tabel/tabel.component';
 import { InvoiceDatesComponent } from './components/invoice-details/invoice-number-issue/invoice-dates.component';
 import { SearchClientComponent } from './components/client/client-search/client-search.component';
 import { MatRippleModule } from '@angular/material/core';
-import { CustomInterceptor } from './services/interceptor';
+import { TokenInterceptor } from './services/interceptors/token.interceptor';
 import { SignupComponent } from './components/signup/signup.component';
 import { AccountComponent } from './pages/account/account.component';
 import { loggedInGuard } from './guards/loggedIn.guard';
@@ -38,6 +38,8 @@ import { SidebarComponent } from './components/navigation/sidebar/sidebar.compon
 import { DeliveryAdressComponent } from './components/delivery-adress/delivery-adress.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { CurrencyPipe } from '@angular/common';
+import { ErrorInterceptor } from './services/interceptors/error.interceptor';
+import { SavedInvoicesComponent } from './components/saved-invoices/saved-invoices.component';
 
 registerLocaleData(localeFr, 'de-BE');
 
@@ -64,6 +66,7 @@ registerLocaleData(localeFr, 'de-BE');
     SidebarComponent,
     DeliveryAdressComponent,
     ModalComponent,
+    SavedInvoicesComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +89,13 @@ registerLocaleData(localeFr, 'de-BE');
     DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CustomInterceptor,
+      useClass: ErrorInterceptor,
+
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
       multi: true,
     },
     CurrencyPipe,

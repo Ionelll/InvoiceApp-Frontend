@@ -10,10 +10,18 @@
       class="links"
       >Invoice Settings</a
     >
-    <a routerLink="under-construction" routerLinkActive="active" class="links"
+    <a
+      routerLink="invoices"
+      *ngIf="token"
+      routerLinkActive="active"
+      class="links"
       >Saved Invoices</a
     >
-    <a routerLink="under-construction" routerLinkActive="active" class="links"
+    <a
+      routerLink="under-construction"
+      *ngIf="token"
+      routerLinkActive="active"
+      class="links"
       >Charts</a
     >
   </div>

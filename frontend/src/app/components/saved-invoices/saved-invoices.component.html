@@ -1,0 +1,23 @@
+<form class="search-container" [formGroup]="searchForm">
+  <input type="text" formControlName="searchInput" [matAutocomplete]="auto" />
+  <mat-autocomplete class="mat-input-element" #auto="matAutocomplete">
+    <mat-option *ngFor="let option of clientList" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-autocomplete>
+  <div class="dates">
+    <input type="date" formControlName="startDate" />
+    <input type="date" formControlName="endDate" />
+  </div>
+  <button (click)="searchInvoice()">Search</button>
+</form>
+<div class="invoices-container">
+  <div class="invoice" *ngFor="let invoice; in: invoices">
+    <a routerLink="/invoice-preview" target="_blanck">
+      <p>{{ invoice.AccountingCustomerParty.Party.PartyName.Name }}</p>
+      <p>{{ invoice.ID }}</p>
+      <p>{{ invoice.TaxTotal.TaxAmount }}</p>
+      <p>{{ invoice.LegalMonetaryTotal.PayableAmount }}</p>
+    </a>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import { environment } from '../../../../environment';
 @Injectable({ providedIn: 'root' })
 export class InvoiceService {
   constructor(private http: HttpClient) {}
+  public invoiceList = new Subject<Invoice[]>();
   public invoice = new BehaviorSubject<Invoice>({
     Invoice: {
       InvoiceTypeCode: '',
@@ -209,7 +210,9 @@ export class InvoiceService {
   }
   set_Lines(lines) {
     let preInvoice = this.invoice.value;
-    preInvoice.Invoice.Lines = lines;
+    lines.forEach((item, i) => {
+      preInvoice.Invoice.Lines[i] = { InvoiceLine: item };
+    });
   }
   set_PaymentMeans(values) {
     let preInvoice = this.invoice.value;
@@ -353,5 +356,15 @@ export class InvoiceService {
     this.http
       .post(`${environment.apiUrl}/save-invoice`, this.invoice.value.Invoice)
       .subscribe();
+  }
+  setInvoices(searchForm) {
+    this.http
+      .get<Invoice[]>(`${environment.apiUrl}/invoices`)
+      .subscribe((res) => {
+        this.invoiceList.next(res);
+      });
+  }
+  getInvoices() {
+    return this.invoiceList.asObservable();
   }
 }

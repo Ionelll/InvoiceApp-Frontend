@@ -47,11 +47,13 @@ export class AccountService {
   }
 
   isLoggedIn() {
+    let isloggedin: boolean;
     this.http
       .get<{ loggedin: boolean; user: User }>(
         `${environment.apiUrl}/isloggedin`
       )
       .subscribe((res) => {
+        isloggedin = res.loggedin;
         console.log(res);
         if (res.loggedin) {
           this.user.next(res.user);
@@ -70,10 +72,15 @@ export class AccountService {
             'Bank',
             JSON.stringify(res.user.PayeeFinancialAccount)
           );
-        } else this.user.next(undefined);
+        } else {
+          this.user.next(undefined);
+        }
       });
   }
-
+  getIsLoggedIn() {
+    if (this.user.value) return true;
+    else return false;
+  }
   getUser() {
     return this.user.asObservable();
   }

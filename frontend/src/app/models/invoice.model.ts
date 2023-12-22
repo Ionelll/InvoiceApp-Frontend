@@ -1,7 +1,7 @@
 import { Adress } from './adress.model';
 import { Bank } from './bank.model';
 import { Company } from './company.model';
-import { Item } from './item.model';
+import { invoiceLine } from './invoiceLine.model';
 import { TaxSubtotal } from './tax-subtotal.model';
 
 export interface Invoice {
@@ -45,15 +45,6 @@ export interface Invoice {
       LineExtensionAmount: string;
       PayableAmount: string;
     };
-    Lines: [
-      {
-        InvoiceLine: {
-          InvoicedQuantity: string;
-          LineExtensionAmount: string;
-          Item: Item['Item'];
-          Price: Item['Price'];
-        };
-      }
-    ];
+    Lines: invoiceLine[];
   };
 }

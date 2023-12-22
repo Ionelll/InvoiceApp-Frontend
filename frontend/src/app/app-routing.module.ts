@@ -16,6 +16,8 @@ import { InvoicePreferencesComponent } from './components/invoice-details/invoic
 import { CompanyComponent } from './components/company/company-details/company.component';
 import { InvoiceDetails } from './services/invoice-services/details.service';
 import { SettingsComponent } from './components/company/settings/settings.component';
+import { AuthGuard } from './services/auth.guard';
+import { SavedInvoicesComponent } from './components/saved-invoices/saved-invoices.component';
 
 const routes: Routes = [
   {
@@ -38,9 +40,11 @@ const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
+        canActivate: [AuthGuard],
       },
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignupComponent },
+      { path: 'invoices', component: SavedInvoicesComponent },
     ],
   },
   {
